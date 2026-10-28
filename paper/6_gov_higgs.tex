@@ -1,88 +1,54 @@
-\section{The Governor (Higgs Potential)}
+\section{Governor: Stable Nonzero Scalar Occupancy}
 \label{sec:governor}
 
-In a lattice gauge theory, the link variables ($U_\mu$) defined by the Protocol dictate the phase angles between nodes, but they do not define the \textit{scale} or ``stiffness'' of the node itself. As established in \cref{sec:map_capacity}, bridging the orthogonal internal and spacetime sectors strictly requires a mediating dynamic scalar field $\phi$, which allows Fermions to have mass. The Governor prevents a mass from violating the capacity bounds of a node.
+Assume a scalar whose gauge-invariant radial variable is $s=|\phi|^2\geq0$, and restrict the leading potential to $V(s)=as+bs^2$ with $V(0)=0$. Phase invariance permits functions of $s$; it does not by itself select a polynomial of degree two. The dimension-four restriction defines the leading ansatz rather than an exact consequence of finite state count.
 
-\textbf{The Architectural Requirement:}
-\begin{itemize}
-    \item \textbf{The Persistence Problem:} The active capacity of a node must remain in the interval (0, $\nu=16$]. To exist as a persistent physical entity the vacuum must be driven away from silence (Information Starvation), but it must be strictly halted before it overflows the node's hardware limits (Causal Aliasing).
-    \item \textbf{The Physics Result:} We identify the Governor constraint with the Higgs Sector ($\mathcal{L} = -|D_\mu\phi|^2 - V(\phi)$). In this mapping, the covariant kinetic term serves to geometrically couple the constraint to the network Protocol, while the scalar potential ($V(\phi) = -\mu^2|\phi|^2 + \lambda|\phi|^4$) acts as the minimal boundary condition required to bound the finite state-space capacity.
-\end{itemize}
-
-The Governor is required to prevent the system from collapsing into an empty null state or diverging beyond its hardware limits. This Governor field $\phi(x)$ is therefore the necessary geometric representation of the \textbf{active occupancy} (the localized amplitude) of the lattice site $x$.
-
-The Entropic Action for this sector is derived from two competing information-theoretic imperatives: the need to maintain synchronized causal contact (the Kinetic term) and the need to remain within finite hardware capacity limits (the Potential term).
-
-\subsection{The Kinetic Governor: The Cost of Dynamic Constraint}
-The Governor is an active, dynamical field ($\phi$) mediating state across the lattice. Like any persistent structure, spatial or temporal variations in this field carry an entropic cost (a transition flux $f > 0$).
-
-Because the Governor acts as the bridge between orthogonal internal and spacetime sectors (as derived for the Capacity pillar in \cref{sec:map_capacity}), it is subject to the phase synchronization mandated by the Protocol. Therefore, any spatial gradient in the node's occupancy state cannot be evaluated as a bare derivative ($\partial_\mu \phi$); it must be evaluated relative to the local synchronized phase frame via the Covariant Derivative ($D_\mu = \partial_\mu - igA_\mu$). 
-
-By the Equipartition of Entropic Cost, the scalar field ($\mathbf{K} \sim |\phi|^2$, mass dimension 2) requires a squared kinematic flux ($f^2 \sim D^2$, mass dimension 2) to exactly saturate the dimensional budget of 4. This yields the unique kinetic term:
+\subsection{The Sign Selection Theorem}
+\nolinkurl{Governor.governor_selects_hat} proves an equivalence. Some positive occupancy costs less than the empty state, and the potential attains a minimum at positive occupancy, precisely when $a<0<b$. Writing $a=-\mu^2$, $b=\lambda$ gives
 \begin{equation}
-    \mathcal{L}_{Kinetic} = -|D_\mu \phi|^2
+ V(\phi)=-\mu^2|\phi|^2+\lambda|\phi|^4,
+ \qquad\mu^2>0,\quad\lambda>0.
+ \label{eq:higgs_potential}
 \end{equation}
-This term structurally couples the Governor to the Protocol. Because the potential (derived below) forces the vacuum to maintain a non-zero baseline occupancy ($|\phi| \approx v$), expanding this covariant derivative inherently generates a term proportional to $v^2 A_\mu A^\mu$. This geometrically endows the associated gauge bosons with an impedance cost (mass), deriving the Higgs mechanism as an irreducible alignment cost between the network Protocol and the active Capacity of the node.
+The no-starvation and no-runaway conditions are explicit selection hypotheses. This theorem fixes the signs within the ansatz, not the numerical coefficients or the physical identity of the scalar.
 
-\subsection{The Geometric Potential: The Capacity Bounds}
-
-The potential $V(\phi)$ is the strictly constrained mathematical \textbf{Boundary Condition} of the finite lattice. Its exact functional form is uniquely determined by three architectural requirements:
-
-\begin{enumerate}
-    \item \textbf{Phase Independence (Even Powers Only):} Because the Governor field ($\phi$) must synchronize with the Protocol (gauge fields), its energetic contribution must be invariant under local phase rotations ($\phi \to e^{i\alpha(x)}\phi$). This strictly restricts the potential to functions of the gauge-invariant combination $|\phi|^2$, since any term containing bare (non-conjugated) powers of $\phi$ would acquire a phase under the transformation, violating the Protocol's synchronization requirement.
-
-    \item \textbf{Vacuum Pressure (The Negative Quadratic):}
-    A state of absolute zero occupancy ($\phi = 0$) possesses no structural complexity ($\mathbf{K}=0$), contains no information, and therefore cannot sustain a Map or exercise its Capacity. To exist as a persistent physical entity the system must be driven away from silence. 
-    
-    Mathematically, this requires the lowest-order permitted term to manifest as an informational instability near the origin, a negative effective mass-squared signaling that the empty state is thermodynamically disfavored. Utilizing the lowest available even power ($|\phi|^2$), this uniquely yields:
-    \begin{equation}
-        V_{pressure} = -\mu^2 |\phi|^2
-    \end{equation}
-    where $\mu^2$ represents the continuous entropic pressure required to generate and maintain a non-zero background state.
-
-    \item \textbf{Topological Closure (The Positive Quartic):}
-    The lattice nodes possess a strictly finite chiral bit-depth. The field strength $|\phi|$ cannot grow indefinitely without exceeding the \textbf{state-space capacity} ($\nu=16$) of the local node. 
-    
-    To enforce this Governor constraint, the action cost must rise steeply to halt runaway divergence. For a static potential (where the kinematic flux contributes $0$ mass dimensions), the Equipartition of Entropic Cost strictly requires the structural complexity $\mathbf{K}$ to consume the entire dimensional budget of exactly 4 units. Utilizing the next available even power of the scalar field, this uniquely yields the quartic bounding term:
-    \begin{equation}
-        V_{closure} = +\lambda (|\phi|^2)^2 = +\lambda |\phi|^4
-    \end{equation}
-
-    Here, $\lambda$ is the dimensionless \textbf{Self-Coupling}, representing the ``stiffness'' of the capacity wall. 
-    
-    \textbf{Hardware Truncation:} In the specific $E_8$-Persistence theory, the discrete substrate's absolute hardware limit ($\nu=16$) dictates that the local node literally lacks the state-space capacity to physically resolve higher-order vertices. Therefore, the polynomial is exactly and rigorously truncated at the quartic term; no $|\phi|^6$ or higher terms are physically resolvable. By bounding the amplitude to a non-zero constant ($|\phi| = v$), this term enforces the topological boundary condition ($\chi=2$, the sphere), geometrically separating a localized defect from the vacuum bulk.
-\end{enumerate}
-
-\subsection{Synthesis: The Complete Governor Action}
-
-Summing the derived capacity constraints yields the canonical Higgs potential, with its characteristic ``Mexican Hat'' shape:
+\subsection{The Minimum and Field Convention}
+Completing the square gives
 \begin{equation}
-    \label{eq:higgs_potential}
-    V(\phi) = -\mu^2|\phi|^2 + \lambda|\phi|^4
+ V(s)+\frac{\mu^4}{4\lambda}
+ =\lambda\left(s-\frac{\mu^2}{2\lambda}\right)^2.
 \end{equation}
+Lean proves the lower bound and its equality condition (\nolinkurl{Potential}). With the convention $\langle|\phi|^2\rangle=v^2/2$, the minimum condition is $\mu^2=\lambda v^2$. This avoids confusing $v$ with the radial amplitude $v/\sqrt2$.
 
-To form the complete architectural pillar, this Boundary Condition (the potential) must be coupled to the Alignment Cost (the kinetic term). The complete Governor Lagrangian density combines the kinetic alignment cost with the capacity boundary condition:
-\begin{equation}
-\begin{split}
-    \mathcal{L}_{GOV} &= \mathcal{L}_{Kinetic} - V(\phi) \\
-        &= -|D_\mu \phi|^2 - \left( -\mu^2|\phi|^2 + \lambda|\phi|^4 \right) \\
-        &= -|D_\mu\phi|^2 + \mu^2|\phi|^2 - \lambda|\phi|^4
-\end{split}
-\end{equation}
+The candidate kinetic term is $-|D_\mu\phi|^2$ in the stated metric convention. Its coefficient, representation and covariant derivative must be derived from the same microscopic response used for the fermion and gauge sectors. Canonical normalization and a physical scalar mass do not follow from the potential minimum alone. Paper III tests proposed coefficients, including their joint mass relations; they are not assumed uniquely fixed here.
 
-\textbf{Conclusion:} This scalar sector is strictly required by the substrate's structural limits; it is the dimensionally constrained solution to a \textbf{Finite Capacity Control Problem}. The system must be driven away from silence ($-\mu^2$) but restrained from infinite noise ($+\lambda$), and any variations within this boundary must remain synchronized with the network ($D_\mu$).
-
-\textbf{Scope of Derivation:} While $\mu^2$ and $\lambda$ appear as continuous, tunable parameters in this effective hydrodynamic approximation, they are strictly locked geometric invariants of the discrete substrate. Their functional forms are necessitated here by capacity bounds; the explicit derivation of the numerical values is deferred to the subsequent paper \textit{Informational Energetics: Nested Persistence} (in progress).
-
-\subsection{Consequence: Renormalization as Channel Capacity}
+\subsection{Finite Spacing and the Ultraviolet Question}
 \label{subsec:uv_completion}
+Finite lattice resolution can regulate a specified dynamics, but a regulator alone does not prove naturalness, the observed hierarchy, or exact absence of higher operators. The Lean finite-amplitude counterexample retains an independent sixth-order interaction. Higher-dimensional operators with coefficients $c\ell^k$ vanish in the stated scaling limit; their finite-spacing effects require bounds.
 
-Standard QFT requires renormalization because it models the vacuum as a continuous manifold with infinite information capacity. The $E_8$-Persistence Lattice has a hard physical limit: the discrete node capacity ($\nu=16$).
+Deriving the scalar kinetic response, its allowed higher terms and its relation to the detuning spectrum is required before claiming a physical Higgs sector or a resolution of the hierarchy problem. The Planck/Higgs ratio is not proved in this paper.
 
-We identify the QFT ``Cutoff Scale'' ($\Lambda_{UV}$) as the literal \textbf{state-space capacity} limit of the geometry. When the energy density $\mathbf{K}$ approaches this node capacity limit, the entropic cost diverges asymptotically. This enforces a natural, physical UV completion at the Planck scale, halting interactions before the local node overflows, without requiring manual regularization.
 
-Furthermore, because the Higgs mass and the Planck mass scales emerge from the exact same discrete substrate geometry and integers, they are structurally locked: no independent continuous parameter exists to tune one relative to the other. The Higgs mass is inherently protected from unbounded radiative corrections because the substrate physically cannot resolve the infinite loop momenta assumed by continuum mathematics. There is no independent, continuous Planck scale to which the Higgs mass must be artificially tuned.
+\subsection{The Link Response and Its Remaining Normalization}
+The same specified comparison functional extends to transported amplitudes as
+$C_{\rm link}=(c_0m/4)\lVert\phi'-U\phi\rVert^2$
+(\nolinkurl{CommonResponse}). Sharing the prefactor is conditional on sharing the
+readout and primitive repair multiplicity; this algebra does not prove that every
+physical sector realizes the same repair process. Unnormalized field amplitudes
+also require a map to maintained workload, rather than treating an arbitrary
+squared norm as a probability for one event.
 
-Consequently, this architecture provides a natural structural mechanism that addresses the Hierarchy Problem: because the discrete substrate possesses a strict Shannon capacity limit, the infinite loop momenta that necessitate extreme fine-tuning are geometrically prohibited.
-
-While this establishes the \textit{structural form} of the physical UV cutoff and the necessity of the Higgs mass, the explicit calculation of the Higgs-to-Planck mass ratio $m_H/M_P$ and explicit verification that $m_H/M_P$ takes its observed value is deferred to the subsequent paper \textit{Informational Energetics: Nested Persistence}.
+For a Hermitian generator in a unitary eigenbasis,
+$\Theta=V\operatorname{diag}(\lambda)V^\dagger$, let
+$U_\epsilon=V\operatorname{diag}(e^{i\epsilon\lambda})V^\dagger$ and
+$c=V^\dagger\phi$. When $|\epsilon\lambda_k|\leq1$, \nolinkurl{LinkExpansion}
+proves the controlled bound
+\begin{equation}
+ \left|\lVert\phi-U_\epsilon\phi\rVert^2-
+ \epsilon^2\lVert\Theta\phi\rVert^2\right|
+ \leq\frac5{48}\epsilon^4\sum_k |c_k|^2\lambda_k^4.
+\end{equation}
+Thus the leading link penalty used for the scalar/gauge mass response has an actual
+finite-angle error bound. Selecting its physical representation, scalar kinetic
+normalization, field-to-workload map and fermion coupling still requires the common
+microscopic carrier dynamics.

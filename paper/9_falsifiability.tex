@@ -1,24 +1,15 @@
-\section{Falsifiability: Structural Kill-Switches}
+\section{Completion Tests and Falsifiability}
 \label{sec:falsifiability}
 
-Unlike Effective Field Theories, which can accommodate new phenomena by adding arbitrary higher-dimensional operators and continuous tuning parameters, the Entropic Lagrangian is structurally closed. The Characteristic Integers $\mathbb{S} = \{\Delta, \nu, \sigma, \chi\}$ completely saturate the geometry's degrees of freedom. Therefore, the theory presents specific ``Hard Constraints'' that serve as immediate falsification criteria. 
+A falsifiable prediction requires a specified physical model. The current formal results identify concrete tests of candidate updates rather than a completed exclusion of all alternative particle content or gravity theories.
 
-The following criteria test distinct aspects of the framework. Criteria 1, 2, 4, and 6 test the \textit{functional forms} derived entirely within this paper. Criteria 3 and 5 test the \textit{specific integer values} and structural invariants of the $E_8$ substrate:
-
-\begin{enumerate}    
-    \item \textbf{Lorentz Violation at Low Energy:} The derivation of the Metric Signature relies on the Bandwidth Limit ($c_{eff}=1$). Any experimental confirmation of Lorentz invariance violation (e.g., energy-dependent speed of light) at energies $E \ll M_P$ would invalidate the channel capacity argument.
-
-    \item \textbf{The Prohibition of Other Spins:} The substrate geometry strictly prohibits fundamental particles with $spin > 2$ (and fundamental half-integer $spin > 1/2$), providing a structural mechanism for the Weinberg-Witten theorem \cite{loebbert_weinberg-witten_2008}:
-    \begin{itemize}
-        \item \textbf{No Supersymmetry / Supergravity (Spin-3/2):} A fundamental spin-3/2 field (gravitino) requires a vector-spinor coupling. As established in the substrate projection, this cannot be constructed from the orthogonal $D_4 \oplus D_4$ decomposition without introducing geometrically suppressed mirror fermions. This structurally falsifies Supersymmetry as a fundamental property of the vacuum.
-        \item \textbf{No Spin $\ge$ 3:} A fundamental spin-3 field in 4D spacetime requires a totally symmetric rank-3 tensor. Off-shell, before classical trace constraints are applied, a symmetric tensor in 4D possesses exactly $\binom{4+3-1}{3} = 20$ independent components. Because the fundamental chiral bit-depth of the lattice node is strictly limited to $\nu=16$, the substrate lacks the hardware channel capacity to encode the off-shell quantum fluctuations of a fundamental spin-3 state. Higher-spin extensions are therefore physically forbidden by Shannon capacity limits.
-    \end{itemize}
-    
-    \item \textbf{The Fourth Generation Prohibition:} A single Standard Model generation (including right-handed neutrinos) requires exactly 16 chiral Weyl fermions. The internal chiral channel capacity is exactly saturated by this payload ($\nu=16$). The replication of this structure into exactly 3 generations is geometrically fixed by the unique Triality of the internal $D_4$ sector (representing three distinct outer-automorphism framings of the same 16-channel hardware). The discovery of a 4th generation of fermions would require breaking this Triality or implying $\nu > 16$, either of which strictly falsifies the $E_8 \to D_4 \oplus D_4$ substrate hypothesis.
-    
-    \item \textbf{The Perturbative Gravity Prohibition:} We derive General Relativity as an emergent hydrodynamic limit (\cref{sec:toll_margin}). This requires that gravity be asymptotically safe or non-perturbative in the UV. The discovery that gravity follows standard perturbative quantization (like QED) at the Planck scale would falsify the bulk regulator derivation.
-
-    \item \textbf{The Lattice Strain Check ($\kappa \neq 1$):} The derivation of Gravity as an emergent compensating strain field closes the Einstein-Hilbert limit algebraically, but this requires non-perturbative numerical confirmation. A full non-perturbative Monte Carlo simulation of the capacity-conserving $E_8$ substrate must reproduce a massless spin-2 correlator with the exact Einstein-Hilbert normalization. If lattice artifacts introduce a mass gap for the graviton or disrupt the macroscopic strain response to local capacity deficits, yielding a dimensionless stiffness ratio $\kappa \neq 1$ (outside finite-size scaling errors), it would explicitly falsify the emergence of General Relativity from this specific discrete substrate.
-
-    \item \textbf{Dynamical Dark Energy ($\Lambda$ Evolution):} The Margin pillar strictly defines the Cosmological Constant as a static, non-derivative geometric baseline cost required to resolve the spatial manifold. Any confirmed cosmological detection of an equation of state parameter $w \neq -1$, or a dynamically evolving dark energy component ($w_a \neq 0$), would falsify the identification of $\Lambda$ as the static Margin cost.
+\begin{enumerate}
+ \item \textbf{Fermion spectrum.} Derive the full momentum-dependent two-sector spectrum, multiplicities and chirality. Prove that no unwanted zeros remain away from the origin, rather than checking only corners or a numerical grid.
+ \item \textbf{Discrete time and locality.} Construct an exactly unitary update with the required causal stencil, or bound the propagation tails of an exponential update. Prove a bandwidth condition that excludes phase aliasing across the entire spectrum.
+ \item \textbf{Shared propagation response.} Derive common low-energy light cones and controlled finite-spacing deviations for fermion, gauge and scalar sectors. Unit link speed alone is insufficient.
+ \item \textbf{Gauge and scalar response.} Extend the constant Abelian triangle result to nonconstant and non-Abelian fields. Derive kinetic normalizations, representations and coupling coefficients. Test the scalar/fermion mass map rather than equating detuning with a linear Yukawa mass by definition.
+ \item \textbf{Dynamical observables.} Compute scattering, vertex response and vacuum polarization from the completed update and its species content. The current cross-section comparison and assigned Schwinger factor are not those calculations.
+ \item \textbf{Gravity.} Construct the metric response, its continuum equations and physical spectrum. Only then test a stiffness normalization, equivalence principle or cosmological prediction.
 \end{enumerate}
+
+The present proofs do not exclude a fourth generation, supersymmetry, higher spins, higher-dimensional effective interactions or evolving dark energy. Such exclusions would require representation, dynamics and observable theorems not currently established. If a completed model predicts them, its assumptions and quantitative tests should be stated at that stage.

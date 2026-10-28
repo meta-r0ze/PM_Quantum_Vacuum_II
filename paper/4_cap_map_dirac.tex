@@ -1,109 +1,170 @@
-\section{The Map and Capacity (The Dirac Propagator)}
+\section{Map and Capacity: Fermion Propagation}
 \label{sec:map_capacity}
 
-\textbf{The Architectural Requirement:}
-\begin{itemize}
-    \item \textbf{The Persistence Problem:} Information must propagate across the causal manifold without amplitude loss (Map), but it cannot travel strictly at the speed of light without completely delocalizing and losing its localized structural memory (Capacity).
-    \item \textbf{The Physics Result:} The Dirac Lagrangian ($\mathcal{L} = \bar{\psi}i\gamma^\mu D_\mu\psi - m\bar{\psi}\psi$). The kinetic term is the unique geometric penalty enforcing unitary chiral propagation, and the mass term provides the scalar impedance necessary to anchor the state into a persistent local frame.
-\end{itemize}
+The fermion problem has three parts: construct an exactly norm-preserving update, control its low-momentum dispersion and species content, and identify any mass-generating coupling. The substrate's two $D_4$ sectors motivate the candidate below; they do not alone determine its Hamiltonian, representation or interaction charges.
 
-\textbf{Terminology Mapping:} Throughout this text, we standardize the terminology bridging geometry and physics. A localized, persistent boundary structure on the substrate (characterized by the topological invariant $\chi=2$) is a \textbf{Topological Defect}. When this defect occupies the chiral node channels ($\nu=16$), its physical manifestation is a \textbf{Fermion}. 
-
-We first derive the dynamics of the \textbf{Map} pillar by defining the evolution of a fermion state $\psi(x,t)$ on the lattice. Time is treated as a discrete clock cycle defined by the fundamental temporal step $\tau$.
-
-\subsection{The Unitary Flux Constraint}
+\subsection{Discrete Update versus Continuum Approximation}
 \label{sec:unitary_flux_constraint}
-
-The Map pillar requires that information propagate locally while strictly conserving probability amplitude (Unitarity). The uniquely appropriate discretization scheme to enforce the three core architectural requirements derived for the vacuum: locality (nearest-neighbor transitions), unitarity (probability conservation at each discrete step), and finiteness (a strictly bounded state space per node), is structurally equivalent to the \textbf{Quantum Lattice Gas Automaton (QLGA)} formalism (a generalized, discrete-time unitary quantum walk)\cite{meyer_quantum_1996}\footnote{The QLGA formalism provides a rigorous mathematical framework for unitary, local, discrete-time evolution on a lattice. Our discrete update rule is structurally equivalent to a QLGA on the $D_4$ geometry. Crucially, it is \emph{not} a Wilson-fermion discretization. Standard Wilson fermions suppress doublers by introducing an ad hoc dimension-5 operator ($a \nabla^2$), which strictly violates our Equipartition of Entropic Cost (\cref{subsec:mapping_rules}) by exceeding the node capacity limit ($\nu=16$). Instead, the $E_8$-Persistence theory lattice evades fermion doubling purely geometrically: the orthogonal projection strictly isolates the mirror chiralities into the static internal sector, requiring no continuum-limit cancellations.}, generalizing the Feynman Checkerboard model\cite{feynman_quantum_1965} to the $D_4$ geometry.
-
-\textbf{The Discrete Update.} The fermion state $\psi$ (a 16-component chiral spinor occupying the node capacity $\nu=16$) updates via a unitary operator combining two actions:
-
-\begin{enumerate}
-    \item \textit{Shift:} Information propagates to nearest neighbors with geometric admittance (hopping amplitude) $w$ at speed $c = \ell/\tau = 1$, mediated by internal spatial transition matrices $\Gamma^k$. The unit vector $e_k$ defines the $k$-th spatial axis. The symmetric difference across these neighbors encodes the local directional gradient, which is scaled by $\Gamma^k$ and $w$, and phase-rotated by $-i$ to preserve unitarity.
-
-    \item \textit{Mass:} A local rotation mixing chiral components with topological impedance (mass) $m$, phase-rotated by $-i$, and governed by the temporal projection matrix $\gamma^0$ (the operator defining the temporal update of the local spinor state). (As we will rigorously prove in \cref{sec:capacity_mechanism}, this impedance $m$ cannot be a rigid bare constant due to orthogonal sub-lattices, but must dynamically emerge from the Governor field. We will also formally identify this geometric projection matrix $\gamma^0$ as identically the $\gamma^0$ of the continuum Dirac equation).
-\end{enumerate}
-
-The discrete evolution operator acts as:
+For Hermitian Hamiltonian matrices $\alpha_k,\beta$, a central-difference approximation to the Dirac Hamiltonian is
+\begin{equation}
+ H\psi=-i\sum_{k=1}^3\alpha_k\frac{\psi(x+e_k\ell)-\psi(x-e_k\ell)}{2\ell}+m\beta\psi.
+\end{equation}
+Its forward-Euler step is
 \begin{equation}
 \begin{aligned}
-    \psi(x,t+\tau) &= \psi(x,t) \\
-    &\quad - iw \sum_{k=1}^3 \Gamma^k \left[\psi(x+e_k\ell,t) - \psi(x-e_k\ell,t)\right] \\
-    &\quad - i\gamma^0 m\tau\psi(x,t)
+ \psi(t+\tau)={}&\psi(t)-\frac{\tau}{2\ell}\sum_k\alpha_k
+ [\psi(x+e_k\ell)-\psi(x-e_k\ell)]\\
+ &-i\tau m\beta\psi(t).
 \end{aligned}
 \label{eq:unitary_flux}
 \end{equation}
-
-To recover the macroscopic field equation, we map this discrete update rule to its continuous Effective Field Theory (EFT) approximation. Subtracting $\psi(x,t)$ and dividing by $\tau$ expands the central difference quotients to first order:
+This is an approximation, not an exactly unitary lattice rule. Even the homogeneous mass-only Euler factor changes the norm at nonzero step (\nolinkurl{DiscreteEvolution}). Formally dividing by $\tau$ gives
 \begin{equation}
-\begin{aligned}
-    \frac{\psi(x,t+\tau) - \psi(x,t)}{\tau} = \\
-    -iw \sum_{k=1}^3 \Gamma^k \left( \frac{\psi(x+e_k\ell,t) - \psi(x-e_k\ell,t)}{2\ell} \right) &\frac{2\ell}{\tau} - i\gamma^0 m\psi(x,t)
-\end{aligned}
+ i\partial_t\psi=-i\sum_k\alpha_k\partial_k\psi+m\beta\psi.
 \label{eq:diff_form}
 \end{equation}
+The central-difference coefficient $\tau/(2\ell)$ is $1/2$ in link-speed units. It is a kinematic coefficient of this stencil, not a determination of an interaction coupling.
 
-\textbf{The Ontological Reversal:} Crucially, the lattice spacing $\ell$ and time step $\tau$ do not physically vanish. They represent the finite, immutable Planck-scale resolution of the substrate. Unlike standard QFT where the continuous manifold is assumed fundamental and the discrete lattice is merely a mathematical regularization trick, $E_8$-Persistence theory reverses this hierarchy: the discrete substrate is the exact physical reality, and the continuous differential manifold is strictly a macroscopic approximation.
+Exactly norm-preserving rotation-and-stream updates exist \cite{meyer_quantum_1996,feynman_quantum_1965}; \nolinkurl{DiscreteEvolution} formalizes a finite-ring example. Its dispersion and twins must be checked separately. Likewise, exponentiating a self-adjoint Hamiltonian gives exact unitary evolution, but this does not prove a finite-range one-tick stencil: an exponential can propagate through repeated local hops. The domain-wall exponential remains conditional on that locality question.
 
-\textbf{The Geometric Constraint.} Standard lattice formulations treat the hopping amplitude as a tunable parameter. Here, the kinematic bandwidth limit $c \equiv \ell/\tau = 1$ strictly enforces $w = 1/2$. To see this, note that the central difference quotient spans $2\ell$ (from $-\ell$ to $+\ell$), so mapping this to the continuous spatial derivative $\partial_k\psi$ requires the discrete prefactor $-iw(2\ell/\tau) = -i(2wc)$ to identically match the continuum Dirac velocity coefficient ($-i$). Thus $2w = 1$, fixing $w = 1/2$ with zero free parameters.
-
-Identifying $\partial_t$ and $\partial_k$ in the continuum limit, the discrete evolution maps uniquely to the continuous Hamiltonian form:
+\subsection{The Clifford Constraint}
+For a first-order Hamiltonian $H(p,m)=\sum_k p_k\alpha_k+m\beta$, Lean proves the equivalence
 \begin{equation}
-    i \partial_t \psi = -i \sum_{k=1}^{3} \Gamma^k \partial_k \psi + \gamma^0 m \psi
+ H(p,m)^2=(|p|^2+m^2)\mathbb I\quad\text{for all }p,m
 \end{equation}
-The precise geometric nature and algebraic properties of the transition matrices ($\Gamma^k, \gamma^0$) are uniquely determined by the causal geometry of the lattice, as derived below.
+if and only if the generators square to one and pairwise anticommute (\nolinkurl{Dirac.dispersion_iff_clifford}). This is a consequence of the specified dispersion, not of unitarity alone.
 
-\subsection{The Clifford Identification}
-
-\textbf{Architectural Requirement:} The \textbf{Map} pillar requires lossless propagation of a complex signal with precise directional resolution across the discrete substrate.
-
-\textbf{Lattice Constraint:} The transition matrices ($\Gamma_\mu$) mediating nearest-neighbor updates must simultaneously satisfy two architectural requirements: Unitarity (probability conservation at each discrete step) and metric compatibility (reproducing the Lorentzian causal structure derived from the $E_8 \to D_4 \oplus D_4$ projection \cite{meyer_informational_2026}). 
-
-To ensure isotropic propagation, the cross-terms of the discrete spatial transitions must identically vanish. The unique algebraic relation satisfying both the Unitarity constraint and the metric signature is the anti-commutation relation:
+For the spacetime convention $\eta=\operatorname{diag}(-,+,+,+)$ one consistent choice is $\gamma^0=\beta$, $\gamma^k=\beta\alpha_k$, with
 \begin{equation}
-    \{\Gamma^\mu, \Gamma^\nu\} \equiv \Gamma^\mu\Gamma^\nu + \Gamma^\nu\Gamma^\mu = 2\eta_{\mu\nu}\mathbb{I}
-\label{eq:anti_commute}
+ \{\gamma^\mu,\gamma^\nu\}=-2\eta^{\mu\nu}\mathbb I.
+ \label{eq:anti_commute}
 \end{equation}
-where $\eta_{\mu\nu} = \operatorname{diag}(-1,+1,+1,+1)$ is the emergent Lorentzian metric, geometrically enforcing $(\Gamma^0)^2 = -\mathbb{I}$ (temporal inversion) and $(\Gamma^k)^2 = +\mathbb{I}$ (spatial reflection) for spatial indices $k$.
-
-\textbf{Recognition:} This anti-commutation relation is the strict geometric requirement for preserving causal structure on the lattice. Because \cref{eq:anti_commute} is identically the defining algebra of the Dirac matrices, we explicitly identify the internal lattice transition matrices with the physical gamma matrices ($\Gamma^\mu \equiv \gamma^\mu$). Furthermore, this unique algebraic relation preserves the Unitarity of the discrete shift operator while strictly suppressing lattice doublers through the geometric isolation of chiralities established in the substrate derivation\cite{meyer_informational_2026}.
-
-To recover the covariant Dirac equation, we multiply the continuum equation by $\gamma^0$ (utilizing the Lorentzian metric property $(\gamma^0)^2 = -1$), which perfectly recovers the covariant form:
+Multiplying the Hamiltonian equation by $\beta$ gives
 \begin{equation}
-    (i\gamma^\mu \partial_\mu - m)\psi = 0
-    \label{eq:covariant_dirac}
+ (i\gamma^\mu\partial_\mu-m)\psi=0.
+ \label{eq:covariant_dirac}
 \end{equation}
+The sign of the Clifford convention must not be mixed with a different metric convention. Deriving the physical representation and its continuum approximation remains distinct from the algebraic equivalence.
 
-\subsection{The Chiral Filter: Geometric Origin of Parity Violation}
-Standard QFT inserts the chiral projection $P_L = \frac{1-\gamma^5}{2}$ by hand to match the observed maximal parity violation of the weak interaction. Here, this asymmetry emerges structurally from the substrate geometry.
+\subsection{Twins and a Two-Sector Domain Wall}
+The one-coin streaming update obeys $W(k+\pi)=-W(k)$ (\nolinkurl{Doubling.symbol_shift}). Its twin couples identically in every tested link background (\nolinkurl{TwinTests.twin_anticommutes}). A particular two-coin partial-stream update gaps the twin, but its light speed is $|\cos r|$; restoring unit link speed ungaps the twin (\nolinkurl{WalkSpeed}). These results rule out shortcuts within those specified update families.
 
-The \textbf{Map} pillar requires information to propagate on the causal (Lorentzian) manifold. The geometric projection $E_8 \to D_4 \oplus D_4$ splits the 16-component spinor into two orthogonal sectors. Because the Lorentzian signature assigns the active temporal generator ($\partial_t$) exclusively to the spacetime sector, the corresponding internal symmetry sector is strictly Euclidean. 
+A different candidate uses the two sectors as two slices of a Wilson/domain-wall Hamiltonian. This construction \emph{does} use a Wilson term; no claim of a Wilson-free mechanism is made. At the chosen point $M=r=1$, its zero-momentum inter-sector hops are $-\beta(1\pm\Gamma)/2$, where $\Gamma=i\beta\alpha_4$. Lean proves that the kernel conditions are
+\begin{equation}
+ \Gamma x_1=x_1,\qquad \Gamma x_2=-x_2
+\end{equation}
+(\nolinkurl{DomainWall.zero_modes}). The spatial momentum generators commute with $\Gamma$ and their square gives $|k|^2$ under the stated Clifford hypotheses. This supports the proposed chiral leading response. The full squared operator and necessary energy branches are derived below. A concrete representation is now checked exactly in Lean:
+\begin{equation}
+ \beta=\begin{pmatrix}0&I_2\\I_2&0\end{pmatrix},\qquad
+ \Gamma=\begin{pmatrix}I_2&0\\0&-I_2\end{pmatrix},\qquad
+ \alpha_j=\begin{pmatrix}\sigma_j&0\\0&-\sigma_j\end{pmatrix},
+\end{equation}
+where $\sigma_j$ are the Pauli matrices. The module \nolinkurl{ConcreteFermion} verifies the Clifford relations, chirality commutation and Hermiticity of the full eight-component Hamiltonian for real momenta and detuning. Each chirality projector has rank two. At $k=0$, $\delta=0$, the entire kernel is parametrized by
+\begin{equation}
+ x_1=(u_0,u_1,0,0),\qquad x_2=(0,0,u_2,u_3),\qquad u\in\mathbb C^4.
+\end{equation}
+Lean proves this parametrization is a linear equivalence, hence the kernel has complex dimension four: two independent components on each wall, with opposite $\Gamma$ chirality. This is a result about the specified Hamiltonian; persistence has not yet selected this representation or identified these components with physical species.
 
-Consequently, the Dirac \cref{{eq:covariant_dirac}} automatically decomposes. The left-handed components evolve actively under the temporal generator, while the right-handed components remain static with respect to the internal symmetry's active temporal flow. 
+The script \nolinkurl{calculations/domain_wall_check.py} checks a concrete matrix representation numerically. The corner mass polynomial has a proved positive bound (\nolinkurl{DetuningMass.twin_gap}). The new \nolinkurl{DomainWallSpectrum} result goes beyond corners: for the sine-momentum operator and Wilson detuning
+\begin{equation}
+ s(k)=\sum_j\sin^2 k_j,\qquad \delta(k)=\sum_j(1-\cos k_j),
+\end{equation}
+a nonzero zero-energy vector anywhere in $[-\pi,\pi]^3$ requires $k=0$. The proof uses the full matrix polynomial and does not assume the absence of off-corner zeros.
 
-Thus, the bare internal gauge generators necessarily couple only to the left-handed projection $P_L\psi$. Maximum parity violation is enforced by the geometric absence of a temporal update path for the right-handed sector within the internal symmetry space, rendering right-handed fermions strictly as singlets under this bare interaction. This geometric chirality provides the structural basis for the Weak interaction's $SU(2)_L$ chirality, whose explicit gauge group derivation is presented in subsequent work.
+For every real-energy eigenpair it also proves the uniform bound $|E|<8$ in the model's units. The sufficient step condition $0<|\tau|\leq1/2$ then gives $|\tau E|<2\pi$, so a unit eigenphase $e^{-i\tau E}=1$ cannot occur away from $k=0$. This supplies the scalar bandwidth premise on the entire momentum cell. It does not select the physical clock step, construct a finite-stencil exponential update, or assign the calculated zero-mode components to physical chiral gauge representations.
 
-\subsection{The Capacity Mechanism: Mass as Chiral Impedance}
+The interpretation of sectors as physical chiral gauge representations remains a separate task. Complementary zero-mode conditions do not prove that one sector is dynamically static or that a particular weak gauge group acts only on it.
+
+\subsection{An Exactly Local Unitary Split Update}
+The Hamiltonian calculation can be supplemented by a finite spatial stencil. Let $S_j$ shift one coordinate on a finite periodic cubic lattice and put
+\begin{equation}
+ A_j=\frac{\beta+i\alpha_j}{2},\qquad
+ \widehat A_j=\operatorname{diag}(A_j,A_j).
+\end{equation}
+Lean checks $A_j^2=0$ and $A_jA_j^\dagger+A_j^\dagger A_j=I$. Consequently
+\begin{equation}
+ B_j=S_j\otimes\widehat A_j+S_j^\dagger\otimes\widehat A_j^\dagger,
+ \qquad B_j^\dagger=B_j,\quad B_j^2=I,
+\end{equation}
+and $R_j(\tau)=\cos\tau\,I+i\sin\tau\,B_j$ is exactly unitary and reads only the current site and its two neighbors along coordinate $j$ (\nolinkurl{LocalUnitary}, \nolinkurl{SplitUpdate}). With $H_0=H(0,3)$, define
+\begin{equation}
+ U_\tau=(I_{\rm space}\otimes e^{-i\tau H_0})R_0(\tau)R_1(\tau)R_2(\tau).
+\end{equation}
+The on-site exponential mixes only eight internal components. Lean proves unitarity and conservation of the total squared amplitude on every finite periodic cubic lattice, together with a precise input-dependence theorem: one tick reads at most $3^3=27$ spatial sites, independently of lattice size (\nolinkurl{PropagationBounds}, \nolinkurl{WilsonSplit}).
+
+The directional phase symbol is
+\begin{equation}
+ B_j(k_j)=\operatorname{diag}(\cos k_j\,\beta-\sin k_j\,\alpha_j,
+                              \cos k_j\,\beta-\sin k_j\,\alpha_j).
+\end{equation}
+The split generators satisfy $H_0-\sum_j B_j(k_j)=H(k,\delta(k))$. The update's momentum symbol satisfies $U_0(k)=I$ and has first derivative $-iH(k,\delta(k))$ at $\tau=0$ (\nolinkurl{SplitGenerator}). This is a first-order consistency result. It does not establish equality with $e^{-i\tau H(k)}$ at nonzero tick size, a many-tick convergence bound, or the finite-tick zero-mode and eigenphase multiplicities. In particular the Hamiltonian bandwidth argument above cannot simply be transferred to this product. A separate double-precision diagnostic at $k=0$, $\tau=0.1$ reports a nearest eigenphase magnitude of approximately $7.47\times10^{-4}$ rather than zero. This is a numerical warning, not a Lean obstruction theorem: the displayed ordering should not be treated as an exact vacuum-preserving physical update. This motivates separating the on-site factors as follows.
+
+\paragraph{Vacuum-preserving ordering.}
+Write $W=H(0,0)$ for the wall hopping alone, $\beta_8=\operatorname{diag}(\beta,\beta)$ and
+\begin{equation}
+ R_\beta(\tau)=\cos\tau\,I_8+i\sin\tau\,\beta_8.
+\end{equation}
+The corrected on-site coin and update are
+\begin{equation}
+ \begin{aligned}
+ \widetilde Q_\tau&=e^{-i\tau W}[R_\beta(\tau)^\dagger]^3,\\
+ \widetilde U_\tau&=(I_{\rm space}\otimes\widetilde Q_\tau)
+                      R_0(\tau)R_1(\tau)R_2(\tau).
+ \end{aligned}
+\end{equation}
+At $k=0$, each spatial factor has symbol $R_\beta(\tau)$, so Lean proves the exact identity
+\begin{equation}
+ \widetilde U_\tau(0)=e^{-i\tau W}
+ \qquad\hbox{for every real }\tau.
+\end{equation}
+Since $W$ annihilates the previously characterized four-dimensional vacuum kernel, every vector in that kernel is fixed exactly by $\widetilde U_\tau(0)$ (\nolinkurl{VacuumSplit.vacuum_preserved}). The proof uses the vacuum projector and the exponential, with no small-tick approximation. The module \nolinkurl{VacuumUniform} also proves this for the corresponding spatially constant states on every finite periodic lattice, connecting the symbol identity to the actual lattice update.
+
+The corrected update is exactly unitary, conserves total squared amplitude, and has the same at-most-27-site spatial input bound. Separating the on-site factors changes only terms beyond first order: Lean checks $\widetilde U_0(k)=I$ and $\partial_\tau\widetilde U_\tau(k)|_{\tau=0}=-iH(k,\delta(k))$ (\nolinkurl{VacuumGenerator}). Thus exact preservation of the known vacuum modes, unitarity, finite propagation and the stated Wilson tangent hold simultaneously in this construction.
+
+This proves preservation of the known four modes; it does not prove they exhaust the fixed space of the finite-tick update. Additional unit eigenphases, including those away from the origin, a permissible physical tick, many-tick error control and physical species identification remain separate obligations. These constraints also do not establish that persistence uniquely selects this ordering.
+
+\subsection{Mass and the Scalar Bridge}
 \label{sec:capacity_mechanism}
-
-If the vacuum only possessed the Map pillar, the resulting massless Dirac equation ($\mathcal{L}_{Map} \propto \bar{\psi} i\gamma^\mu D_\mu \psi$) would describe pure ballistic transport at $v=c$. While this perfectly satisfies information propagation, it violates the \textbf{Capacity} pillar. A signal moving at the speed of light possesses no rest frame; it is entirely delocalized along its light cone and thus cannot store local configuration memory.
-
-\textbf{The Geometric Clash:} To satisfy Capacity, the state must arrest its spatial translation, establishing a local address. In the spinor formalism, this requires a resonant loop: continuously converting an outgoing Left-Chiral flux into an incoming Right-Chiral flux (a literal geometric realization of Schr\"{o}dinger's \textit{Zitterbewegung}).
-
-However, as derived in the previous section, the $E_8 \to D_4 \oplus D_4$ projection strictly isolates the active spacetime kinematics (Left) from the static internal symmetry (Right) into orthogonal sub-lattices. A bare mass term ($-m\bar{\psi}\psi = -m(\bar{\psi}_L\psi_R + \bar{\psi}_R\psi_L)$) represents a direct, rigid cross-term between orthogonal spaces. This is geometrically forbidden. This structural prohibition recovers the chiral gauge invariance of the Standard Model as a rigid geometric absolute.
-
-\textbf{The Scalar Bridge and the Dimensional Budget:} How does the system bridge these orthogonal sectors to achieve Capacity? We return to the Dimensional Budget established in \cref{subsec:restmass}. A fermion node intrinsically consumes 3 units of the dimensional budget. To persist across continuous temporal updates without spatial translation (kinetic flux $f \to 0$), it must couple to exactly one dimension-1 structural parameter to exactly saturate the Equipartition of Entropic Cost ($[K] + [f] = 4$).
-
-Because a static bare mass ($m$) is forbidden by the orthogonal geometry, this 1-dimensional bridge cannot be a rigid constant. It mathematically must be a dynamic, phase-carrying scalar field capable of mediating momentum and quantum numbers across the orthogonal boundary. Rather than requiring an independent phenomenological postulate, this scalar field geometrically emerges as the physical manifestation of the Governor pillar (the constraint mechanism preventing unbounded divergence, \cref{sec:governor}).
-
-\textbf{The Yukawa Operator:} To arrest information flow and satisfy Capacity, the geometry uniquely mandates that the fermion couples to this Governor field ($\phi$). The bare $\mathcal{L}_{CAP}$ term must therefore take the form of a Yukawa Coupling:
+Under the stated Clifford relations the hop products reduce to complementary projectors (\nolinkurl{DetuningMass.hop_products}). Writing the diagonal operator as $K+\delta\beta$, Lean now proves the full squared matrix has diagonal blocks $(s+\delta^2)I+P_-$ and $(s+\delta^2)I+P_+$ and off-diagonal blocks $-\delta I$, with all momentum-hop cross terms cancelling (\nolinkurl{DomainWallSpectrum.hamiltonian_square}). On the common $\Gamma=+1$ subspace this gives the reduced block
 \begin{equation}
-    \mathcal{L}_{CAP} = -y \left( \bar{\psi}_L \phi \psi_R + \bar{\psi}_R \phi^\dagger \psi_L \right) \label{eq:yukawa}
+ \begin{pmatrix}\delta^2&-\delta\\-\delta&\delta^2+1\end{pmatrix}.
 \end{equation}
-where $y$ is the geometric admittance of the chiral bridge, fixed by the substrate coupling efficiency ($g=1/2$) and embedding geometry.
+Lean checks that
+\begin{equation}
+ \begin{aligned}
+ m(\delta)&=\sqrt{\delta^2+1/4}-1/2,\\
+ m(m+1)&=\delta^2,\qquad 0\leq m\leq\delta^2.
+ \end{aligned}
+\end{equation}
+The full operator also obeys a polynomial implying, for every nonzero real-energy eigenvector,
+\begin{equation}
+ E^2=s+m(\delta)^2\quad\hbox{or}\quad E^2=s+(m(\delta)+1)^2
+\end{equation}
+(\nolinkurl{DomainWallSpectrum.energy_branches}). These are necessary spectral branches derived from the Hamiltonian, rather than roots postulated independently. For the concrete representation above, \nolinkurl{ConcreteSpectrum.square_charpoly} strengthens this necessary condition to the exact identity
+\begin{equation}
+ \det(\lambda I_8-H^2)=
+ [\lambda-s-m(\delta)^2]^4
+ [\lambda-s-(m(\delta)+1)^2]^4.
+\end{equation}
+The two roots are strictly separated, since $(m+1)^2-m^2=2m+1>0$. Lean proves each has algebraic multiplicity four (\nolinkurl{ConcreteSpectrum.square_branch_multiplicities}). Thus both squared-energy branches occur in this model. The signed count is now established as well. A real matrix $J$ with $J^2=-I$ obeys $JH^T=-HJ$, giving equal characteristic polynomials for $H$ and $-H$. Combining this pairing with the squared polynomial yields
+\begin{equation}
+ \det(E I_8-H)=[E^2-s-m^2]^2[E^2-s-(m+1)^2]^2
+\end{equation}
+(\nolinkurl{SignedSpectrum.signed_charpoly}). Whenever the light energy is nonzero, each of $\pm\sqrt{s+m^2}$ has algebraic multiplicity two; each of $\pm\sqrt{s+(m+1)^2}$ always has multiplicity two. At the origin the polynomial is $E^4(E-1)^2(E+1)^2$, consistent with the explicit four-dimensional zero kernel (\nolinkurl{EnergyCounts}). These counts do not identify physical species. The detuning of each physical fermion is not yet derived; on-site detuning must not be identified with a change of the hop without an additional calculation.
 
-In Quiescent Equilibrium, where the Governor field minimizes its own entropic action by settling to a constant non-zero background expectation value ($\langle\phi\rangle$), this dynamic bridging operator reduces exactly to the effective mass impedance term presented in the Entropic Balance Sheet: $\mathcal{L}_{CAP} \to -m\bar{\psi}\psi$, where $m = y\langle\phi\rangle$.
+A phase-covariant scalar link is a candidate interaction between sector states. Given representations and charges, its continuum operator can take the Yukawa form
+\begin{equation}
+ \mathcal L_{\rm CAP}=-y(\bar\psi_L\phi\psi_R+\bar\psi_R\phi^\dagger\psi_L).
+ \label{eq:yukawa}
+\end{equation}
+The charge-pattern checks in Paper III are conditional on the chosen representations and scalar link. Identifying a background scalar with a linear physical mass $y\langle\phi\rangle$, and reconciling that law with the detuning spectrum, require a derived field and scale map. Neither a numerical Yukawa value nor its normalization follows from the hopping stencil alone.
 
-\textbf{Conclusion: The Geometric Interpretation of Mass.} In this framework, the Dirac equation emerges naturally as the hydrodynamic limit of a discrete, unitary cellular automaton. Fermion mass ($m = y\langle\phi\rangle$) acts as the geometric impedance required to arrest a state from dissipating at the speed of light.
+The magnetic-moment response also remains to be calculated from the update; \cref{app:impedance_power_transfer} records the failure of the earlier winding-angle argument.
 
-A critical consequence of this geometric mass impedance is that it introduces a phase-lag when the spinor rotates against the vacuum gauge loop. As derived in Appendix~\ref{app:impedance_power_transfer}, evaluating this phase-lag geometrically yields Julian Schwinger's first-order anomalous magnetic moment ($a_e = \alpha/2\pi$), resolving the standard QED vertex loop correction as a coordinate-space aspect ratio.
+
+\paragraph{Comparison cost versus the fermion kinetic operator.}
+\nolinkurl{CommonResponse.wilson_form} rewrites the positive comparison penalty as
+$\operatorname{Re}\langle\psi,(2-U-U^\dagger)\psi\rangle/4$.
+This is a transport-mismatch quadratic form. It does not alone derive the first-order
+Dirac action, fermionic statistics or the identification of glue-class labels with the
+spinor components used above. Those remain explicit carrier-to-response obligations.

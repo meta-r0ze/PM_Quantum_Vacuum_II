@@ -1,84 +1,30 @@
-\section{Toll \& Margin (Spacetime Dynamics)}
+\section{Toll and Margin: The Gravitational Proposal}
 \label{sec:toll_margin}
 
-\textbf{The Architectural Requirement:}
-\begin{itemize}
-    \item \textbf{The Persistence Problem:} The discrete substrate is an active, persistent network that must continuously expend entropic action to update its causal connections (Toll) and maintain its topological volume against dissolving into an unresolvable random graph (Margin).
-    \item \textbf{The Physics Result:} The Einstein-Hilbert Action ($\mathcal{L} = \frac{M_P^2}{2}(R - 2\Lambda)$). General Relativity emerges as the hydrodynamic limit of the substrate's structural maintenance: the Ricci scalar ($R$) is the dynamic geometric strain required to conserve local bandwidth, and the Cosmological Constant ($\Lambda$) is the static baseline cost of volumetric resolution.
-\end{itemize}
+The proposed interpretation associates metric response with maintaining causal connections (Toll), and a volume term with a baseline resolution cost (Margin). The current Lean package does not derive metric dynamics, an Einstein equation, a spin-two spectrum, or a cosmological constant from the substrate. This section states the target and the additional work it requires.
 
-The final sector of the Entropic Lagrangian concerns the substrate itself. Unlike standard Quantum Field Theory, which assumes a fixed background arena, the Entropic Lattice is a dynamic entity. It must continuously expend action to maintain the specific manifold geometry ($D=4$) against the entropic tendency to decohere into a random graph.
-
-This structural maintenance corresponds to the final two pillars of the Universal Architecture: \textbf{Toll} (the irreversible cost of state transitions) and \textbf{Margin} (the baseline cost of topological existence).
-
-\subsection{The Toll: Gravity as Local Capacity Conservation}
-The \textbf{Toll} pillar represents the irreversible entropic cost of updating the state network (Time). In a geometric theory, the flow of time is defined by the metric tensor $g_{\mu\nu}$. 
-
-Standard approaches to quantum gravity attempt to quantize this metric tensor directly, treating it as a fundamental force field, leading to severe non-renormalizability. In the $E_8$-Persistence theory, General Relativity is the \textbf{Emergent Hydrodynamic Limit} of the discrete lattice's transition statistics, the necessary compensating field required to enforce the local Conservation of Channel Capacity.
-
-\subsubsection{The Capacity Conservation Law}
-In the unperturbed, quiescent vacuum, the lattice maintains a uniform channel capacity $\langle C \rangle = \nu$ at every node. This state possesses global translation invariance regarding information flow: a packet of information moves with a uniform maximum velocity $c = 1$.
-
-However, the introduction of Topological Defects (Matter) breaks this uniformity. A persistent state consumes local bandwidth to maintain its structural complexity ($\mathbf{K}$), leaving a reduced \textbf{Available Capacity}:
+\subsection{Capacity and Metric Response}
+A proposed available-capacity ledger is
 \begin{equation}
-C_{available}(x) = \nu - \mathbf{K}(x)
+ C_{\rm available}(x)=\nu-\mathbf K(x).
 \end{equation}
-This creates a localized \textbf{Capacity Deficit} explicitly equal to $\delta C(x) \equiv \nu - C_{available}(x) = \mathbf{K}(x)$. Here, $\mathbf{K}(x)$ denotes the local structural complexity density (the expectation value of the Kolmogorov complexity operator $\hat{\mathbf{K}}$ defined in \cref{sec:entropic_lagrangian_density}), representing the active information payload at node $x$. Because the total information flow through the causal manifold must remain unitary and conserved, this local deviation from uniform capacity requires the lattice to dynamically adjust.
-
-This identification extends naturally to material media: the refractive index of any physical medium is the ratio of total substrate capacity to locally available capacity, $n = \nu/(\nu - \mathbf{K})$, recovering classical optics as a macroscopic consequence of local channel occupancy.
-
-\subsubsection{The Compensating Strain Field}
-In field theory, enforcing a global symmetry (translation invariance, $\mathbb{R}^4$) locally (at each distinct node $x$) requires introducing a gauge field. 
-
-\begin{enumerate}
-    \item \textbf{The Localized Stress:} The presence of structural complexity at a node manifests as a local stress-energy density ($T_{\mu\nu} \neq 0$, the continuum representation of the capacity deficit $\mathbf{K}(x)$), computationally ``loading'' the lattice differently at $x$ than at $y$.
-    \item \textbf{The Gauge Parameter:} To preserve the conservation of capacity, the coordinate system must dynamically shift, characterized by a local displacement vector ($\xi_\mu$).
-    \item \textbf{The Strain Mode:} The physical adjustment of the lattice required to maintain causal synchrony is the \textbf{Rank-2 strain tensor} ($h_{\mu\nu}$). This strain acts as the compensating gauge field ensuring that local changes in the coordinate grid ($\partial_\mu\xi_\nu + \partial_\nu\xi_\mu$) do not violate the conservation of information flow.
-\end{enumerate}
-
-We identify this symmetric strain mode $h_{\mu\nu}$ as the fluctuations of the effective metric ($g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}$). To maintain a constant global update rate ($c=1$) despite the reduced local bandwidth ($\mathbf{K}(x) > 0$), the local lattice geometry must deform. Expanding the effective metric to first order yields a rigorous kinematic linearization:
+This accounting identity does not specify a metric. In particular, the suggested weak-field relations
 \begin{equation}
-g_{\mu\nu} \approx \eta_{\mu\nu} + h_{\mu\nu} \implies g_{00} \approx -\left( 1 - \frac{\mathbf{K}(x)}{\nu} \right)
+ g_{00}\simeq-\left(1-\frac{\mathbf K}{\nu}\right),\qquad
+ \Phi\simeq-\frac{\mathbf K}{2\nu}
 \end{equation}
-This mathematically formalizes the physical intuition of an ``Optical Metric'' (an effective medium where geometry acts as a variable refractive index for information propagation). By comparing this to the standard weak-field limit of General Relativity ($g_{00} \approx -(1+2\Phi)$ where $\Phi$ is the Newtonian gravitational potential), we uncover its exact informational identity: $\Phi = -\mathbf{K}(x)/2\nu$. Gravity emerges as the necessary geometric strain required to conserve channel capacity around a structurally complex defect in the weak-field limit. The extension to strong-field regimes and black hole solutions is identified as a falsification criterion.
+require a derived propagation/response law and the identification $g_{00}\simeq-(1+2\Phi)$. Neither follows from the deficit alone. A refractive-index interpretation also requires its own transport equation.
 
-This reveals the profound structural origin of the \textbf{Weak Equivalence Principle}. Inertial mass (the topological impedance $\mathbf{K}$ required to arrest a state from dissipating at the speed of light, derived in \cref{sec:map_capacity}) and gravitational mass (the local capacity deficit $\mathbf{K}$ that strains the metric, derived here) are exactly identical. They are the same variable, the structural complexity density of the defect.
+Using the same symbol $\mathbf K$ in inertial and gravitational ledgers is not a proof of equal physical masses. A completion must compute both responses from the same maintained state and establish their normalization and coupling to probes.
 
-\subsubsection{Absence of Pathologies}
-This rigorous derivation naturally bypasses the notorious pathologies of standard quantum gravity:
-\begin{itemize}
-    \item \textbf{No Scalar-Tensor Mixing:} In standard approaches, spin-2 fields can be plagued by scalar ghosts. Here, the strict requirement to conserve local capacity acts mathematically as \textbf{Diffeomorphism Invariance}. This emergent gauge symmetry systematically projects out the scalar trace mode and longitudinal modes, leaving only the pure, massless traceless-transverse (TT) spin-2 graviton.
-    \item \textbf{No Dynamical Cosmological Constant from the Toll Pillar:} The translation symmetry of the capacity field ($\delta C \to \delta C + \text{const}$) strictly forbids the generation of a potential term ($\Lambda \sqrt{-g}$) within the dynamic gravitational sector. The observed cosmological constant must therefore arise from a distinct architectural source (the Margin pillar).
-\end{itemize}
-Thus, the dynamic Toll sector yields pure Einstein gravity ($R$) without a cosmological constant. The observed $\Lambda$ must arise from a distinct architectural source.
-
-\paragraph{Scope:} These pathology-free properties are demonstrated here at the linearized level.  Non-perturbative confirmation via lattice simulation is identified as a falsification criterion in \cref{sec:falsifiability}.
-
-\subsection{The Margin: The Cosmological Constant (\texorpdfstring{$\Lambda$}{Lambda})}
-If the perturbative Toll sector explicitly forbids a Cosmological Constant, where does Dark Energy come from? It arises distinctly from the final pillar: the \textbf{Margin}.
-
-The Margin represents the absolute resolution floor of the lattice. A system with zero signal margin is indistinguishable from noise. Because the vacuum is a discrete causal network with finite node spacing, the ``empty'' state is not a zero-energy state. It contains the \textbf{Minimum Resolvable Energy} required to define a persistent bit of spatial volume.
-
-This non-derivative topological cost manifests as a constant energy density penalty ($\rho_{vac}$) for maintaining the volume of the universe against lattice collapse. To integrate this static volume cost with the dynamic kinematic cost of the Toll sector within the same Lagrangian density budget, it must share the substrate's geometric scaling factor ($M_P^2/2$). In General Relativity, this is exactly the Cosmological Constant $\Lambda$:
+\subsection{The Einstein--Hilbert Target}
+The candidate continuum action is
 \begin{equation}
-    \mathcal{L}_{Margin} = -\frac{M_P^2}{2}(2\Lambda) = -\rho_{vac}
+ S_{\rm gravity}=\int d^4x\sqrt{-g}\,\frac{M_P^2}{2}(R-2\Lambda).
 \end{equation}
-The negative sign indicates that this is a static structural cost paid \textit{per unit volume}. The vacuum must continuously expend entropic action to maintain a coherent spatial manifold.
+Uniqueness results for a four-dimensional, local, coordinate-invariant metric theory with the specified second-order field-equation assumptions \cite{lovelock_einstein_1971} motivate this target. Those assumptions must first be obtained from the lattice. A nearest-neighbour microscopic stencil alone does not prove exact exclusion of higher continuum derivatives or curvature terms.
 
-\subsection{Synthesis: The Einstein-Hilbert Regulatory Bulk}
-Combining the dynamic metric update cost (Toll) and the static volume maintenance cost (Margin), we recover the complete gravitational action. Because the local lattice geometry dynamically strains to conserve bandwidth, the universal integration measure $d\mu$ must account for this local volumetric deformation. The discrete node count maps to the invariant continuum volume element: $d\mu \to d^4x \sqrt{-g}$.
+A proof would need an explicit geometric state and update, a metric observable, a controlled continuum limit, its symmetry identities and propagating-mode spectrum. No ghost-free or pure spin-two theorem is presently supplied, even at linear order. The bare stiffness, the Einstein--Hilbert normalization and a physical equivalence-principle statement remain open.
 
-To determine the continuum functional form of the Toll, we apply the \textbf{Kinematic Ceiling} (\cref{subsec:mapping_rules}). The maximum information propagation speed of one node per cycle strictly limits the effective continuum dynamics to nearest-neighbor transitions, physically forbidding equations of motion higher than second-order. 
-
-Because the Ricci scalar $R$ contains exactly two derivatives of the dimensionless metric, it inherently carries a mass dimension of 2. To strictly satisfy the Equipartition of Entropic Cost (which mandates the Lagrangian density possess a mass dimension of exactly 4), the Ricci scalar cannot stand alone; it \textit{must} be structurally coupled to a dimension-2 invariant parameter (a mass-squared, $M_P^2$). Higher-order curvature invariants like $R^2$ or $R_{\mu\nu}R^{\mu\nu}$ (which naturally possess dimension 4 without a mass scale) are physically excluded because they generate fourth-order equations of motion, strictly violating the substrate's nearest-neighbor bandwidth limit.
-
-In the continuum limit of the discrete substrate (the macroscopic regime where the signal wavelength vastly exceeds the lattice spacing, $\lambda \gg \ell$), the effective geometry of the causal manifold is pseudo-Riemannian. 
-
-In this continuous regime, \textbf{Lovelock's theorem} \cite{lovelock_einstein_1971} proves that the Einstein-Hilbert action (with a cosmological constant) is the strictly unique coordinate-invariant metric action yielding divergence-free, second-order equations of motion in four dimensions. Because the $E_8$ substrate independently mandates $D=4$ (via the Causal Projection) and the Kinematic Ceiling strictly forbids equations of motion higher than second-order (as they would require super-luminal next-nearest-neighbor communication), the Einstein-Hilbert action is the inescapable, mathematically exhausted conclusion. Therefore, the complete gravitational action is uniquely determined as:
-\begin{equation}
-    S_{Gravity} = \int d^4x \sqrt{-g} \frac{M_P^2}{2} (R - 2\Lambda)
-\end{equation}
-
-\textbf{Conclusion.} This derivation suggests an interpretation of General Relativity as the emergent regulatory mechanics of the bulk lattice. The Einstein-Hilbert action effectively describes the entropic cost of updating the metric to preserve causal order (the Toll) and maintaining the spacetime container itself against entropic dissolution (the Margin).
-
-\textbf{Scope of Derivation:} While the Planck Mass squared ($M_P^2$) and the Cosmological Constant ($\Lambda$) appear as continuous phenomenological parameters in this emergent hydrodynamic limit, they are strictly locked geometric invariants of the discrete substrate. Their functional presence is necessitated here by the Toll and Margin bandwidth requirements.  Specifically, $M_P^2$ quantifies the substrate's \textbf{geometric stiffness}: the entropic action cost per unit of metric strain. Its functional magnitude relative to the field-sector couplings dictates exactly how much local Capacity Deficit is required to produce a given geometric deformation, structurally enforcing the relative weakness of gravity compared to the gauge interactions.
+\subsection{The Volume Term}
+Identifying a baseline resolution cost with $\rho_{\rm vac}=M_P^2\Lambda$ is a proposed matching condition. The Margin pillar does not yet prove that the effective vacuum contribution is static or that all additional scalar dynamics are forbidden. Consequently no exclusion of dynamical dark energy is inferred here. A completed model must derive the volume response and its conservation law alongside the metric dynamics.

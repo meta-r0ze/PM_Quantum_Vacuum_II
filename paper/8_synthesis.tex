@@ -1,35 +1,16 @@
-\section{Synthesis}
+\section{Synthesis and Proof Boundaries}
 \label{sec:synthesis}
 
-\subsection{The Operator Exhaustion Principle}
+The checked results provide several components of a possible persistence-based dynamics: finite survival selection, phase-covariant transport, dispersion/Clifford equivalence, geometric gauge isotropy, conditional unitary reconstruction, scalar sign selection and a candidate two-sector fermion mechanism. They are not yet a derivation of a unique complete physical action.
 
-Having systematically derived the complete Entropic Lagrangian (\cref{eq:entropic_lagrangian}), we must now close the framework. To elevate this derivation from a structural suggestion to a strict implication, we establish that within the Informational Energetics framework, no other functional operators can physically exist.
+\subsection{Leading Operators versus Exact Exhaustion}
+Within an assumed dimension-four list, \nolinkurl{Operators.allowed_monomials} bounds the number of fields and derivatives. This classification does not prove the physical cutoff itself, determine representations, or exclude all other invariants. The actual cosine action and the finite-amplitude scalar counterexample demonstrate why higher terms cannot be deleted solely by invoking finite capacity.
 
-Standard Effective Field Theory permits an infinite tower of higher-dimensional operators, suppressed only by an arbitrary mass scale. In the $E_8$-Persistence theory, the finite capacity ($\nu=16$) acts as a physical ultraviolet cutoff, rendering the operator space exhausted by construction:
+The controlled $D_4$ gauge limit is a positive replacement for exact truncation: the leading Abelian constant-field response follows with a bound on each phase's error. Nonconstant and non-Abelian response, fermion continuum control and gravitational dynamics need analogous proofs.
 
-\begin{enumerate}
-    \item \textbf{The Kinematic Ceiling (No Higher Derivatives):} The capacity limit $c_{eff} = 1$ restricts state synchronization to nearest-neighbor transitions per update cycle. Second-order spatial derivatives (bosons) and first-order temporal/spatial derivatives (fermions) exactly saturate this local neighborhood step. Operators with higher-order derivatives (e.g., $\partial^4\phi$) require an extended evaluation stencil concurrently. This demands an information transfer rate exceeding one node per update cycle (coupling next-nearest neighbors or beyond), strictly violating the Shannon Channel Capacity limit of the fundamental causal cycle.
-
-    \item \textbf{The Capacity Ceiling (No Higher-Order Vertices):} Thermodynamic stability requires the Equipartition of Entropic Cost, structurally bounding all interaction vertices to mass dimension 4. The finite chiral bit-depth ($\nu = 16$) establishes why this equipartition is a hard physical law. Higher-order polynomials (such as a 6-point scalar interaction $\phi^6$ or a 4-fermion contact interaction $\bar{\psi}\psi\bar{\psi}\psi$) require a local informational payload that exceeds the $\nu = 16$ hardware limit. They cannot be physically resolved by the discrete substrate, causing instantaneous Causal Aliasing.
-\end{enumerate}
-
-\textbf{Conclusion:} Because the derived terms ($D_\mu, F_{\mu\nu}, \phi^4, R$) completely saturate both the kinematic bandwidth and the local node capacity, the space of allowed physical operators is mathematically exhausted. The exact functional form of the Standard Model Lagrangian is therefore uniquely and entirely implied by the architecture of persistence.
-
-\subsection{The Bifurcation of State: Matter vs. Radiation}
+\subsection{Matter and Radiation}
 \label{sec:matter_radiation}
+The product $\xi\mathbf K f$ motivates a complexity/rate trade-off under a fixed budget. By itself it does not classify physical excitations into exactly two stable phases. A classification of massive and massless modes requires the actual update's spectrum, conserved observables and stability conditions. The candidate domain-wall construction is one step toward such a spectrum; it does not prove the proposed universal matter/radiation bifurcation.
 
-We demonstrate that this Lagrangian admits exactly two stable phases of information propagation, corresponding to the observed division of nature into Matter and Radiation. Minimizing the dissipation functional $\mathcal{D} \propto \mathbf{K} \cdot f$ (the product of structural complexity and transition flux) yields two asymptotic solutions. Intermediate configurations ($0 < \mathbf{K}$, $0 < v < c$) are not stable minima. The product $\mathbf{K} \cdot f$ admits no interior stationary point, so the dissipation functional is minimized only at the boundary of the $(\mathbf{K}, f)$ configuration space:
-
-\begin{itemize}
-    \item \textbf{Case A: The Radiation Solution ($\mathbf{K} \to 0$):} 
-    If the state propagates at the maximum kinematic bandwidth limit ($v=c$, a lightlike trajectory $ds^2=0$), the transition flux exactly saturates the channel's transmission capacity. To prevent causal aliasing, the internal structural complexity (rest mass) must be strictly zero. 
-    
-    \textit{Physical Outcome:} Massless Bosons (Photons, Gluons, Gravitons) that carry signals but possess no rest frame.
-
-    \item \textbf{Case B: The Matter Solution ($v < c$):}
-    If the state possesses internal structural complexity ($\mathbf{K} > 0$), it cannot propagate at the bandwidth limit without overflowing the local channel capacity. It must propagate at $v < c$ (a timelike trajectory $ds^2 < 0$, possessing a valid rest frame). To minimize entropic drag while arresting spatial translation against the vacuum, the particle must achieve \textbf{Topological Closure} ($\chi=2$). 
-    
-    \textit{Physical Outcome:} Massive particles (fundamental fermions and Governor-coupled bosons) anchored to local spatial coordinates by topological or gauge-geometric impedance.
-\end{itemize}
-
-These are the only two asymptotic minima of the dissipation functional. The observed division of nature into massive particles and massless radiation is therefore the inevitable bifurcation.
+\subsection{Connection to Numerical Constants}
+A field normalization, scale convention and common response must be fixed before operator coefficients are identified with measured constants. Paper III tests its proposed formulas jointly. Improving a storage-overhead mechanism cannot substitute for closing the scalar, fermion and gauge response relations at a common normalization.

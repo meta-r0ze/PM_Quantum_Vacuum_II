@@ -1,142 +1,65 @@
-\section{The Entropic Lagrangian}
+\section{From Operational Cost to Effective Field Operators}
 \label{sec:entropic_lagrangian}
 
-Having established the Entropic Action as the universal optimization target, we now apply it to the most demanding test case: the vacuum. Minimizing $S_\Phi$ on the $E_8$-Persistence substrate across the six IE pillars yields 
-the \textbf{Entropic Lagrangian}: the unique functional form encompassing the Standard Model and General Relativity.
+The six PM pillars organize the candidate field terms. Their interpretation as a single physical action requires a common carrier state space, update rule, observable map and normalization. We distinguish the proved conditional structures from that remaining identification.
 
-\subsection{From Dissipation to Lagrangians}
+\subsection{Measures, Costs and Evolution}
 \label{sec:physics_translation}
-
-To apply the universal Entropic Action to fundamental physics, we must translate the general systems-theory variables into the specific geometric language of Quantum Field Theory. We do this in three distinct steps: defining the global integral, unpacking the local density, and establishing the observational filter.
-
-\subsubsection{The Covariant Action}
-We first map the macro-components of the Entropic Action ($S_\Phi = \int \mathcal{D} \, d\mu$) to the physical substrate:
-
-\begin{itemize}
-    \item \textbf{The Measure ($d\mu \to d^4x\sqrt{-g}$):} For the discrete $E_8$ lattice projected onto a causal $D = 4$ spacetime, the fundamental counting measure specializes to the four-dimensional volume element ($d^4x$, mass dimension $-4$). Because the Toll pillar requires dynamic geometric strain to conserve capacity (\cref{sec:toll_margin}), the measure must include the invariant volume factor $\sqrt{-g}$ (dimensionless, as it is the ratio of physical to coordinate volume).
-    \item \textbf{The Integrand ($\mathcal{D} \to \mathcal{L}_\Phi$):} The instantaneous dissipation density $\mathcal{D}$ maps exactly to the \textbf{Entropic Lagrangian Density} $\mathcal{L}_\Phi$. This rename asserts that the physical Lagrangian is fundamentally a measure of thermodynamic drag.
-\end{itemize}
-
-Applying these translations yields the covariant physical action:
-\begin{equation}
-    S_\Phi = \int d^4x\sqrt{-g} \, \mathcal{L}_\Phi
-\end{equation}
-
-\subsubsection{The Entropic Lagrangian Density}
+\subsubsection{Local densities}
 \label{sec:entropic_lagrangian_density}
-Next, we unpack the Entropic Lagrangian density as the linear sum of independent informational drags ($\mathcal{L}_\Phi = \sum_i \xi_i \cdot \mathbf{K}_i \cdot f_i$). These abstract universal variables map perfectly to the required physical dimensions of field theory:
+The local density must be distinguished from its spatial integral and from the accumulated history cost. For a specified spatial measure and time parameter, write
+\begin{equation}
+ Z_\Phi(t)=\int_{\Sigma_t}\mathcal D(x,t)\,d\mu_t(x),\qquad
+ S_\Phi=\int Z_\Phi(t)\,dt.
+\end{equation}
+This is the spatial-then-temporal organization of the imported action, not an identification of a pointwise density with a system-wide rate. Combining the measures into a covariant spacetime integral requires the physical geometry and its volume element.
 
-\begin{itemize}
-    \item $\xi$ (\textbf{Action Coefficient} -- $[Action / bit]$): The fundamental action cost of an orthogonal bit transition. In natural units ($\hbar = c = 1$), action is dimensionless, meaning $\xi$ acts as a geometric scaling factor derived from the substrate's intrinsic structure. Because it is a pure number counting transitions per unit of structural information, $\xi$ represents the fundamental \textit{unit cost of state transition} in this substrate. In the physical Lagrangian, this universal coefficient $\xi$ manifests as the specific \textbf{coupling constants and mass parameters} (e.g., $g, m, \lambda$).
-    
-    \item $\mathbf{K}$ (\textbf{Structural Complexity} -- $[bits / Volume]$): The information density of the state. For a physical field (such as a fermion spinor $\psi$ or a scalar $\phi$), $\mathbf{K}$ corresponds exactly to the \textbf{geometric footprint} (Kolmogorov Complexity, expressed as mass dimension) required to encode the state on the lattice.
-    
-    \item $f$ (\textbf{Transition Flux} -- $[1/Time]$): The rate of state erasure or decoherence. For a physical field, this corresponds to the \textbf{kinematic gradients} (derivatives) tracking how the state changes across the local causal neighborhood.
-\end{itemize}
+A continuum model may replace lattice counting by an integral and decompose a cost into local terms. In four dimensions a dimensionless action has a density of mass dimension four. This dimensional statement does not uniquely specify the terms, their coefficients, or a Lorentzian metric measure. Identifying $d\mu$ with $d^4x\sqrt{-g}$ is part of the proposed continuum gravitational description.
 
-\subsubsection{The Observational Filter}
+\subsubsection{The statistical and unitary layers}
 \label{subsec:observational_filter}
-The survivorship filter derived in \cref{sec:least_action} ($P \propto e^{-\beta S_\Phi}$) has a direct mathematical manifestation in Quantum Field Theory: the \textbf{Euclidean Path Integral}. In standard QFT, the Euclidean Path Integral is obtained via a Wick Rotation to imaginary time, transforming abstract quantum phase interference ($e^{iS}$) into a statistical thermodynamic partition function ($e^{-S_E}$). In the $E_8$-Persistence theory, this thermodynamic partition function describes the physical reality of the survivorship filter. Non-optimal paths are physically eliminated by exponential thermodynamic decay. The path integral is identically the statistical mechanics of substrate survival.
+Exponential survival weights define a statistical layer. In the finite-dimensional reconstruction, positive stationary weights and detailed balance make the symmetrized transfer matrix symmetric. Injectivity makes its square positive definite. Its eigenvalues define real logarithmic energies, and multiplication by $e^{-iE_it}$ preserves the amplitude norm (\nolinkurl{Reconstruction}). A deterministic bijection separately preserves that norm by permuting configuration amplitudes.
 
-This mapping reveals that the ``Quantum Potential'' ($Q$) found in stochastic mechanics is the structural \textbf{Toll} required to maintain informational localization (\textbf{Margin}) against the substrate's noise floor. Reality appears ``Quantum'' because the system must pay a continuous entropic tax to prevent localized information from diffusing into the vacuum.
+These are finite-dimensional results under named assumptions. They do not prove that detailed balance follows from zero total flux, that the statistical transfer matrix is injective, or that reconstructed time evolution is a nearest-neighbour update. They do not yet supply a quantum-field reconstruction, the Born rule or measurement dynamics; see \cref{app:quantum_fundamentals}.
 
-Reinterpreting the path integral as a thermodynamic survivorship filter provides a mechanistic origin for macroscopic least-action trajectories. This raises an immediate question: if non-optimal histories are exponentially suppressed, how do quantum superposition, wave-particle duality, and non-local entanglement arise? The substrate's discrete $8D$ structure constrains the geometric origin of these phenomena as projection artifacts; details are provided in \cref{app:quantum_fundamentals}.
-
-\subsection{The Additive Structure}
+\subsection{The Candidate Additive Structure}
 \label{subsec:additive_structure}
-
-The six IE pillars constitute a necessary and sufficient framework for stable control. While these functional components must coordinate dynamically to maintain systemic persistence, we define their fundamental thermodynamic costs as an \textbf{Entropic Balance Sheet}. The total Entropic Lagrangian is strictly additive; each term respects the orthogonal geometric constraints of the others:
-
+We organize the proposed action as
 \begin{equation}
-    \mathcal{L}_{\Phi} = \mathcal{L}_{\mathrm{CAP}} + \mathcal{L}_{\mathrm{MAP}} + \mathcal{L}_{\mathrm{PRO}} 
-    + \mathcal{L}_{\mathrm{GOV}} + \mathcal{L}_{\mathrm{TOL}} + \mathcal{L}_{\mathrm{MAR}}
+ \mathcal L_\Phi=\mathcal L_{\rm CAP}+\mathcal L_{\rm MAP}+\mathcal L_{\rm PRO}
+ +\mathcal L_{\rm GOV}+\mathcal L_{\rm TOL}+\mathcal L_{\rm MAR}.
 \end{equation}
+This bookkeeping does not prove statistical independence of six costs or identify six mutually orthogonal physical subspaces. Interactions and shared maintenance must be included without double counting. Costs incurred by coordination and savings relative to an uncoordinated baseline are distinct entries: a negative contribution to a net comparison is not a negative primitive expenditure. A Lorentzian Lagrangian need not be pointwise positive, so this accounting distinction does not make every displayed field term a positive dissipation density.
 
-Each term tracks one pillar's irreducible thermodynamic cost. The $E_8 \to D_4 \oplus D_4$ decomposition provides the geometric foundation for this separation \cite{meyer_informational_2026}. Because the six pillars operate on geometrically orthogonal subspaces of the $D_4 \oplus D_4$ decomposition (metric volume, topological boundary, internal phase, and spacetime coordinates are mutually independent), dependencies between pillar costs are minimal, as the following sections will show.
-
-\subsection{The Kinematic Bound: Lorentz Invariance as Bandwidth}
+\subsection{Kinematic Constraints}
 \label{subsec:kinetic_constraint}
+A nearest-neighbour update with spacing $\ell$ and step $\tau$ has a specified causal stencil. Choosing units $\ell/\tau=1$ sets its link-speed scale; it does not by itself derive an isotropic relativistic dispersion, Lorentz transformations or equality of all field speeds. The walk calculations exhibit why this matters: the one-coin update has twins, while a particular twin-gapping split-step family reduces its light speed. The two-sector Hamiltonian is a different candidate. A shared low-energy metric requires matching these responses.
 
-Before deriving the individual pillar costs, we must establish two universal constraints that bound the form of every term: the substrate's speed limit (this subsection) and its capacity limit (\cref{subsec:mapping_rules}). As established in the derivation of the substrate, the discrete lattice possesses a fixed temporal step duration $\tau$ and spatial node spacing $\ell$. This creates a hard physical limit on the speed of information propagation:
-\begin{equation}
-c_{eff} \equiv \frac{\ell}{\tau} = 1
-\end{equation}
-Rather than treating Lorentz Invariance as a fundamental kinematic postulate, the Entropic Lagrangian framework derives it as the macroscopic consequence of the vacuum's \textbf{Shannon Channel Capacity}\footnote{More precisely, $c_{eff}$ plays the role of Shannon capacity in that it sets the maximum rate of information transfer through the substrate. The formal identification requires the substrate noise floor $N_0$ and bandwidth $B$ to be derived quantities, which follow naturally from $\Delta$ and $\ell$.} ($C_{max}$) of the vacuum. Information can propagate a maximum of exactly one node spacing per fundamental update cycle.
-
-For the Entropic Lagrangian $\mathcal{L}_{\Phi}$ to describe a persistent system, it must enforce this capacity limit dynamically. By the Selection Principle, any trajectory that attempts to exceed $c_{eff}$ accumulates non-minimal Entropic Action and is exponentially suppressed. This requirement strictly necessitates the use of the \textbf{Minkowski Metric} ($\eta_{\mu\nu} = \text{diag}(-1, 1, 1, 1)$) to calculate state transition costs (gradients). As derived in companion work \cite[Section IV.E]{meyer_informational_2026}, this unique causal projection ensures the geometric squared interval $ds^2 = -dt^2 + d\mathbf{x}^2$ acts as a \textbf{Causality Filter}:
-\begin{itemize}
-    \item \textbf{Timelike ($ds^2 < 0$):} The signal velocity is within bandwidth ($v = dx/dt < 1$). The action cost is real and finite. Persistence is permitted.
-    \item \textbf{Lightlike ($ds^2 = 0$):} The signal velocity is exactly at the bandwidth limit ($v = dx/dt = 1$). The transitional action cost is zero. This strictly defines the propagation of massless carriers.
-    \item \textbf{Spacelike ($ds^2 > 0$):} The signal attempts to exceed bandwidth ($v = dx/dt > 1$). This results in \textbf{Causal Aliasing}: the collapse of distinct causal histories onto indistinguishable states, effectively an informational ``collision'' where the substrate can no longer resolve the sequence of events, as derived in the algebraic geometry of the substrate's causal loop \cite{meyer_informational_2026}. This terminates persistence.
-\end{itemize}
-
-Therefore, the kinetic terms are the \textbf{Penalty Functions} applied by the system to suppress causal violations. Lorentz invariance and the constancy of the speed of light are the inevitable consequence of information propagating at the bandwidth limit of a discrete substrate.
-
-\subsection{The Illusion of the Rest Frame: Emergent Lorentz Invariance}
-
-A persistent critique of discrete lattice models is that a fixed spatial grid implies a preferred ``rest frame,'' seemingly violating the relativity of simultaneity established by Lorentz invariance. In the $E_8$-Persistence framework, continuous Lorentz invariance is recovered not as a fundamental geometric absolute, but as the exact macroscopic hydrodynamic limit of the substrate's informational bandwidth.
-
-On the discrete lattice, the speed of light is not a velocity through space, but the fundamental update rate of the network: $c \equiv \ell/\tau = 1$ node per clock cycle. Because the observer (a macroscopic persistence structure) and the observed (the signal) are both excitations operating on the exact same discrete hardware, their interaction is strictly bounded by this universal clock rate. 
-
-\begin{itemize}
-    \item \textbf{The Invariance of Capacity:} When a macroscopic observer accelerates relative to the lattice bulk, they are consuming a larger fraction of their local node capacity ($\nu=16$) simply to process their own spatial translation. Consequently, their internal clock rate (the available capacity for internal state updates) slows down proportionally. This structural bottleneck perfectly replicates Time Dilation ($\Delta t' = \gamma \Delta t$).
-    \item \textbf{Length Contraction as Resolution Loss:} As an observer's kinetic footprint increases, the spatial resolution available to encode their structure along the axis of motion decreases due to the Shannon sampling limit. This physical truncation of structural data perfectly replicates Length Contraction ($L' = L/\gamma$).
-\end{itemize}
-
-Therefore, Lorentz invariance is not broken by the lattice; it is the \textbf{necessary informational scaling law} of the lattice. It is the geometric consequence of observers possessing finite processing capacity: no observer, regardless of their state of motion, can measure an information transfer rate exceeding the fundamental hardware step of the substrate. Lorentz symmetry is exact in the macroscopic limit ($\lambda \gg \ell$), safely breaking only at the Planck scale where continuous spacetime resolves back into discrete node addresses.
-
-\subsection{The Thermodynamic Bound: Finite Capacity and the Dimensional Budget}
+\subsection{Dimensions and the Leading Operator List}
 \label{subsec:mapping_rules}
-
-With the kinematic bandwidth established ($c=1$), we must determine how the substrate's finite capacity constrains the structure of allowed operators. Standard QFT enforces renormalizability ($d \le 4$) to prevent mathematical divergences at high energies. In the \textit{$E_8$-Persistence} theory, this mathematical requirement is the exact macroscopic reflection of a strict geometric and thermodynamic constraint: the finite capacity of the substrate.
-
-\textbf{The Geometric Primitives:} 
-
-The dimensional budget is a geometric accounting of the substrate's hardware. The $E_8 \to D_4 \oplus D_4$ projection yields two irreducible geometric primitives whose dimensional costs are fixed by their embedding requirements:
-
-\begin{itemize}
-    \item \textit{Nodes (0-forms):} A localized topological defect requires a 3-dimensional spatial footprint to embed an $S^2$ boundary ($\chi=2$). They map directly to physical fermions.
-    
-    \item \textit{Links (1-forms):} Connective channels mediate information transfer along a single lattice edge between adjacent nodes. Their base spatial extent is 1-dimensional. They map directly to physical bosons.
-\end{itemize}
-
-
-\textbf{The Dimensional Budget.} In natural units ($\hbar = c = 1$), the Entropic Action $S_\Phi$ is a strictly dimensionless count of state transitions. Because information is physical and encoded on a substrate where space ($\ell$) and time ($\tau$) are discrete hardware counts, the Entropic Action $S_\Phi$ evaluating total state transitions is strictly a dimensionless integer. In standard natural units ($\hbar = c = 1$), mapping this discrete counting measure to a continuous spacetime integral ($\int d^4x$, which carries a geometric mass dimension of $-4$) strictly requires the Lagrangian density $\mathcal{L}_\Phi$ to possess a compensating mass dimension of exactly $+4$.
-
-This geometric accounting alone, however, permits standard Effective Field Theory's solution: higher-dimensional operators suppressed by arbitrary mass scales $\Lambda$ (e.g., $\mathcal{O}_6/\Lambda^2$). The discrete substrate imposes a stricter hardware limit. Because the $E_8$ hardware strictly limits local node capacity to $\nu=16$ chiral channels, any interaction vertex with mass dimension $d>4$ (e.g., a 6-point scalar vertex $\phi^6$, or a 4-fermion contact term) requires resolving more concurrent states than the physical lattice can encode. This causes instantaneous Causal Aliasing. Thus, $d \leq 4$ is a \textbf{strict physical limit} imposed by the substrate's finite state-space capacity.
-
-\textbf{The Equipartition of Entropic Cost.}
 \label{sec:equipartition}
-Because the total dissipation $\mathcal{D} = \xi \cdot \mathbf{K} \cdot f$ is multiplicative and $\xi$ is dimensionless, the mass dimensions algebraically must sum to exactly 4: $[\mathbf{K}] + [f] = 4$. We term this the \emph{Equipartition of Entropic Cost}: the strict thermodynamic tradeoff requiring that geometric primitives with larger structural memory footprints must operate with correspondingly lower kinematic derivatives. By tallying the intrinsic dimensional costs of the lattice geometry, this single rule rigorously derives the fundamental derivative structures of QFT:
+For the stipulated first-order fermion and second-order boson kinetic terms, dimensional consistency gives
+\begin{equation}
+ [\psi]=3/2,\qquad [\phi]=[A]=1.
+\end{equation}
+Lean proves these relations and constraints on monomials of dimension at most four (\nolinkurl{Operators}). In that list a fermion bilinear admits at most one additional unit of dimension, Yukawa and quartic scalar terms are allowed, and four-fermion and sixth-order scalar terms lie outside the cutoff.
 
-\begin{itemize}
-    \item \textbf{Nodes (Fermions/Spinors):} 
-    To exist as a distinct, bounded entity, this defect must occupy a 3-dimensional spatial footprint ($D_{space} = 3$). Consequently, its structural complexity $\mathbf{K}$ (representing the local probability density $\bar{\psi}\psi$) scales geometrically as an inverse spatial volume ($L^{-3}$). In the natural units of the dimensional budget, this geometric footprint inherently consumes exactly 3 units of mass dimension (apportioned symmetrically as $3/2 + 3/2 = 3$ for the spinor and its conjugate). To sum to a total drag of exactly 4, the kinematic flux $f$ is mathematically restricted to exactly \textbf{1 unit} ($3+1=4$). Therefore, the kinematic propagation of a node maps uniquely to a \textbf{first-order} derivative. (The formal geometric proof of this kinematic restriction is explicitly derived as the Dirac equation in \cref{sec:map_capacity}).
+The cutoff is a hypothesis defining the leading operator list. Finite state count alone does not prove it as an exact exclusion: \nolinkurl{Potential.finite_states_do_not_force_quartic} distinguishes a sixth-order interaction on four amplitudes from every proposed quadratic-plus-quartic potential. With coefficients $c\ell^k$, higher-dimensional terms vanish as $\ell\to0$ (\nolinkurl{Operators.higher_dimension_suppressed}); they need not vanish at finite spacing.
 
-    \item \textbf{Links (Bosons/Scalars):} Connective links (1-forms) mediate interactions across the $D=4$ manifold, hosting both gauge fields (the Protocol, $A_\mu$) and mediating scalar fields (such as the Governor, $\phi$). Their base spatial footprint is 1 (mass dimension 1). To ensure lossless transmission and phase-invariance, the local structural complexity ($\mathbf{K}$) must be a real scalar constructed from equal powers of the field and its conjugate. The only mathematically admissible invariants are quadratic (e.g., $|A|^2$, $|\phi|^2$) or quartic (e.g., $|A|^4$, $|\phi|^4$) (higher powers immediately exceed the budget). 
-    
-    If the system utilized a quartic invariant ($|\phi|^4$) for propagation, it would consume the entire dimensional budget of exactly 4, leaving 0 units for the transition flux ($f$). This would result in a static field unable to update or propagate information. Because a connective link must mediate active transitions ($f > 0$), any propagating bosonic field is uniquely restricted to the quadratic invariant ($|\phi|^2$), which intrinsically consumes \textbf{2 units} of the dimensional budget. To sum to exactly 4, the kinematic flux $f$ must provide the remaining \textbf{2 units} ($2+2=4$). Therefore, information synchronization across geometric loops maps uniquely to \textbf{squared first-order derivatives} for both gauge and scalar fields.
+\subsubsection{Mass terms and potentials}
+\label{subsec:restmass}
+The leading list permits a dimension-one fermion mass coefficient and scalar quadratic/quartic terms. Representation and gauge-covariance constraints must decide whether a bare mass or a scalar-mediated coupling is allowed. Orthogonality of two geometric sectors alone is not that representation-theoretic selection rule.
 
-    \label{subsec:restmass}
-    \item \textbf{Rest Mass and Potentials:} When a field is at rest (relative spatial gradients vanish), it must still satisfy the dimensional budget of 4 to persist across the lattice's continuous temporal updates. To exhaust the budget without using spatial derivatives, the substrate must provide structural mass impedance to balance the equation.
-    
-    For dimension-3 nodes (fermions), reaching a total dimension of 4 requires coupling to exactly one dimension-1 parameter ($m$). For a dimension-1 scalar field ($\phi$), exhausting the budget of 4 without using kinematic derivatives strictly limits the allowed structures to exactly two forms: a quadratic term coupled to a dimension-2 parameter ($\mu^2|\phi|^2$), and a quartic self-interaction ($\lambda|\phi|^4$).
-\end{itemize}
-
-\subsection{The Completed Entropic Balance Sheet}
+\subsection{Target Continuum Form}
 \label{subsec:the_target}
-
-Before proceeding to the formal derivations, we present the final form. By summing the specific entropic costs required to satisfy the six pillars of persistence, we demonstrate that the resulting \textbf{Entropic Action} ($S_\Phi = \int d^4x \sqrt{-g} \, \mathcal{L}_\Phi$) takes the exact mathematical form of the Standard Model Lagrangian coupled to General Relativity. The total \textbf{Entropic Lagrangian} density is:
-
+The program seeks a response of the form
 \begin{equation}
 \begin{aligned}
-\mathcal{L}_\Phi =&  \underbrace{-m\bar{\psi}\psi}_{\substack{\text{Capacity} \\ \text{(Mass)}}}
-\;+\; \underbrace{\bar{\psi} i\gamma^\mu D_\mu \psi}_{\substack{\text{Map} \\ \text{(Fermion Kinematics)}}} 
-\;+\; \underbrace{-\frac{1}{4}F^a_{\mu\nu}F^{a\,\mu\nu}}_{\substack{\text{Protocol} \\ \text{(Gauge Bosons)}}} \\
-\;+\; & \underbrace{- |D_\mu\phi|^2 - V(\phi)}_{\substack{\text{Governor} \\ \text{(Higgs Sector)}}} 
-\;+\; \underbrace{\frac{M_P^2}{2}(R - 2\Lambda)}_{\substack{\text{Toll + Margin} \\ \text{(Gravity)}}}
-\label{eq:entropic_lagrangian}
+ \mathcal L_\Phi={}&\bar\psi(i\gamma^\mu D_\mu-m)\psi
+ -\tfrac14 F^a_{\mu\nu}F^{a\mu\nu}
+ -|D_\mu\phi|^2-V(\phi)\\
+ &+\tfrac{M_P^2}{2}(R-2\Lambda).
 \end{aligned}
+\label{eq:entropic_lagrangian}
 \end{equation}
-
-In the following sections, we derive each of these functional operators from first principles, demonstrating exactly how the hardware limits of the substrate enforce these specific mathematical forms.
+This is a target effective description, with consistent metric and field conventions required. The following sections prove parts of its operator structure for specified models. They do not yet derive its full representation content, gravitational dynamics or coefficients from the substrate.

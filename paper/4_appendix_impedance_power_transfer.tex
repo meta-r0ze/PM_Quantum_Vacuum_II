@@ -1,22 +1,22 @@
 \crefalias{section}{appendix}
-\section{Dynamical Validation of the Entropic Lagrangian}
+\section{Dynamical Validation of the Emergent Lagrangian}
 \label{app:impedance_power_transfer}
 
-$E_8$-Persistence theory models particle interactions as \textbf{Impedance Power Transfers} across the discrete $E_8$ substrate. To satisfy the Principle of Least Action, the continuous field approximations derived from the discrete lattice must minimize the local dissipation density ($\mathcal{D} = \xi \cdot \mathbf{K} \cdot f$) established in Section~II. This requires that the dynamic transport of information strictly obeys boundary impedance matching.
+This appendix records proposed response identifications and their present limits. The discrete-to-continuum operator results do not yet provide a scattering or vertex calculation. Boundary matching and the physical coupling normalization must be derived from the same update before these comparisons become predictions.
 
 \subsection{The Admittance Amplitude (\texorpdfstring{$\sqrt{\alpha}$}{sqrt alpha})}
 
-A localized topological defect maintains stability against the baseline vacuum impedance ($Z_{\text{vac}} = \alpha^{-1}$) by operating as a resonant cavity. In this representation, an interaction constitutes a \textbf{Topological Splice}—a geometric operation that conserves local information density while allowing the defect to shed accumulated stress via a gauge coordination field (the vector boson derived in Section~V).
+A localized topological defect maintains stability against the baseline vacuum impedance ($Z_{\text{vac}} = \alpha^{-1}$) by operating as a resonant cavity. In this representation, an interaction constitutes a \textbf{Topological Splice}—a geometric operation that conserves local information density while allowing the defect to shed accumulated stress via a gauge coordination field (the candidate gauge field of \cref{sec:protocol}).
 
-Because the entropic transition probability scales with the inverse of the substrate's geometric impedance, the probability amplitude ($\mathcal{A}$) of this coupling event is defined by the coordinate admittance of the lattice node:
+Because the transition probability of the operational action scales with the inverse of the substrate's geometric impedance, the probability amplitude ($\mathcal{A}$) of this coupling event is defined by the coordinate admittance of the lattice node:
 \begin{equation}
 \mathcal{A} \propto \frac{1}{\sqrt{Z_{\text{vac}}}} = \sqrt{\alpha}
 \end{equation}
-This relation identifies electric charge ($e = \sqrt{4\pi\alpha}$) not as an independent, postulated coupling parameter, but as the geometric admittance of the vacuum substrate, emerging directly from the boundary impedance-matching condition.
+The identification $e=\sqrt{4\pi\alpha}$ is a proposed physical normalization. The square-root amplitude convention and its relation to a substrate transition probability remain to be derived; the link phase alone does not fix the field normalization.
 
 \subsection{Dynamic Validation: Scattering Cross-Section}
 
-To verify that this impedance formulation holds dynamically under the derived field equations, we calculate the scattering cross-section for electron-positron annihilation ($e^+e^- \to \mu^+\mu^-$). On the discrete substrate, this represents the transfer of power across the unprojected bulk interaction geometry, governed by three distinct geometric constraints:
+For comparison with electron-positron annihilation ($e^+e^- \to \mu^+\mu^-$), the heuristic construction combines the following assigned factors. A discrete scattering calculation has not yet derived them:
 
 \begin{enumerate}
     \item \textbf{Coupling Efficiency ($\eta_C$):} The total transition probability scales with the joint product of the input and output admittances. Applying the vacuum admittance ($\sqrt{\alpha}$) established in the substrate architecture yields: 
@@ -29,7 +29,7 @@ To verify that this impedance formulation holds dynamically under the derived fi
         \frac{1}{\sigma - \chi} = \frac{1}{3}
     \end{equation}
     
-    \item \textbf{Causal Scaling ($1/s$):} Under the Minkowski metric causality filter derived in Section~III.D, the interaction area is constrained by the maximum information transfer rate ($c \equiv \ell/\tau = 1$). To preserve coordinate invariance, the cross-section must scale inversely with the center-of-mass energy squared ($s$):
+    \item \textbf{Causal Scaling ($1/s$):} With dimensionless couplings and no additional scale in the proposed high-energy approximation, the comparison uses inverse center-of-mass energy squared ($s$):
     \begin{equation}
         \text{Scale} \propto \frac{1}{s}
     \end{equation}
@@ -39,39 +39,13 @@ Integrating these three structural factors with the circular boundary of the pro
 \begin{equation}
 \sigma_{E8} = \frac{4\pi \alpha^2}{3s}
 \end{equation}
-This result matches the high-energy limit of standard quantum electrodynamics, confirming that the continuous, hydrodynamic limit of the derived Entropic Lagrangian reproduces physical scattering observables without requiring perturbative expansion.
+This matches the high-energy limit of standard quantum electrodynamics. The match is a consistency check rather than a derivation: the projection factor $1/3$ and the boundary factor $4\pi$ are identified with substrate quantities, but they are not yet produced by the discrete update rule. A derivation would compute the cross-section from the update and its gauge coupling.
 
-\subsection{Geometric Validation: The Schwinger Limit}
-
-We further validate the dynamical equations by deriving the first-order anomalous magnetic moment of the electron ($a_e$). In standard QFT, this value represents the lowest-order radiative correction to the electromagnetic vertex, calculated via a one-loop vertex diagram as:
+\subsection{The Schwinger Limit: Status}
+The first-order anomalous magnetic moment of the electron is
 \begin{equation}
-a_e = \frac{\alpha}{2\pi} \approx 0.0011614
+a_e = \frac{\alpha}{2\pi} \approx 0.0011614.
 \end{equation}
-Evaluating this correction conventionally requires regularizing a divergent loop integral over Feynman parameters. 
+This is the textbook one-loop QED result, and it is the target here. The geometric reading identifies it as the coupling flux per gauge cycle, $a_e=\alpha/2\pi$, with the $2\pi$ supplied by the single-cover boundary loop. That reading reproduces the correct value, but as a heuristic: the factor $1/2\pi$ is assigned rather than derived from the update rule. A double-cover winding ratio of the form $(4\pi/2\pi)\cdot(g^2/4\pi)$ does not lead to it: with $g^2/4\pi=\alpha$ it equals $2\alpha$ (Lean: \nolinkurl{AppendixChecks.stated_product}, \nolinkurl{not_schwinger}).
 
-\subsubsection{The Geometric Validation}
-
-We derive the first-order anomalous magnetic moment $a_e = \alpha/2\pi$ as a strict geometric consequence of the discrete update rule, with no loop integration.
-
-Under the discrete evolution operator derived in \cref{sec:unitary_flux_constraint}, the spinor field $\psi(x,t)$ undergoes spatial translations mediated by the transition matrices ($\Gamma^k$) and local phase rotations mediated by the $U(1)$ gauge connection ($U_\mu$). The interaction of these two operators is governed by two geometric boundaries:
-\begin{itemize}
-    \item \textbf{The Coupling Flux ($\alpha$):} The density of the electromagnetic flux entering the boundary, governed by the vacuum admittance ($\alpha$).
-    \item \textbf{The Topological Boundary ($2\pi$):} While the chiral spinor field is defined on the double cover of the manifold (requiring a $4\pi$ rotation to return to its initial state), the associated vector gauge field propagates strictly along the topological boundary, which is characterized by a fundamental cycle of $2\pi$.
-\end{itemize}
-
-\subsubsection{The Derivation}
-
-The anomalous magnetic moment represents the physical \textbf{Geometric Phase Lag} of the spinor double-cover rotating against the boundary gauge loop. 
-
-The spinor accumulates phase on the double cover: traversing the manifold once advances its phase by $2\pi$ (half of $4\pi$). The gauge field, on the single cover, advances by $2\pi$ per manifold circuit. The relative phase lag per complete spinor cycle ($4\pi$) is therefore:
-\begin{equation}
-\frac{\Delta\phi_{\text{spinor}}}{\Delta\phi_{\text{gauge}}} = \frac{4\pi}{2\pi} \cdot \frac{g^2}{4\pi} = \frac{\alpha}{2\pi}
-\end{equation}
-where $g^2/4\pi = \alpha$ by definition of the geometric admittance, and the factor $4\pi/2\pi = 2$ accounts for the double-cover winding mismatch.
-
-To maintain a stationary phase front under the discrete unitary update, this phase lag must be absorbed as a correction to the effective magnetic moment:
-\begin{equation}
-a_e = \frac{\text{Coupling Flux}}{\text{Gauge Cycle}} = \frac{\alpha}{2\pi}
-\end{equation}
-
-This derivation demonstrates that the first-order anomalous coupling is fundamentally a discrete coordinate-space boundary constraint. The complicated, infinite loop calculus of perturbative QFT is simply the continuous mathematics attempting to resolve this strict, finite topological ratio enforced by the substrate's discrete phase boundaries.
+Obtaining $a_e$ from the substrate remains open. A derivation must compute the vertex response of the discrete Dirac update in a background field, rather than assemble the result from a ratio of winding angles. The same calculation is needed for the vacuum-polarization coefficient that sets the running of $\alpha$; the discrete update's species content, including its twins (\nolinkurl{Doubling}, \nolinkurl{TwinTests}), must be fixed first.

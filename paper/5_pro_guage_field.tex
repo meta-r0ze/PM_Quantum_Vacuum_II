@@ -1,79 +1,69 @@
-\section{The Protocol (Gauge Field Synchronization)}
+\section{Protocol: Phase-Covariant Transport and Gauge Cost}
 \label{sec:protocol}
 
-\textbf{The Architectural Requirement:}
-\begin{itemize}
-    \item \textbf{The Persistence Problem:} The discrete substrate is distributed; nodes do not share a global phase reference. Information transfer across autonomous links will suffer rapid exponential decoherence (Causal Fragmentation) unless a geometric mechanism actively synchronizes local phase frames.
-    \item \textbf{The Physics Result:} The Yang-Mills Action ($\mathcal{L} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu}$). The gauge kinetic term is the strictly unique, lowest-order entropic penalty for phase synchronization errors (curvature) across discrete causal links.
-\end{itemize}
+Without a global phase reference, transport between independently rotated local frames must transform with those frames. \nolinkurl{Protocol} proves that a fixed coefficient invariant under every independent phase rotation vanishes, whereas a transforming link preserves the transport expression. This supplies a conditional reason for a connection; it does not fix the gauge group or its coupling.
 
-On a discrete substrate, nodes are locally autonomous computational units. The \textbf{Protocol} pillar requires that the Unitary flux constraint remains invariant even if the local phase frame of a node rotates. To enforce the Unitary Flux Constraint across a spatial separation, the lattice must institute a \textbf{Connection Coefficient} $U_\mu(x)$, a geometric ``wire'' that rotates the phase of the transmitted signal to match the receiver. The Gauge Field $A_\mu$ is simply the continuous phase-twist of this wire. The Yang-Mills action emerges as the necessary entropic penalty for wiring errors (non-integrable phase loops) across the substrate.
+\subsection{Links and Minimal Loops}
+For an Abelian connection write $U_\mu(x)=e^{-ig\ell A_\mu(x)}$. The observable link phase is unchanged by $g\mapsto g/c$, $A\mapsto cA$ for nonzero $c$ (\nolinkurl{Gauge.phase_normalization_freedom}). Thus a link-speed coefficient is not a determination of $g$.
 
-\subsection{The Comparator: Parallel Transport}
+For a supplied group, a product of links around a closed loop transforms by conjugation at its base point. Lean checks this for four links and shows that a conjugation-invariant score gives a gauge-invariant cost (\nolinkurl{Gauge}). The choice of group, representation, loop set and score remains model data. The Wilson score is a candidate; invariance and positivity do not make it the unique possible class function.
 
-Let $\psi(x)$ be the state at node $x$. To compare it with a neighbor $\psi(x+\hat{\mu})$, the system must transport the state across the link. To satisfy the Protocol's requirement for lossless transmission (Unitarity), this alignment operator must preserve probability amplitude. The unique mathematical structure for a lossless phase rotation is a unitary operator, defining the \textbf{Link Variable} $U_\mu(x)$:
-\begin{equation}
-    U_\mu(x) = e^{-ig \ell A_\mu(x)}
-\end{equation}
-where $A_\mu$ is the connection coefficient (the gauge potential), $g$ is the coupling efficiency (admittance), and $\ell$ is the lattice spacing, which ensures the exponent remains a dimensionless phase angle.
+The $D_4$ nearest-neighbour graph has $24$ roots and admits triangles, so it cannot be treated as a square-only graph without extra structure. \nolinkurl{D4Gauge.tri} contains $192$ ordered root pairs with inner product one. Accounting for the six representations of an unoriented triangle across its three vertices gives a triangle density of $32$ per site. The proved count is the ordered-pair count; this normalization must accompany its use in an action.
 
-\subsection{The Protocol Check: The Plaquette}
-
-Because the discrete substrate lacks an absolute external reference frame, a node cannot detect a phase error simply by querying a neighbor; local gauge choices are autonomous and arbitrary. The only structurally invariant way to measure a synchronization error (curvature) without an external clock is through a closed-loop consistency check, transporting a state through the network and comparing it against its original self. 
-
-The minimal resolution loop on a discrete grid is the \textbf{Plaquette} ($P_{\mu\nu}$), a square traversal of four links. Shorter loops are invalid: a backtrack ($A \to B \to A$) is trivially unity by unitarity, and a triangle is forbidden by the orthogonal basis of the $D_4$ lattice. The plaquette is therefore the minimal non-trivial loop capable of detecting a synchronization deficit.
-
-\begin{equation}
-    P_{\mu\nu}(x) = U_\mu(x) U_\nu(x+\hat{\mu}) U^\dagger_\mu(x+\hat{\nu}) U^\dagger_\nu(x)
-\end{equation}
-If the Protocol is perfectly synchronized (flat spacetime, no force), the accumulated phase around the loop is exactly zero ($P_{\mu\nu} = \mathbb{I}$). Any geometric deviation from the identity matrix represents a \textbf{Synchronization Deficit}.
-
-\subsection{Scoring the Deficit: The Entropic Cost Function}
-
-To calculate the Entropic Action of this synchronization error, the lattice must map the unitary loop operator ($P_{\mu\nu}$) to a real, positive-definite scalar cost. This derivation proceeds through a strict geometric and informational pipeline:
-
-\textbf{1. The Scalar Cost Function (Wilson's Metric):} 
-The mathematically unique way to extract a real, basis-independent scalar measuring the ``distance'' of a unitary matrix from the identity ($\mathbb{I}$) is the normalized real trace of their difference. This yields the foundational cost function of lattice gauge theory:
-\begin{equation}
-    S_{plaquette} = \beta_L \sum_{\square} \left( 1 - \frac{1}{d_G} \operatorname{Re} \operatorname{Tr}(P_{\mu\nu}) \right)
-\end{equation}
-where $d_G$ is the dimension of the gauge group representation, and $\beta_L = 2d_G/g^2$ is the dimensionless structural weight of the lattice. (\textit{Parameter-Free Note:} $\beta_L$ is an immutable geometric invariant because the transmission efficiency is strictly fixed by the kinematic bandwidth limit to the bare coupling $g_{\mathrm{bare}} = 1/2$ derived in \cref{sec:map_capacity}.).
-
-\textbf{2. The Kinematic Gradient (Field Strength):} 
-To evaluate this deviation locally, we map the discrete boundary loop to an internal kinematic gradient. By the Baker-Campbell-Hausdorff (BCH) formula, the product of phase exponentials around the loop yields, to leading order in the lattice spacing, the commutator of their derivatives:
-\begin{equation}
-\begin{split}
-    P_{\mu\nu} &= \exp\left( -ig \ell^2 (\partial_\mu A_\nu - \partial_\nu A_\mu - ig[A_\mu, A_\nu]) \right) \\
-    &= \exp\left( -ig \ell^2 F_{\mu\nu} \right)
-\end{split}
-\end{equation}
-where $F_{\mu\nu}$ is the non-Abelian field strength tensor, representing the local density of phase decoherence. The BCH expansion formally contains higher-order terms; their physical elimination by the substrate's finite capacity is established in \cref{sec:exact_truncation}.
-
-\subsection{The Exact Truncation: Enforcing the Dimensional Budget}
+\subsection{The Actual Cosine Cost and Its Continuum Approximation}
 \label{sec:exact_truncation}
+For an Abelian loop phase, use $1-\cos\theta$. Within the explicit comparison/repair
+contract of the preceding section, this functional form follows from the flag probability:
+$W$ refreshes, each requiring $m$ primitive repairs on a flag, cost
+$(c_0mW/2)(1-\cos\theta)$. Thus $\beta=c_0mW/2$ within this event convention.
+The convention, refresh assignment and repair realization must still be justified for the
+physical substrate; symmetry alone does not select this comparison protocol. It is nonnegative and bounded by two (\nolinkurl{Gauge.phase_cost_bounds}). It is not an exact quadratic function at finite phase; \nolinkurl{wilson_not_exactly_quadratic} gives a counterexample. Finite node capacity does not cancel its higher Taylor terms.
 
-\textbf{3. The Hardware Limit (Truncation):}
-Expanding the geometric path exponential $e^{-ix} \approx 1 - ix - x^2/2 + \mathcal{O}(x^3)$ yields an infinite series in standard continuum mathematics. However, as established by the \textbf{Dimensional Budget} (\cref{sec:equipartition}), the discrete substrate's finite node capacity ($\nu=16$) acts as a hard physical cutoff. 
-
-Because the field strength $F_{\mu\nu}$ has mass dimension 2, the quadratic term $F_{\mu\nu}F^{\mu\nu}$ exactly exhausts the maximum permitted dimension of 4. Higher-order terms (e.g., $F^3$ or $F^4$) are physically forbidden because they require local informational payloads exceeding the node's finite capacity, causing instantaneous Causal Aliasing. 
-
-Furthermore, the kinematic bandwidth limit $c_{\mathrm{eff}} = \ell/\tau = 1$ strictly fixes the maximum information transfer rate across any lattice link. For fermion propagation (the Map pillar), this constrained the spatial hopping amplitude to exactly $w = 1/2$. For gauge field synchronization (the Protocol pillar), this exact same bandwidth limit applies. Because the substrate dictates exactly one spatial transition per temporal update, the phase rotation applied by the link variable $U_\mu$ during that transition is \emph{part of the same geometric step}. A mismatch ($g \neq w$) would require the internal phase to propagate at a different rate than the spatial state it is attached to, violating the single-speed bandwidth limit. This physically forces the bare, un-renormalized lattice coupling to $g_{bare} = 1/2$, representing the 1:1 ratio between phase-rotation and spatial-translation per update cycle. This is a geometric invariant of the $D_4$ coordination. (The mapping of this universal lattice efficiency to the specific observed gauge couplings of $SU(3)_c \times SU(2)_L \times U(1)_Y$ via their respective Casimir invariants is evaluated in subsequent work).
-
-Since the first-order term ($ix$) vanishes under the real trace, the structurally bounded deviation becomes exactly:
+The new \nolinkurl{GaugeContinuum} module bounds the approximation. For spacing $h\ne0$ and constant triangle coefficient $a$, define
 \begin{equation}
-    1 - \frac{1}{d_G} \text{Re}\text{Tr}(P_{\mu\nu}) = \frac{g^2 \ell^4}{2d_G} \text{Tr}(F_{\mu\nu}F^{\mu\nu})
+ Q_h(a)=\frac{1-\cos(h^2a)}{h^4}.
 \end{equation}
-
-\textbf{4. The Continuum Limit (Geometric Synthesis):}
-To transition from the discrete local count to the macroscopic covariant action, the system must account for geometric symmetries. Converting the restricted sum over unoriented plaquettes ($\mu < \nu$) into a full covariant tensor contraction ($F_{\mu\nu}F^{\mu\nu}$) introduces a symmetry factor of $1/2$. Replacing the discrete 
-coordinate sum with the continuous spacetime measure ($\sum_{x} \ell^4 \to \int d^4x$) and substituting the structural weight ($\beta_L = 2d_G/g^2$) precisely cancels all lattice prefactors.
-
-Finally, imposing the causal Minkowski metric $\eta_{\mu\nu} = \operatorname{diag}(-1, +1, +1, +1)$ required by the \textbf{Toll} pillar introduces a global negative sign to ensure the electric field kinetic energy remains positive definite. This yields the exact continuum action:
+When $|h^2a|\leq1$, Lean proves
 \begin{equation}
-    S_{\text{Gauge}} = -\frac{1}{2} \int d^4x\, \operatorname{Tr}(F_{\mu\nu}F^{\mu\nu}) = -\frac{1}{4} \int d^4x\, F^a_{\mu\nu}F^{a\,\mu\nu}
+ |Q_h(a)-a^2/2|\leq\frac5{96}|h|^4|a|^4,
+ \qquad \lim_{h\to0,\,h\ne0}Q_h(a)=a^2/2.
 \end{equation}
-where the second equality follows from the standard normalization $\operatorname{Tr}(T^a T^b) = \frac{1}{2}\delta^{ab}$.
+This is a controlled small-spacing result. At fixed nonzero microscopic spacing it describes a long-wavelength approximation, not exact elimination of corrections.
 
-This continuous gauge action describes the propagation of phase synchronization across the substrate. To verify that this derived action reproduces observed physical dynamics, we evaluate the scattering cross-section for electron-positron annihilation ($e^+e^- \to \mu^+\mu^-$) in Appendix~\ref{app:impedance_power_transfer}. We demonstrate that the continuous field approximation of this Lagrangian matches standard QED scattering amplitudes without requiring perturbative loop expansions.
+\subsection{The Geometric Quadratic Coefficient on \texorpdfstring{$D_4$}{D4}}
+For $B^p_{\mu\nu}=a_\mu b_\nu-a_\nu b_\mu$, the finite triangle sum satisfies
+\begin{equation}
+ \sum_p B^p_{\mu\nu}B^p_{\rho\sigma}
+ =96(\delta_{\mu\rho}\delta_{\nu\sigma}-\delta_{\mu\sigma}\delta_{\nu\rho}).
+\end{equation}
+Thus for every antisymmetric field $F$,
+\begin{equation}
+ \sum_p(F\mathbin{\cdot}B^p)^2=192\sum_{\mu,\nu}F_{\mu\nu}^2
+\end{equation}
+(\nolinkurl{D4Gauge.area_isotropic}, \nolinkurl{flux_sum}). No added squares are needed for this isotropy. The determinant of the Cartan matrix is four; the cell-volume factor used in the coordinate realization is two.
 
-\textbf{Conclusion.} Rather than being introduced as an independent gauge principle, the Yang-Mills kinetic term emerges here as the requisite lowest-order penalty function. It is geometrically required to enforce phase synchronization across a finite, discrete causal substrate.
+For the supplied constant-field Abelian phase $h^2(g/4)(F\mathbin{\cdot}B^p)$, sixfold triangle accounting and cell volume give
+\begin{equation}
+ \mathcal S_h(F)=\frac{\beta}{12}\sum_p Q_h\bigl((g/4)(F\mathbin{\cdot}B^p)\bigr).
+\end{equation}
+Lean proves that the \emph{actual cosine action} tends to
+\begin{equation}
+ \lim_{h\to0}\mathcal S_h(F)=\frac{\beta g^2}{2}\sum_{\mu,\nu}F_{\mu\nu}^2.
+\end{equation}
+With $g\ne0$ and $\beta=1/(2g^2)$ this is the canonical Euclidean Maxwell coefficient $1/4$ (\nolinkurl{GaugeContinuum.maxwell_limit}). The normalization identity does not select $\beta$ or a physical gauge coupling.
+
+This completion covers constant Abelian curvature. Nonconstant fields require control of geometric flux errors; non-Abelian fields additionally require path-order/BCH and representation-normalization bounds. A continuation from positive Euclidean cost to a physical Lorentzian theory is a further step, not simply the insertion of a minus sign. Scattering and vertex-response calculations remain open; see \cref{app:impedance_power_transfer}.
+
+
+\paragraph{The event coefficient in the controlled limit.}
+\nolinkurl{CarrierResponse.common_response_limit} substitutes the counted coefficient into
+the already proved triangle limit, giving
+\begin{equation}
+ \lim_{h\to0}\mathcal S_h(F)
+ =\frac{c_0mWg^2}{4}\sum_{\mu,\nu}F_{\mu\nu}^2.
+\end{equation}
+This ties the coefficient to a primitive toll, repair multiplicity and refresh count in one
+specified contract. Canonical coefficient $1/4$ requires $c_0mWg^2=1$ in these conventions.
+For matrix-valued holonomies, representation traces and indices must also be included;
+this Abelian result does not determine the physical relative gauge normalization or
+which resource each gauge sector refreshes.

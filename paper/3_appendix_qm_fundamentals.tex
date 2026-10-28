@@ -1,56 +1,22 @@
 \crefalias{section}{appendix}
-\section{The Geometric Origin of Quantum Phenomena: Substrate Mechanics at the Hardware Limit}
+\section{Quantum Reconstruction and the Remaining Measurement Problem}
 \label{app:quantum_fundamentals}
 
-By applying the formalism of Entropic Action ($S_\Phi = \int \mathcal{D} d\mu$) we can re-derive superposition, wave-function collapse, and non-local entanglement as the statistical mechanics of substrate survival and projection artifacts.
+The formal results separate deterministic evolution from statistical history selection. A bijection of a finite configuration space permutes arbitrary complex amplitudes and preserves their squared norm (\nolinkurl{Reconstruction.bijective_update_unitary}). This construction does not select amplitudes or a measurement rule.
 
-\subsection{The Survivorship Filter and Quantum Mechanics}
-
-In standard Quantum Field Theory, the Feynman Path Integral is postulated, relying on Wick Rotation to transform oscillatory quantum phase into a decaying thermodynamic partition function. In the $E_8$-Persistence theory, this hierarchy is inverted: the discrete, thermodynamic substrate is the exact physical reality, and the continuous complex path integral is the macroscopic approximation (as established in \cref{sec:entropic_lagrangian_density}).
-
-Persistence is governed by the \textbf{Survivorship Filter}. The probability of a structural history $\Gamma$ maintaining causal coherence against the substrate's noise floor is:
+For a statistical transfer matrix $T$ and positive weights $\pi$, detailed balance
+$\pi_xT_{xy}=\pi_yT_{yx}$ makes
 \begin{equation}
-    P(\text{survival} \mid \Gamma) \propto e^{-\beta S_\Phi[\Gamma]}
+ S_{xy}=\sqrt{\pi_x}\,T_{xy}/\sqrt{\pi_y}
 \end{equation}
-where $\beta = 1/C_{\text{channel}}$ represents the inverse entropic tolerance of the substrate, a dimensionless geometric invariant fixed by the lattice's self-dual resonance.
+symmetric. If $S$ is also injective, $S^2$ is positive definite. Its positive eigenvalues define real logarithmic energies, and spectral phase evolution $c_i(t)=e^{-iE_it}c_i(0)$ preserves $\sum_i|c_i|^2$. Lean verifies these finite-dimensional steps. Detailed balance, injectivity and the relation between this transfer model and the microscopic update are premises. A full quantum-field reconstruction, causal locality and a measurement interpretation do not follow from the spectral calculation alone.
 
-This survivorship filter naturally recovers the Born rule. For a state $|\psi\rangle = \sum_k c_k |k\rangle$ with geometric support over multiple internal addresses, the entropic action of trajectory $\Gamma_k$ terminating at address $k$ is:
-\begin{equation}
-    S_\Phi[\Gamma_k] = -\ln |c_k|^2 + S_{\text{base}}
-\end{equation}
-where $S_{\text{base}}$ is path-independent. The survival probability is therefore:
-\begin{equation}
-    P(k) \propto e^{-\beta S_\Phi[\Gamma_k]} = |c_k|^{2\beta} e^{-\beta S_{\text{base}}}
-\end{equation}
-With $\beta = 1$ (the geometric invariant fixing the survivorship filter to the lattice's self-dual resonance), normalization yields $P(k) = |c_k|^2$. The Born rule is thus derived as the thermodynamic equilibrium of the Survivorship Filter.
+\subsection{Survival Weights Are Not Yet a Born-Rule Derivation}
+For nonzero amplitudes, assigning $S_k=-\log|c_k|^2+S_{\rm base}$ gives weights proportional to $|c_k|^{2\beta}$. At $\beta=1$ their normalization reproduces $|c_k|^2$. This is an algebraic conditional statement: it puts the squared amplitudes into the assigned action and does not derive that assignment or the value of $\beta$. No Born-rule theorem is currently claimed from this argument.
 
-\subsection{Entanglement as Unprojected Adjacency}
-
-Quantum entanglement represents a non-local correlation across macroscopic spacetime distances, seemingly violating special relativity. Standard physics treats this as a purely algebraic consequence of the Hilbert space tensor product. The $E_8$-Persistence theory resolves this paradox geometrically by modeling entanglement as \textbf{Unprojected Adjacency} within the 8-dimensional substrate.
-
-The $E_8 \to D_4 \oplus D_4$ projection strictly partitions the lattice into an external spacetime manifold ($x^\mu \in \text{Sector A}$) and an orthogonal internal symmetry space ($\theta^a \in \text{Sector B}$). For two entangled particles sharing an internal state, their geometric distance on the full substrate is the sum of their orthogonal metric distances:
-\begin{equation}
-    ds^2_{\text{total}} = \eta_{\mu\nu}\Delta x^\mu \Delta x^\nu + \delta_{ab}\Delta \theta^a \Delta \theta^b
-\end{equation}
-While the particles may be kinematically distant in the observable $D=4$ spacetime manifold ($\Delta x^\mu \gg 0$), their shared internal configuration dictates they remain identically colocated in the internal sector ($\Delta \theta^a = 0$). 
-
-\textbf{Preservation of Causality (No FTL Signaling):} Because information (energy transfer) propagates at the bandwidth limit $c_{\text{eff}} = 1$ strictly \textit{within the projected causal manifold} (Sector A), special relativity is perfectly preserved in spacetime. Alice cannot send a faster-than-light macroscopic message to Bob.
-
-\textbf{Resolution of Non-Locality (Bell's Inequality):} Crucially, as established in Paper I, the metric projection assigns the active temporal generator ($\partial_t$) exclusively to the spacetime manifold. The internal symmetry space (Sector B) retains a strictly Euclidean signature. Because it possesses no temporal generator, it is perfectly static relative to the spacetime metric. 
-
-When a measurement on Alice's particle forces an Address Resolution (see Section \ref{subsec:measurement}), the required geometric update to the shared internal state does not ``travel'' through time; the collapse is geometrically instantaneous. From the perspective of the 4D observer, the correlation appears non-local. From the perspective of the $E_8$ substrate, the two particles never separated, and their shared internal update requires zero clock cycles to resolve.
+\subsection{Correlations and Projection}
+The orthogonal-sector decomposition does not, by itself, construct an entangled state, Bell correlations or a no-signalling measurement theory. Equal internal coordinates do not remove a nonzero spacetime contribution to an orthogonal distance formula. An instantaneous internal update is therefore not inferred merely from a shared internal label. A physical account requires a joint state space, local observables and their causal evolution.
 
 \subsection{Measurement and Basis Selection}
 \label{subsec:measurement}
-
-Wave-particle duality and measurement collapse are direct consequences of the \textbf{Equipartition of Entropic Cost} and the node's finite channel capacity ($\nu = 16$).
-
-When a particle passes through a double-slit apparatus, it occupies a single subspace address with geometric support over multiple trajectories in the internal $D_4$ sector. To minimize its transition flux ($f$) and avoid the dissipation penalty of the Survivorship Filter, the particle propagates its structural complexity ($\mathbf{K}$) as a delocalized phase front. 
-
-\textbf{Address Resolution (Capacity Exhaustion):} Measurement is an interaction that demands Address Resolution. Placing a detector at the slits forces the physical lattice to evaluate the particle's exact spatial coordinate. Resolving this localized fermion node intrinsically consumes exactly 3 units of the dimensional budget, saturating the local node's physical bit-depth ($\nu = 16$). 
-
-The local node physically lacks the capacity to simultaneously encode the high-resolution spatial address (the ``Which-Path'' measurement) and maintain the coherent internal phase array (the geometric support over the unprojected $D_4$ internal symmetry sector). To avoid information overflow, the substrate must sacrifice the phase coherence to maintain unitary solvency at the node. This forces a discrete projection basis, irreversibly destroying the phase coherence required for interference and generating localized Entropic Action ($\Delta S_\Phi \ge \ln 2$).
-
-Formally, this process implements a projection-valued measure $\{P_k\}$ on the spacetime factor: $P_k = |x_k\rangle\langle x_k| \otimes \mathbb{I}_{\text{internal}}$. The post-measurement state is $|\psi'\rangle = P_k |\psi\rangle / \sqrt{\langle\psi|P_k|\psi\rangle}$, with the internal residual $|\phi_k\rangle_{\text{internal}}$ decoupled from spacetime propagation by the Euclidean signature of Sector B.
-
-\textbf{Delayed-Choice and Basis Selection:} The ``delayed choice'' simply dictates \textit{which projection basis} the macroscopic apparatus forces the substrate to use at the final evaluation step. If distinguishing information is rigidly preserved in the environment, the local dissipation density $\mathcal{D}$ forces projection onto the localized spacetime eigenstates (Slit A vs. Slit B). If the information is ``erased,'' the energetic demand for exact address resolution is lifted, and the substrate defaults to the minimal-action superposition basis (A+B). The erasure is purely a physical reorientation of the local projection operator occurring strictly in forward time.
+A projection rule $P_k\psi/\sqrt{\langle\psi,P_k\psi\rangle}$ can be stated once an observable, probability law and apparatus interaction are supplied. They are not selected by the current node-capacity count. No proof presently connects measurement to a unique capacity-exhaustion threshold, an entropy increment $\log2$, or a preferred basis. These remain questions for a completed microscopic interaction model, rather than conclusions of the finite reconstruction theorem.

@@ -1,69 +1,69 @@
-\section{Entropic Action}
+\section{The Imported Action and Its Application}
 \label{sec:entropic_action}
 
-Any system that persists, whether a biological cell maintaining homeostasis, a business maintaining market position, or any physical structure sustaining its form against entropic decay, must minimize its rate of internal dissipation. In this section, we formalize this requirement as the Entropic Action and demonstrate that the Principle of Least Action emerges as its inevitable thermodynamic consequence.
-
-\subsection{The Thermodynamic Mechanism: Minimum Entropy Production}
-In standard equilibrium thermodynamics, a closed system strictly maximizes global entropy ($dS \ge 0$). However, the persistence of complex structure requires us to analyze systems in the non-equilibrium regime. Following Prigogine's formalization of non-equilibrium thermodynamics\cite{prigogine_introduction_1961}, the total change in entropy of a system can be partitioned into an external flux ($d_eS$) and internal entropy production ($d_iS \ge 0$), such that $dS = d_eS + d_iS$. 
-
-For a system to maintain structural coherence (a steady state) rather than dissolving into thermal equilibrium, total entropy must remain constant ($dS = 0$). It must therefore shed entropy to its environment at a rate that perfectly balances its internal production: $d_eS = -d_iS$. Prigogine's \textbf{Principle of Minimum Entropy Production} establishes that in the linear regime close to equilibrium, the internal entropy production rate $\sigma \equiv \frac{d_iS}{dt}$ naturally evolves toward a strict minimum:
+For this application we use a proposed specialization of the PM operational action \cite{kate_meyer_persistence_2026}. It models the cost of maintaining required distinctions by a density
 \begin{equation}
-    \frac{d\sigma}{dt} \le 0 \quad \text{converging to} \quad \delta\sigma = 0
+ \mathcal D=\xi\,\mathbf K\,f,\qquad S_\Phi=\int\mathcal D\,d\mu,
 \end{equation}
-A system that successfully settles into a \textit{Quiescent Equilibrium}, the theoretical floor of entropic drag, operates strictly within this linear regime. Having reached this thermodynamic attractor, its operational architecture must continually satisfy the stationary condition $\delta\sigma = 0$ to prevent spontaneous divergence.
+where $\xi$ is a specified primitive cost, $\mathbf K$ the maintained workload or complexity density, and $f$ its operation rate. The state space, counted events, units and measure must be supplied for an application. Information capacity, description length and executed work are not interchangeable without that map. The multiplicative density is a modeling contract, not a proved consequence of statistical independence from coding or thermodynamic theorems.
 
-\subsection{The Dissipation Density}
-Prigogine's theorem establishes \textit{that} a persistent system must minimize its entropy production rate, but does not specify the functional form of that rate in terms of the system's information-processing architecture. In the Informational Energetics framework, we map the local density of this thermodynamic production to its information-theoretic counterpart: the \textbf{Dissipation Density} ($\mathcal{D}$). The dissipation density of any persistent system is the product of three universal factors:
-\begin{equation}
-    \mathcal{D} = \xi \cdot \mathbf{K} \cdot f
-\end{equation}
-where:
-\begin{itemize}
-    \item $\xi$ is the fundamental action cost per orthogonal state transition (the substrate's informational friction).
-    \item $\mathbf{K}$ is the structural complexity \textit{density}, the minimal description length required to specify the system's local configuration (operationalized as Kolmogorov complexity per unit measure, which for discrete lattices maps directly to the local node's bit-depth or information capacity).
-    \item $f$ is the transition flux (the density of state updates per unit of substrate measure).
-\end{itemize}
+A resource budget bounds the product and hence bounds $f$ when $\xi$ and $\mathbf K$ are positive (Lean: \nolinkurl{PMAction.complexity_speed_bound}). It does not fix the factors individually. The economical selection principle is part of the application contract; this paper does not rederive a universal minimum-entropy-production theorem. A closed vacuum also cannot be treated as shedding entropy to an external bath without specifying the internal statistical description.
 
-\textit{Structural Justification (Exhaustion and Independence):} These three factors are both exhaustive and uniquely multiplicative. It corresponds to the three logically independent components of any physical state transition: the channel's fundamental physical friction (Landauer's Principle \cite{landauer_irreversibility_1961}), the payload's algorithmic description length (Kolmogorov Complexity \cite{kolmogorov_three_1968}), and the clock's transmission rate (Shannon's Source-Channel Separation Theorem \cite{shannon_communication_1949}, which establishes the independence of transmission rate from source encoding). Because these foundational theorems dictate that cost, encoding, and rate are statistically independent constraints, the joint probability of a dissipative transition strictly factorizes. Therefore, their direct product is the mathematically unique formulation of entropic drag. Any candidate fourth factor either mathematically decomposes into a subset of these three or describes the external environment rather than the persistent system itself.
-
-For instance, we can model a biological cell maintaining persistence through metabolic expenditure: the ATP cost per molecular operation ($\xi$) times the proteome complexity density ($\mathbf{K}$) times the reaction turnover rate ($f$) yields the local dissipation density that must be minimized across the cell's volume to maintain viability.
-
-\textit{The Universal Complexity Trade-off:} Because dissipation is a strict mathematical product, this equation dictates a universal ceiling on persistence. If a system increases its structural complexity ($\mathbf{K}$), it must proportionally reduce its operational speed ($f$) or improve its fundamental processing efficiency ($\xi$). A system cannot simultaneously maximize complexity and operational frequency without its internal entropy production diverging. Thus, the thermodynamic capacity of the environment strictly bounds the evolutionary complexity of the systems within it.
-
-\subsection{Entropic Action}
-To evaluate persistence over a system's complete history, we integrate the instantaneous dissipation density across its entire footprint and lifespan. This is represented by the geometric integration measure $d\mu$ of the underlying substrate (representing the total available state-space units), defining the cumulative \textbf{Entropic Action}:
-\begin{equation}
-    S_\Phi = \int \mathcal{D} \, d\mu
-\end{equation}
-
-Integrating the instantaneous minimum $\delta\sigma = 0$ over the system's lifetime yields the stationary condition on the total Entropic Action. Thus, structural stability ($\delta S_\Phi = 0$) is the time-integrated expression of Prigogine's theorem on an informational substrate. 
-
-Because $\mathcal{D}$ counts elementary state transitions per unit substrate measure, when evaluated in fundamental informational limits (where action is quantized), $S_\Phi$ evaluates to a strictly dimensionless quantity. It is not a continuous macroscopic energy, but a pure, irreducible count of irreversible transitions. This universality has a profound consequence: because $S_\Phi$ is fundamentally substrate-independent, any two persistent systems, from a biological cell to the quantum vacuum, are governed by the same architectural requirement to minimize their entropic action per unit complexity.
-
-\subsection{Least Action as Survivorship: The Exponential Filter}
+\subsection{Least Action as Survivorship}
 \label{sec:least_action}
-
-The Entropic Action defines \textit{what} a system must minimize. The Selection Principle determines \textit{how} this minimization manifests in observation.
-
-Standard mechanics treats the Principle of Least Action as axiomatic: systems follow stationary paths, with alternatives canceled by phase interference. No mechanism is offered for \textit{why} the stationary path is preferred. In Informational Energetics, the mechanism is thermodynamic elimination: the principle does not dictate which trajectories a system \textit{must follow}; it describes which trajectories \textit{remain observable}.
-
-\textbf{The Mechanism.} Consider a system exploring the space of structural histories $\Gamma$. Each increment of Entropic Action represents an irreversible loss of state information to the environmental background (the substrate's noise floor). The probability $P$ that a trajectory maintains causal coherence decays continuously as it accumulates dissipative drag, imposing a strict exponential suppression on survival:
+For a finite history family with costs $S_i$, consider the supplied weights
 \begin{equation}
-    P(\text{survival} \mid \Gamma) \propto e^{-\beta S_\Phi[\Gamma]}
-    \label{eq:survival_prob}
+ P_\beta(i)=\frac{e^{-\beta S_i}}{\sum_j e^{-\beta S_j}}.
+ \label{eq:survival_prob}
 \end{equation}
-This filtering requires no observer; it is the mechanical consequence of information loss. Here $\beta$ represents the substrate's inverse entropic tolerance, bounded by Shannon's Channel Capacity: $\beta \sim 1/C_{\text{channel}}$. For a specific substrate, $\beta$ is fully determined by the channel geometry. In discrete, resource-constrained systems (such as digital networks or cellular automata), this capacity is a structural invariant; in continuous media, it emerges from the noise spectral density.
-
-\textbf{The Severity.} This filter is extraordinarily harsh. Let $\Gamma_{min}$ be the minimal-action trajectory and $\Gamma_{var}$ any variant path with a deviation $\delta S_\Phi > 0$. Over any observation window, the relative survival probability of the variant history compared to the optimal history is:
+Lean proves positivity and normalization, multiplicative weights for additive costs, and the exact ratio
 \begin{equation}
-    \frac{P(\Gamma_{var})}{P(\Gamma_{min})} = e^{-\beta \delta S_\Phi}
+ \frac{P_\beta(j)}{P_\beta(i)}=e^{-\beta(S_j-S_i)}.
 \end{equation}
-For systems where the fundamental update cycle is much shorter than observation timescales, the accumulated informational drag $\delta S_\Phi$ for any non-optimal path becomes exponentially vast. This forces the survival ratio $P(\Gamma_{var})/P(\Gamma_{min}) \to 0$.
+For finite real costs and tolerance, every weight is strictly positive. Thus suppression is not exact deletion. For a fixed finite family, \nolinkurl{Concentration} proves that the normalized distribution tends to the uniform distribution on its minimum-cost histories as $\beta\to+\infty$. A thermodynamic or long-observation application must justify its limit and effective inverse tolerance.
 
-Every path with $\delta S_\Phi \neq 0$ has already dissipated, its information scrambled into ambient noise. The action integral is the cumulative record of this dissolution. 
+Stationarity alone is weaker than a minimum: \nolinkurl{PMAction.stationary_not_minimal} supplies a counterexample. A nonnegative dissipative functional also cannot be equated directly with an unrestricted Lorentzian quadratic form (\nolinkurl{lorentzian_cost_not_nonnegative}). The relation to physical time evolution therefore requires an additional construction, discussed next.
 
-\textbf{The Interpretation.} The variational principle $\delta S_\Phi = 0$ is not a dynamical command that a system ``obeys.'' It is an archaeological boundary: the accumulated record of all structural histories that failed to persist. Just as geological strata preserve only structures that resisted erosion, we observe least-action trajectories because all alternatives have already dissipated, their information irretrievably scrambled into ambient noise. This inverts the standard explanatory arrow. Rather than asking ``what laws must a system follow to exist?'', we ask ``what configurations persist against entropic decay, and what phenomenological laws describe their survival?''
 
-\textbf{The Illusion of Teleology.} This mechanism resolves a longstanding philosophical tension regarding ``agency'' and ``purpose'' in complex systems. Persistence requires no forward-looking intent; rather, non-minimizing trajectories undergo exponential suppression (\cref{eq:survival_prob}), leaving only the least-action remainder as observable history. What we observe as ``agency'' is simply the surviving remainder of thermodynamic elimination. 
+\subsection{A Constructive Carrier--Event Cost Connection}
+The counting law can now be applied to explicit substrate carriers. \nolinkurl{CarrierEvents}
+uses Paper I's minimal doubled vectors in each nontrivial $D_4$ glue class; every class
+has eight states, with no minimal vector omitted by the finite encoding. The reflection
+in $e_0-e_1$ permutes each class reversibly and moves four of its eight states.
+\nolinkurl{SubstrateReflection} connects that coordinate reflection to an integral $E_8$
+root reflection preserving the actual quadratic form and glue labels, including its
+restriction through Paper I's $D_4\oplus D_4$ embedding.
 
-This provides a strictly mechanistic, structural resolution to the appearance of ``fine-tuning'' in complex systems. A system appears perfectly calibrated for persistence because the substrate itself acts as a continuous, exponential filter: all non-minimizing trajectories are continuously erased, leaving only optimal configurations available for observation.
+With explicitly uniform carrier sampling, a changed-state event has probability $1/2$
+and cost $c_0/2$. More generally, a permutation $P$ on $n>0$ carrier labels has
+\begin{equation}
+ p_{\rm changed}=1-\frac{\operatorname{Re}\operatorname{Tr}P}{n},\qquad
+ C_{\rm changed}=c_0p_{\rm changed}
+\end{equation}
+(\nolinkurl{CarrierCost}). The trace score here follows from counting fixed labels.
+This does not uniquely extend a permutation event to a continuous phase readout.
+Nor are eight distinct geometric vectors eight independent vectors: Lean verifies
+that the carrier vectors in four coordinates are linearly dependent. A complex
+amplitude space over their labels is an additional construction, not that cardinality identity.
+
+\paragraph{Phase-sensitive comparison.}
+For a specified unitary transport $U$ and a reference branch, take the minus-port
+amplitude of a prepared basis label $a$ to be $(e_a-Ue_a)/2$. Under the stated
+squared-amplitude readout, Lean derives its probability and the uniform mean
+\begin{equation}
+ p_{\rm flag}(a)=\frac{1-\operatorname{Re}U_{aa}}2,\qquad
+ \overline p_{\rm flag}=\frac12\left(1-\frac{\operatorname{Re}\operatorname{Tr}U}{n}\right).
+\end{equation}
+The two output probabilities are nonnegative and sum to one
+(\nolinkurl{InterferenceReadout}). If a flag triggers $m$ primitive repair events,
+weighted finite-event accounting gives $C=c_0m\,\overline p_{\rm flag}$, without an
+independence assumption (\nolinkurl{EventAccounting}, \nolinkurl{CarrierResponse}).
+For the carrier reflection this flag probability is $1/4$, whereas its direct
+changed-state probability is $1/2$. The operational event must therefore be specified.
+
+For a scalar phase $U=e^{i\theta}$ the repair cost is $(c_0m/2)(1-\cos\theta)$.
+A phase-independent required comparison cost remains a baseline $B$; subtracting
+the zero-phase reference gives that excess cost, rather than declaring comparison
+free. Reference preparation, uniform sampling, squared-amplitude readout and the
+physical repair multiplicity remain explicit inputs. This is not a derivation of
+the Born rule or a unique choice of those inputs from persistence.

@@ -1,0 +1,10 @@
+name = "pm_action"
+version = "0.1.0"
+defaultTargets = ["PMAction"]
+
+[[lean_lib]]
+name = "PMAction"
+
+[[require]]
+name = "pm_arch"
+path = "../../PM-1-Arch/lean"
