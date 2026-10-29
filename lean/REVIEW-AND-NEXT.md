@@ -1,211 +1,117 @@
-# Paper II review and completion order
+# Paper II: current review and completion order
 
-The cross-paper review in CROSS-PAPER-BRIDGE-REVIEW.md supersedes the historical
-priority lists below: first connect actual carriers, primitive costs and common
-response. Keep the finite-tick spectral work as a specific admissibility test.
+Current stopping point: [COMPLETION-BARRIER.md](COMPLETION-BARRIER.md). The strongest new
+implementation is now `InBandRootReadout`: the actual E8 reflection writes the matched
+pairing into coordinate 2's parity. E8 positivity/evenness force 0-or-unit coupling on a clean,
+minimal-norm shell, giving elementary read/undo event accounting. Required execution and the
+coherent comparison/transfer/preparation bridge remain open. The five-stage status and the
+other circuit routes are recorded in that note; no coupling formula has been changed.
 
-Current update: VACUUM-PRESERVATION.md supersedes the earlier open task of
-preserving the known vacuum zero modes. The corrected ordering now preserves
-them exactly, retains unitarity/locality and has the same first-order generator.
-Excluding extra finite-tick unit eigenphases remains open.
+Reviewed 2026-10-29 against the theorem statements and the Paper III dependency chain.
+This replaces the accumulated progress list.
+The README is the current result/premise/layout guide, rather than a chronology.
 
-Reviewed 2026-10-28 against the current text and actual Lean theorem statements.
-The starting package passed check.sh: 3350 build jobs, 202 audited PMAction
-declarations. The new files from the other AI were reviewed in place; no
-existing proofs were removed.
+## What is already done
 
-## Where the paper is now
+The older lists still called several completed tasks open. Do not redo them:
 
-The triangle area tensor, two-sector kernel conditions and detuning polynomial
-are substantial positive additions. The old manuscript still asserted stronger
-results than those statements and sometimes contradicted them. The text pass
-now separates exact results, conditional models, continuum limits, numerical
-checks and proposed physical identifications. All prior section/equation labels
-and the acknowledgments are retained. Older citations and their metadata remain
-in the bibliography; English language codes were normalized to fix compilation.
-The earlier paper sources are saved at:
-/Users/kate/Documents/Codex/2026-10-26/for-x20/work/paper2-before-text-tefrhy9u/paper/
+- Full concrete Hermitian representation, squared and signed spectra, branch multiplicities,
+  four-dimensional zero kernel, all-momentum Hamiltonian zero exclusion and energy bandwidth.
+- A unitary finite-range split update, 27-site input bound, correct first derivative, and a
+  corrected ordering preserving the known vacuum modes exactly.
+- Actual carrier/E8 root-operation connection, event accounting and controlled common
+  gauge/scalar/fermion comparison response.
+- Constant-Abelian triangle continuum limit with a quantitative error bound.
+- Contact-limit cancellation and running-coefficient arithmetic under supplied physical inputs.
 
-## First completion: actual gauge-action continuum limit
+Previously completed in Paper III and now owned by II:
 
-D4Gauge.normalization established the quadratic coefficient algebraically,
-conditional on a triangle phase and cell-volume convention. It did not itself
-prove the limit of the cosine action. GaugeContinuum now closes the Abelian
-constant-field part:
+- Automatic Hermitian spectral transport, positive radius and quartic response bound;
+  equality with the ordinary exponential and fixed-generator group/reversal laws.
+- Coherent comparison, exact valid-input repair, reset/permutation restrictions, explicit
+  lifted controller Hamiltonian and its response/trace identities.
+- Generic minimum-refresh schedules and reversible retained-record maintenance tasks.
 
-- scaled_error bounds |(1-cos(h²a))/h⁴-a²/2| by (5/96)|h|⁴|a|⁴ when h!=0 and
-  |h²a|<=1, using mathlib's proved cosine bound.
-- scaled_sinc gives an exact nonsingular expression away from h=0.
-- scaled_limit proves the punctured-spacing limit a²/2.
-- density_limit sums the ACTUAL finite triangle cosine action and uses the
-  existing area tensor, giving (beta*g²/2)*sum F².
-- maxwell_limit gives coefficient 1/4 at beta=1/(2*g²), g!=0.
+New proof work in this pass:
 
-This is a genuine continuum theorem rather than an assumption of exact finite-
-spacing truncation. Its scope is the supplied constant Abelian triangle flux;
-nonconstant-field geometry errors and non-Abelian path ordering are not covered.
-Neither it nor the old normalization theorem selects beta or a physical coupling.
+- `FixedSpace.exponential_fixed_iff` promotes the scalar alias argument to the full vector space.
+- `VacuumFixedSpace` applies the actual bandwidth to the concrete Wilson exponential and proves
+  the corrected split update's **complete** origin fixed space for 0 < |tau| <= 1/2.
+- `Main.hermitian_action_response` presents the shared constructed dynamics/readout result with
+  explicit hypotheses. This is not an implication from the unaugmented PM postulates.
 
-## Highest-priority remaining Lean work
+## What genuinely remains, in useful dependency order
 
-1. **Full two-sector matrix spectrum.** Define the actual Hermitian Hamiltonian
-   with real momentum and the chosen Wilson parameters. Derive its squared block
-   from the hop/Clifford algebra. Prove the eigenvalue branches and multiplicities,
-   identify the light root, and rule out zeros throughout momentum space. Corner
-   gaps and scalar characteristic-polynomial identities alone do not do this.
-2. **Discrete time, bandwidth and locality.** The scalar update_zero_mode theorem
-   requires |tau*E|<2pi. Prove a uniform spectral bound and matrix-level update
-   statement. An exponential of a local Hamiltonian is not automatically a
-   finite-stencil quantum walk; choose and prove the required locality notion.
-3. **Complete the gauge limit.** Bound varying-field triangle flux errors and
-   non-Abelian/path-order remainders. Derive the relevant representation/trace
-   normalization. A speed-matching hopping coefficient is not a gauge coupling.
-4. **Common scalar/fermion response.** Derive scalar kinetic normalization and
-   the physical bridge field. The DetuningMass parameter adds an on-site beta
-   term with fixed hops; it is not automatically a detuned hopping link. Relate
-   its nonlinear mass root to a Yukawa/VEV law before using Paper III formulas.
-5. **Reconstruction linked to the update.** Detailed balance and injectivity of
-   the symmetrized statistical transfer operator are explicit premises. A
-   bijective realized update does not prove them. Establish the common state,
-   observables and continuation, then causal/continuum reconstruction.
-6. **Gravity and measurement.** These require new constructions, not a few
-   missing algebraic lemmas. No current Lean proof derives metric equations,
-   ghost-free spin-two dynamics, Born probabilities or apparatus basis selection.
+1. **One physical state/update contract.** Identify the actual carrier/register/reference and
+   retained-record states, allowed local operations and conserved observables. Relate these to
+   the specified spatial walk. Generic reversible bit repairs do not identify their bits with
+   carrier amplitudes. A finite clean-record reservoir cannot be silently renewed for free.
+2. **Primitive implementation and required work.** Supply the comparison branch, admissible
+   coherent mixer, controlled evolution and preparation, with locality and actual event counts.
+   The controller identities prove correctness, not these resources or a repair price. Derive
+   which distinctions/fields each sector must maintain. This unlocks Paper III's gauge workload
+   and stiffness map and Paper V's protocol costs.
+3. **Action/current normalization.** Connect that event model to the common link/loop response
+   and scalar/fermion kinetic terms. A shared toll or repair length in a cost definition is not
+   a proof that the sectors use the same physical process. Construct the charged-current vertex
+   before interpreting `ContactMatching` as a derived Fermi interaction. Paper III keeps the
+   representation-specific mass form and electroweak resource assignments.
+4. **Controlled dynamics and continuum.** For the *nonzero-momentum split product*, exclude extra
+   unit eigenphases in a proved admissible tick interval or revise the candidate. The exact
+   exponential result cannot settle that product. Complete many-tick error estimates, varying
+   Abelian-field flux errors and non-Abelian/path-order estimates. The old diagnostic near
+   tau=0.5 is numerical evidence to investigate, not a Lean counterexample or global theorem.
+5. **Running from the action.** Derive the spin response `(2s)^2` and orbital `1/3`, including
+   statistics, measure and regulator, before the standard one-loop arithmetic is claimed as
+   substrate-derived. Averaging over three spatial directions alone does not derive a loop
+   coefficient. Thresholds and scale matching must be physically specified; Paper III applies
+   them to its content and constants.
+6. **Separate larger branches.** Physical generation/chirality selection, flavour dynamics,
+   scalar scale/corrections, gravity and apparatus measurement remain constructions. They do
+   not follow from signed matrix roots or from a finite lattice merely existing.
 
-The order follows mathematical dependencies and usefulness for Paper III's
-shared response, rather than attempting numerical constants from separate
-geometric formulas. Fermion spectrum and the extended gauge analysis can proceed
-as independent branches; neither needs another abstract eta encoder.
+## What stays in later papers
 
-## Main text corrections
+Paper III: the actual packet gauge representation, reference stabilizer and mass entries,
+weak/colour/hypercharge task scopes, eta interpretation, workload tables, matching scales,
+scalar/VEV inputs and numerical constants. Its `MatterRunning` applies Paper II's conditional
+rule to supplied physical content. Papers IV–VI keep their flavour, decay and cosmology models.
+General dynamics should be lowered only when independent of those interpretations; this pass
+keeps the old Paper III theorem names as compatibility exports. See
+[FOUNDATION-PLACEMENT.md](FOUNDATION-PLACEMENT.md).
 
-- Forward Euler is labeled an approximation and its gradient sign is consistent
-  with the stated Hamiltonian. The Hamiltonian and Lorentzian Clifford sign
-  conventions are stated consistently.
-- The two-sector candidate is explicitly Wilson/domain-wall, replacing the
-  contradictory Wilson-free footnote. Kernel conditions are not promoted to a
-  global spectrum or fixed chiral multiplicity theorem.
-- The leading dimension-four list is conditional. Finite state count does not
-  imply exact absence of phi-six, higher derivatives or curvature corrections.
-- Gauge normalization is not inferred from link speed; exact finite-spacing
-  Wilson truncation is replaced by the new controlled limit.
-- Scalar sign/minimum selection is separated from numerical coefficients,
-  kinetic response and hierarchy/naturalness claims.
-- Detailed balance, operator injectivity and quantum amplitude data are exposed
-  as hypotheses. Finite survival weights do not delete all alternatives.
-- Gravity, measurement and particle-exclusion claims are presented as open
-  program targets. The logarithmic Born-rule assignment is not a derivation.
-- The QED cross-section remains a heuristic comparison; the rejected winding
-  argument and uncompleted vertex/vacuum-polarization tasks remain visible.
+## Recommended next construction
 
-## Builds
+The next operational test is now checked in `CarrierProbe` and `ClockControlledRoot`.
+`MatchedLatticeProbe` also implements the exact modulo-two E8 pairing used in Paper I,
+with both input and substrate probe retained. For the selected root, its output depends
+only on two neighbouring Gram coordinates modulo two. Physical coupling and timing remain
+inputs; this is coordinate/readout locality rather than spatial propagation.
+Readability as a capability does not specify an execution rate. A nonconstant probe readout
+requires coupling; the old cycle's phase-only history is blind to its carrier. A reversible
+readout can leave the carrier stationary, so a root excursion is not forced by that finite
+readout task alone. The clock-controlled root has a reversible E8 norm/glue-preserving lift
+and root-length moving carrier steps. Required operational probing, an actual combined
+register encoding, allowed causal gates and full prices remain to be derived. See
+[OPERATIONAL-READOUT.md](OPERATIONAL-READOUT.md). The phase used as the new writable probe
+cannot simultaneously be assumed to advance independently as an ideal clock.
 
-The complete revised main.tex compiled successfully with the desktop compiler
-(with actual bibliography, no stubbed constants). Removed an unused constants
-extraction and normalized bibliography language=en to language=english; the
-acknowledgments, author information and legacy links are unchanged. The full
-Lean audit result for the new module is recorded in README.md after completion.
+`CarrierReferenceCycle` now supplies the first repeatability test: a reversible root-excursion
+cycle on actual carriers and a supplied 43-phase clock, with conserved encoded reference, no
+fresh records, exact repetition and a minimum non-idle root-component cost. Uniform sampling
+and the clock/control contract are inputs; an idle cycle also persists. The physical reason
+for a non-idle task, its spatial implementation, coherent mixer and full event prices remain
+open. See [PROGRAM-OVERVIEW.md](PROGRAM-OVERVIEW.md) for the high-level dependency map and
+[CARRIER-REFERENCE-CYCLE.md](CARRIER-REFERENCE-CYCLE.md) for the exact new boundary.
 
+Work on the microscopic reference/controller event contract in Paper II, using the extracted
+operator and record theorems as constraints. Paper III's `SectorCapabilities` already shows why
+an action's moved-carrier count cannot by itself select the maintenance task: weak reaches every
+axis on the whole packet but only the reference row in a reference-scoped task; relative
+hypercharge phases involve fourteen carriers, including the sterile one, rather than all sixteen.
+Derive the maintained objects and their prices before further constant arithmetic.
 
-## Final verification, 2026-10-28
-
-Complete check.sh passed: 3353 build jobs and 222 PMAction declarations in the
-strict transitive axiom audit. Only propext, Classical.choice and Quot.sound are
-permitted. The full current paper/main.tex compiled successfully with the actual
-bibliography and without stubbed numeric macros. Source checks found no missing
-cross-reference labels or citation keys; acknowledgments match the saved pre-pass
-text byte-for-byte. No new dependencies were installed. The built-in compiler
-was used; no terminal TeX installation is required.
-
-
-## Spectrum pass after the upstream comparison
-
-DomainWallSpectrum now proves the full squared matrix and its polynomial from
-the projector/hop algebra. All real-energy eigenpairs satisfy
-E²=s+m(delta)² or E²=s+(m(delta)+1)². For sine momentum and Wilson detuning on
-the whole momentum cell, a nonzero zero mode requires k=0. The real-energy
-bandwidth is uniformly below 8; 0<|tau|<=1/2 suffices to avoid unit-phase aliases.
-These results replace the earlier open squared-block, off-corner-zero and
-bandwidth tasks. They do not assert branch existence/multiplicities or choose
-a physical clock step. Next: an explicit Hermitian representation and its
-spectral multiplicities, then discrete-time locality and physical response.
-
-The origin/main text comparison and selective integration are recorded in
-UPSTREAM-TEXT-REVIEW.md. Its application framing, local/integrated density
-clarification and publication naming are incorporated without restoring
-unsupported uniqueness, exact truncation or Schwinger derivation claims.
-
-
-## Concrete representation and squared-branch count
-
-ConcreteFermion now verifies an explicit Pauli/Clifford representation and the
-Hermiticity of the full eight-component Hamiltonian. The zero kernel is linearly
-equivalent to C^4, with two opposite-chirality wall components each.
-ConcreteSpectrum factors the full H² characteristic polynomial and proves
-algebraic multiplicity four for each of its two distinct roots. This closes the
-concrete-example, zero-kernel and squared-branch tasks above. See
-CONCRETE-SPECTRUM.md for precise scope. The next finite algebraic task is signed
-H eigenvalue counts; the next construction task is a discrete update with an
-explicit locality contract. Physical species assignment and parameter selection
-remain open, rather than consequences of the chosen matrices.
-
-
-## Concrete-spectrum verification, 2026-10-28
-
-Complete check.sh passed: 3356 build jobs and 324 PMAction declarations in the
-strict transitive axiom audit. Only propext, Classical.choice and Quot.sound
-are permitted; no sorry, native_decide or custom proof axioms were introduced.
-The revised full manuscript compiled successfully with the desktop compiler.
-Source checks found no missing reference labels or citation keys. Acknowledgments
-match the pre-cleanup backup byte-for-byte. No dependencies were installed.
-
-
-## Current priority after signed counts and local construction
-
-See SIGNED-AND-LOCAL.md. Signed energy multiplicities and a concrete unitary,
-finite-propagation eight-component split update are now formalized. The split
-symbol has the correct first derivative at zero tick. The next task is its
-own finite-tick spectrum, starting with exact origin-zero preservation and
-extra unit eigenphases. The earlier Hamiltonian bandwidth theorem does not
-settle that question for a noncommuting product. If this ordering fails, seek
-an origin-preserving ordering under explicit constraints. Then establish
-many-tick error bounds and the gauge/scalar response bridge. Do not proceed
-to numerical physical matching by importing the Hamiltonian roots as the
-finite-step eigenphases without proof.
-
-
-## Verification, 2026-10-28
-
-The complete check.sh passed: 3375 build jobs and 445 project declarations
-passed the strict transitive axiom audit. Only propext, Classical.choice and
-Quot.sound are allowed. No sorry, native_decide or custom proof axioms were
-introduced. All eight new proof modules are imported by PMAction.lean.
-The complete revised manuscript compiled with its actual bibliography. Source
-cross-reference and citation checks passed; acknowledgments remain byte-for-byte
-unchanged. No dependencies were installed, and no Paper III file was changed.
-
-
-## Vacuum-preserving verification, 2026-10-28
-
-Complete check.sh passed: 3380 build jobs and 506 PMAction declarations in
-the strict transitive axiom audit. Only propext, Classical.choice and Quot.sound
-are allowed. No sorry, native_decide or custom proof axioms were added. The
-three new modules are included in PMAction.lean. The complete updated paper
-compiled successfully with its actual bibliography; reference/citation checks
-and git diff --check passed, and acknowledgments remain unchanged.
-
-The optional double-precision diagnostic now compares both orderings. For
-tau=0.1, 0.25 and 0.5, the corrected zero-basis displacement is at roundoff
-(2.2e-16 to 4.4e-16), consistent with the exact Lean preservation theorem.
-This numerical comparison does not supply the no-extra-modes theorem.
-No dependency installation or Paper III changes were needed.
-
-
-## Carrier-event completion checkpoint
-
-The new mainline results and exact remaining contracts are in
-CARRIER-EVENT-RESPONSE.md. The actual carrier/E8 root operation, primitive event
-accounting, conditional trace/cosine readout and controlled common link response
-now pass the 677-declaration audit. Next derive the carrier gauge action and
-resource requirements, rather than treating representation labels or empirical
-parameter selection as consequences of counting alone.
+The fixed-space work is a separate bounded viability branch: the origin is now complete; the
+nonzero-momentum product still needs analysis. See [VERIFICATION.md](VERIFICATION.md) for the
+current build/audit checkpoint. The older [CROSS-PAPER-BRIDGE-REVIEW.md](CROSS-PAPER-BRIDGE-REVIEW.md)
+is historical context; its declaration counts and completion list are superseded here.

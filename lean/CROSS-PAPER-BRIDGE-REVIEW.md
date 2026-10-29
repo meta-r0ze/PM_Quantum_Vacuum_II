@@ -1,5 +1,10 @@
 # Paper II: cross-paper bridge review and revised priority
 
+Historical review (2026-10-28). The current result map and open tasks are in
+[README.md](README.md) and [REVIEW-AND-NEXT.md](REVIEW-AND-NEXT.md); module placement is in
+[FOUNDATION-PLACEMENT.md](FOUNDATION-PLACEMENT.md). Counts and completion statements below
+are the historical checkpoint, not the current verification status.
+
 Review date: 2026-10-28. This is a source/dependency review, not a new physical
 closure theorem. No Paper III or other companion-paper source was edited.
 The latest completed Paper II Lean audit remains 506 declarations.
