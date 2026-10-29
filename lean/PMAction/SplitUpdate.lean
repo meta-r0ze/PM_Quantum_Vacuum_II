@@ -25,6 +25,7 @@ lemma coefficient_relations (j : Fin 3) : coefficient j*coefficient j=0 ∧
 def neighbor (e : Equiv.Perm X) (j : Fin 3) : Matrix (X × Sites) (X × Sites) ℂ :=
   e.permMatrix ℂ ⊗ₖ coefficient j + (e.permMatrix ℂ)ᴴ ⊗ₖ (coefficient j)ᴴ
 
+omit [Fintype X] in
 lemma neighbor_hermitian (e : Equiv.Perm X) (j : Fin 3) : (neighbor e j).IsHermitian := by
   simp [IsHermitian, neighbor, conjTranspose_add, conjTranspose_kronecker, add_comm]
 
@@ -55,6 +56,7 @@ def Near (e : Equiv.Perm X) (x y : X) : Prop := y=x ∨ y=e x ∨ y=e.symm x
 
 def Compose (R S : X → X → Prop) (x z : X) : Prop := ∃ y, R x y ∧ S y z
 
+omit [DecidableEq X] in
 lemma supported_mul {R S : X → X → Prop} {A B : Matrix (X × Sites) (X × Sites) ℂ}
     (ha : Supported R A) (hb : Supported S B) : Supported (Compose R S) (A*B) := by
   intro x z a c hn
@@ -90,9 +92,10 @@ lemma onsite_unitary (Q : Matrix Sites Sites ℂ) (hq : Q ∈ unitary (Matrix Si
     simp only [onsite, conjTranspose_kronecker, conjTranspose_one, ← mul_kronecker_mul,
       one_mul, show Q*Qᴴ=1 from hq.2, one_kronecker_one]
 
+omit [Fintype X] in
 lemma onsite_supported (Q : Matrix Sites Sites ℂ) : Supported Eq (onsite (X := X) Q) := by
   intro x y a b h
-  simp [onsite, kronecker_apply, one_apply_ne h]
+  simp [onsite, one_apply_ne h]
 
 def update (e : Fin 3 → Equiv.Perm X) (Q : Matrix Sites Sites ℂ) (τ : ℝ) :=
   onsite Q * (direction (e 0) 0 τ * direction (e 1) 1 τ * direction (e 2) 2 τ)

@@ -40,10 +40,10 @@ lemma blockDiagonal_charpoly (B : Fin 4 → Matrix (Fin 2) (Fin 2) ℂ) :
     by_cases hab : a=b
     · subst b
       by_cases hij : i=j
-      · subst j; simp [charmatrix_apply, blockDiagonal_apply]
-      · simp [charmatrix_apply, blockDiagonal_apply, diagonal_apply, hij]
+      · subst j; simp [blockDiagonal_apply]
+      · simp [blockDiagonal_apply, hij]
     · have hp : (i,a) ≠ (j,b) := fun h => hab (congrArg Prod.snd h)
-      simp [charmatrix_apply, blockDiagonal_apply, diagonal_apply, hab, hp]
+      simp [blockDiagonal_apply, hab, hp]
   unfold Matrix.charpoly
   rw [hc, det_blockDiagonal]
 
@@ -64,7 +64,7 @@ theorem block_polynomial (s δ : ℝ) (i : Fin 4) :
         (s+(DetuningMass.lightMass δ)^2)+(s+(DetuningMass.lightMass δ+1)^2) := by
       nlinarith [DetuningMass.mass_relation δ]
     unfold block
-    split_ifs <;> simp [trace, Fin.sum_univ_two] <;> push_cast
+    split_ifs <;> simp [trace, Fin.sum_univ_two]
     · exact_mod_cast hreal₁
     · exact_mod_cast hreal₂
   have hdet : (block s δ i).det =
@@ -76,7 +76,7 @@ theorem block_polynomial (s δ : ℝ) (i : Fin 4) :
         _ = (s+δ^2)*(s+δ^2+1)-δ^2 := by ring
         _ = _ := by rw [hd]; ring
     unfold block
-    split_ifs <;> simp [det_fin_two] <;> push_cast
+    split_ifs <;> simp [det_fin_two]
     · exact_mod_cast hreal
     · exact_mod_cast (by nlinarith [hreal] :
         (s+δ^2+1)*(s+δ^2)-δ*δ =

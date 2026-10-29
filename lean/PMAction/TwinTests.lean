@@ -60,7 +60,7 @@ def Wp (a b k : ℝ) : Matrix (Fin 2) (Fin 2) ℂ :=
 theorem Wp_trace (a b k : ℝ) :
     (Wp a b k).trace =
       2 * (Real.cos a * Real.cos b * Real.cos k - Real.sin a * Real.sin b) := by
-  simp [Wp, C, trace_fin_two, Fin.sum_univ_two]
+  simp [Wp, C, trace_fin_two]
   have hef : cexp ((k:ℂ) * I) * cexp (-((k:ℂ) * I)) = 1 := by
     rw [← Complex.exp_add]; simp
   have h2 : cexp ((k:ℂ) * I) + cexp (-((k:ℂ) * I)) = 2 * Complex.cos k := by

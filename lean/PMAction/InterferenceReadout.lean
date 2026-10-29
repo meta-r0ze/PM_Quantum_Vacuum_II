@@ -17,6 +17,7 @@ lemma column_population (U : Matrix ι ι ℂ) (hu : U ∈ unitary (Matrix ι ι
   have h := congrArg (fun M : Matrix ι ι ℂ => (M a a).re) hu.1
   simpa [mul_apply, conjTranspose_apply, Complex.mul_re, Complex.normSq_apply, pow_two] using h
 
+omit [Fintype ι] in
 lemma flag_norm (U : Matrix ι ι ℂ) (a b : ι) :
     Complex.normSq (flagAmplitude U a b) =
       (Complex.normSq (U b a)+(if b=a then 1-2*(U b a).re else 0))/4 := by
@@ -110,6 +111,6 @@ theorem operational_density_limit (toll g : ℝ) (W : ℕ) (F : Fin 4 → Fin 4 
     Filter.Tendsto (fun h : ℝ => GaugeContinuum.density h g (toll*W/2) F)
       (nhdsWithin 0 ({0} : Set ℝ)ᶜ)
       (nhds ((toll*W*g^2/4)*(∑ μ, ∑ ν, F μ ν^2))) := by
-  convert GaugeContinuum.density_limit g (toll*W/2) F hF using 1 <;> congr 1 <;> ring
+  convert GaugeContinuum.density_limit g (toll*W/2) F hF using 1; congr 1; ring
 
 end PMAction.InterferenceReadout

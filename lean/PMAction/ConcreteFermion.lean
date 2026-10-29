@@ -128,11 +128,11 @@ theorem kernel_coordinates (v : Sites → ℂ) : hamiltonian 0 0*ᵥ v=0 ↔
     | inl i => fin_cases i <;> simp [hamiltonian, DomainWallSpectrum.H,
         DomainWallSpectrum.momentum, DomainWallSpectrum.hop, DomainWallSpectrum.back,
         DomainWallSpectrum.plus, DomainWallSpectrum.minus, beta, gamma, mulVec,
-        dotProduct, vecMul, mul_apply, Fintype.sum_sum_type, Fin.sum_univ_four, h2,h3,h0,h1]
+        dotProduct, vecMul, Fintype.sum_sum_type, Fin.sum_univ_four,h0,h1]
     | inr i => fin_cases i <;> simp [hamiltonian, DomainWallSpectrum.H,
         DomainWallSpectrum.momentum, DomainWallSpectrum.hop, DomainWallSpectrum.back,
         DomainWallSpectrum.plus, DomainWallSpectrum.minus, beta, gamma, mulVec,
-        dotProduct, vecMul, mul_apply, Fintype.sum_sum_type, Fin.sum_univ_four, h2,h3,h0,h1]
+        dotProduct, vecMul, Fintype.sum_sum_type, Fin.sum_univ_four, h2,h3]
 
 /-- An explicit linear parametrization, not only a list of possible roots. -/
 def zeroKernelEquiv : LinearMap.ker (hamiltonian 0 0).mulVecLin ≃ₗ[ℂ] (Fin 4 → ℂ) where

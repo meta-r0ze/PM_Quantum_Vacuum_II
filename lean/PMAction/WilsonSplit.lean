@@ -20,7 +20,7 @@ theorem onsiteCoin_unitary (τ : ℝ) :
   have hh : onsiteHamiltonian.IsHermitian := hamiltonian_hermitian 0 3
   have ha : ((-Complex.I*(τ : ℂ)) • onsiteHamiltonian)ᴴ =
       -((-Complex.I*(τ : ℂ)) • onsiteHamiltonian) := by
-    simp only [conjTranspose_neg, conjTranspose_smul, hh.eq, RCLike.star_def, map_mul, map_neg,
+    simp only [conjTranspose_neg, conjTranspose_smul, hh.eq, RCLike.star_def, map_mul,
       Complex.conj_I, Complex.conj_ofReal, neg_neg, neg_smul, neg_mul]
   have hadj : (onsiteCoin τ)ᴴ = exp (-((-Complex.I*(τ : ℂ)) • onsiteHamiltonian)) := by
     rw [onsiteCoin, ← Matrix.exp_conjTranspose, ha]

@@ -14,9 +14,9 @@ lemma onsite_decomposition : wall+(3 : ℂ) • beta8=WilsonSplit.onsiteHamilton
   ext x y
   cases x with
   | inl i => cases y <;> simp [wall, beta8, WilsonSplit.onsiteHamiltonian, hamiltonian,
-      DomainWallSpectrum.H, DomainWallSpectrum.momentum, Fin.sum_univ_three]
+      DomainWallSpectrum.H, DomainWallSpectrum.momentum]
   | inr i => cases y <;> simp [wall, beta8, WilsonSplit.onsiteHamiltonian, hamiltonian,
-      DomainWallSpectrum.H, DomainWallSpectrum.momentum, Fin.sum_univ_three]
+      DomainWallSpectrum.H, DomainWallSpectrum.momentum]
 
 lemma rotation_zero : rotation 0=1 := by simp [rotation, LocalUnitary.rotation]
 lemma wallCoin_zero : wallCoin 0=1 := by simp [wallCoin]
@@ -36,7 +36,7 @@ lemma backward_deriv : HasDerivAt (fun τ : ℝ => ((rotation τ)ᴴ)^3)
   have hd : (-Complex.I) • beta8 + (-Complex.I) • beta8 + (-Complex.I) • beta8 =
       (-3*Complex.I) • beta8 := by module
   rw [hd] at h
-  convert! h using 1 <;> first | rfl | (funext τ; simp [pow_succ, pow_two])
+  convert! h using 1; first | rfl | (funext τ; simp [pow_succ])
 
 lemma wallCoin_eq (τ : ℝ) : wallCoin τ=exp (τ • ((-Complex.I) • wall)) := by
   rw [wallCoin, RCLike.real_smul_eq_coe_smul (K := ℂ), smul_smul]

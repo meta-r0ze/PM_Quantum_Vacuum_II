@@ -21,12 +21,12 @@ def reflect (z : Lattice) : Lattice := z-pairing z root • root
 lemma reflect_coordinates (z : Lattice) :
     reflect z=Function.update z 2 (z 0+z 3-z 2) := by
   ext i; fin_cases i <;>
-    simp [reflect, root_coordinates, pairing, gram, mulVec, dotProduct, Fin.sum_univ_succ] <;> ring
+    simp [reflect, root_coordinates, pairing, gram, mulVec, dotProduct, Fin.sum_univ_succ]; ring
 
 theorem involutive : Function.Involutive reflect := by
   intro z
   rw [reflect_coordinates, reflect_coordinates]
-  ext i; fin_cases i <;> simp <;> ring
+  ext i; fin_cases i <;> simp
 
 /-- The operation preserves the actual integral E8 quadratic form. -/
 theorem preserves_norm (z : Lattice) : pairing (reflect z) (reflect z)=pairing z z := by
@@ -45,12 +45,12 @@ theorem embedding_intertwines (w : Lattice) :
     reflect (d4Embedding*ᵥw)=d4Embedding*ᵥrootCoordinates w := by
   rw [reflect_coordinates]
   ext i; fin_cases i <;>
-    simp [d4Embedding, rootCoordinates, mulVec, dotProduct, Fin.sum_univ_succ] <;> ring
+    simp [d4Embedding, rootCoordinates, mulVec, dotProduct, Fin.sum_univ_succ]; ring
 
 /-- In the even-sum Euclidean model this is precisely the carrier coordinate swap. -/
 theorem euclidean_intertwines (w : Lattice) :
     d4Roots ![rootCoordinates w 0,rootCoordinates w 1,rootCoordinates w 2,rootCoordinates w 3] =
       (d4Roots ![w 0,w 1,w 2,w 3]) ∘ Equiv.swap (0 : Fin 4) 1 := by
-  ext i; fin_cases i <;> norm_num [d4Roots, rootCoordinates, Equiv.swap_apply_def] <;> ring
+  ext i; fin_cases i <;> norm_num [d4Roots, rootCoordinates, Equiv.swap_apply_def]
 
 end PMAction.SubstrateReflection

@@ -28,6 +28,7 @@ lemma hop_relations (β Γ : Spin) (hβ : β*β=1) (hΓ : Γ*Γ=1)
       β*hop β Γ+hop β Γ*β = -1 := by
   exact DetuningMass.hop_products_over (𝕜 := ℝ) β Γ hβ hΓ hac
 
+omit [Fintype n] in
 lemma plus_add_minus (Γ : Spin) : plus Γ+minus Γ = 1 := by
   simp only [plus, minus, ← smul_add]
   rw [show (1+Γ+(1-Γ) : Spin) = (2 : ℝ) • (1 : Spin) by module]
@@ -75,8 +76,8 @@ theorem hamiltonian_square (K β Γ : Spin) (δ s : ℝ)
   have hbh := back_anticomm β Γ hβ hΓ hac
   have hk := momentum_anticomm_hops K β Γ hb hg
   have hd : (K+δ • β)*(K+δ • β) = (s+δ^2) • (1 : Spin) := by
-    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, smul_smul, hK, hβ, hb,
-      smul_neg, pow_two, add_smul]
+    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, hK, hβ, hb,
+      pow_two, add_smul]
     module
   unfold H
   rw [fromBlocks_multiply]
@@ -97,6 +98,7 @@ lemma projector_orthogonal (Γ : Spin) (hΓ : Γ*Γ=1) :
   constructor <;> simp only [minus, plus, smul_mul_smul_comm, sub_mul, mul_add,
     add_mul, mul_sub, one_mul, mul_one, hΓ] <;> module
 
+omit [Fintype n] in
 lemma block_shift (Γ : Spin) (δ a t : ℝ) :
     fromBlocks (a • 1+minus Γ) ((-δ) • 1) ((-δ) • 1) (a • 1+plus Γ) -
       t • (1 : Matrix (n ⊕ n) (n ⊕ n) ℂ) =
@@ -130,8 +132,8 @@ theorem hamiltonian_polynomial (K β Γ : Spin) (δ s : ℝ)
   have ho := projector_orthogonal Γ hΓ
   congr 1
   · simp only [mul_neg, ho.1, neg_zero, zero_add, smul_mul_smul_comm, one_mul]; module
-  · simp only [mul_smul_comm, smul_mul_assoc, one_mul, mul_one, mul_neg, smul_neg]; module
-  · simp only [mul_smul_comm, smul_mul_assoc, one_mul, mul_one, mul_neg, smul_neg]; module
+  · simp only [mul_smul_comm, smul_mul_assoc, one_mul, mul_one, mul_neg]; module
+  · simp only [mul_smul_comm, smul_mul_assoc, one_mul, mul_one, mul_neg]; module
   · simp only [mul_neg, ho.2, neg_zero, add_zero, smul_mul_smul_comm, one_mul]; module
 
 /-- Every real-energy eigenpair of the full Hamiltonian satisfies the derived

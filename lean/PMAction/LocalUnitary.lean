@@ -70,14 +70,14 @@ theorem rotation_unitary {n : Type*} [Fintype n] [DecidableEq n]
   have hleft : (c • (1 : Matrix n n ℂ)-d • B)*(c • 1+d • B)=1 := by
     calc
       _ = (c^2-d^2) • (1 : Matrix n n ℂ) := by
-        simp only [sub_mul, mul_add, smul_mul_assoc, mul_smul_comm, smul_smul,
+        simp only [sub_mul, mul_add, smul_mul_assoc, mul_smul_comm,
           one_mul, mul_one, h2]
         module
       _ = 1 := by rw [ht, one_smul]
   have hright : (c • (1 : Matrix n n ℂ)+d • B)*(c • 1-d • B)=1 := by
     calc
       _ = (c^2-d^2) • (1 : Matrix n n ℂ) := by
-        simp only [add_mul, mul_sub, smul_mul_assoc, mul_smul_comm, smul_smul,
+        simp only [add_mul, mul_sub, smul_mul_assoc, mul_smul_comm,
           one_mul, mul_one, h2]
         module
       _ = 1 := by rw [ht, one_smul]
@@ -108,7 +108,7 @@ theorem step_local {X : Type*} [Fintype X] [DecidableEq X]
       have hx : x ≠ y.1 := fun hh => hy (Or.inl hh.symm)
       have hp : e x ≠ y.1 := fun hh => hy (Or.inr (Or.inl hh.symm))
       have hm : e.symm x ≠ y.1 := fun hh => hy (Or.inr (Or.inr hh.symm))
-      simp [step, rotation, neighbor, kronecker_apply, Equiv.Perm.permMatrix,
+      simp [step, rotation, neighbor, Equiv.Perm.permMatrix,
         PEquiv.toMatrix_apply, hx, hp, hm, conjTranspose_permMatrix,
         Equiv.toPEquiv_apply, Prod.ext_iff]
     rw [h0, zero_mul, zero_mul]

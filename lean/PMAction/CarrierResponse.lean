@@ -42,7 +42,7 @@ lemma repair_cost (toll : ℝ) (m : ℕ) (U : Matrix ι ι ℂ) :
     repairCost toll m U=toll*m*meanFlag U := by
   rw [repairCost, EventAccounting.weighted_linear]
   simp only [EventAccounting.eventMass, sum_singleton, EventAccounting.binaryMass,
-    Bool.true_eq_false, Bool.false_eq_true, ite_true, sum_const, card_univ, Fintype.card_fin, nsmul_eq_mul]
+    ite_true, sum_const, card_univ, Fintype.card_fin, nsmul_eq_mul]
   ring
 
 theorem trace_cost [Nonempty ι] (toll : ℝ) (m : ℕ) (U : Matrix ι ι ℂ)
@@ -58,7 +58,7 @@ theorem permutation_flag [Nonempty ι] (e : Equiv.Perm ι) :
 
 /-- In each actual eight-state class, the reflection has detection probability one quarter. -/
 theorem reflection_flag (c : Fin 3) : meanFlag ((reflect c).permMatrix ℂ)=1/4 := by
-  letI : Nonempty (Carrier c) := Fintype.card_pos_iff.mp (by rw [carrier_card]; norm_num)
+  let : Nonempty (Carrier c) := Fintype.card_pos_iff.mp (by rw [carrier_card]; norm_num)
   rw [permutation_flag]
   change PMArch.NetCost.prob (active c)/2=1/4
   rw [uniform_activation]
@@ -97,6 +97,6 @@ theorem common_response_limit (toll g : ℝ) (m W : ℕ) (F : Fin 4 → Fin 4 �
     Filter.Tendsto (fun h : ℝ => GaugeContinuum.density h g (toll*m*W/2) F)
       (nhdsWithin 0 ({0} : Set ℝ)ᶜ)
       (nhds ((toll*m*W*g^2/4)*(∑ μ, ∑ ν, F μ ν^2))) := by
-  convert GaugeContinuum.density_limit g (toll*m*W/2) F hF using 1 <;> congr 1 <;> ring
+  convert GaugeContinuum.density_limit g (toll*m*W/2) F hF using 1; congr 1; ring
 
 end PMAction.CarrierResponse

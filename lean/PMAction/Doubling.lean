@@ -32,7 +32,7 @@ def W (θ k : ℝ) : Matrix (Fin 2) (Fin 2) ℂ := S k * C θ
 
 theorem symbol_trace (θ k : ℝ) : (W θ k).trace = 2 * Real.cos θ * Real.cos k := by
   simp only [W, S, C, trace_fin_two, mul_apply, Fin.sum_univ_two, of_apply, cons_val',
-    cons_val_zero, cons_val_one, head_cons, empty_val', cons_val_fin_one, head_fin_const]
+    cons_val_zero, cons_val_one, empty_val', cons_val_fin_one]
   simp only [zero_mul, add_zero, zero_add]
   rw [show exp (-(k:ℂ) * I) * (Real.cos θ : ℂ) + exp ((k:ℂ) * I) * (Real.cos θ : ℂ) =
     (Real.cos θ : ℂ) * (exp ((k:ℂ) * I) + exp (-(k:ℂ) * I)) by ring]
@@ -73,14 +73,14 @@ theorem plane_wave (θ k : ℝ) (u : Fin 2 → ℂ) :
   funext x i
   fin_cases i
   · simp only [chainStep, plane, W, S, C, mulVec, dotProduct, Fin.sum_univ_two, mul_apply,
-      Pi.smul_apply, smul_eq_mul, of_apply, cons_val', cons_val_zero, cons_val_one, head_cons,
-      empty_val', cons_val_fin_one, head_fin_const, Matrix.cons_val_zero]
+      Pi.smul_apply, smul_eq_mul, of_apply, cons_val', cons_val_zero, cons_val_one,
+      empty_val', cons_val_fin_one, Matrix.cons_val_zero]
     push_cast
     rw [show (k:ℂ) * ((x:ℂ) - 1) * I = (k:ℂ) * x * I + -(k:ℂ) * I by ring, Complex.exp_add]
     ring
   · simp only [chainStep, plane, W, S, C, mulVec, dotProduct, Fin.sum_univ_two, mul_apply,
-      Pi.smul_apply, smul_eq_mul, of_apply, cons_val', cons_val_zero, cons_val_one, head_cons,
-      empty_val', cons_val_fin_one, head_fin_const, Matrix.cons_val_one]
+      Pi.smul_apply, smul_eq_mul, of_apply, cons_val', cons_val_zero, cons_val_one,
+      empty_val', cons_val_fin_one, Matrix.cons_val_one]
     push_cast
     rw [show (k:ℂ) * ((x:ℂ) + 1) * I = (k:ℂ) * x * I + (k:ℂ) * I by ring, Complex.exp_add]
     ring

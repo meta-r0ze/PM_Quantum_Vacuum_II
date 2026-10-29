@@ -34,12 +34,12 @@ theorem hop_products_over (β Γ : A) (hβ : β * β = 1) (hΓ : Γ * Γ = 1) (h
     h * hb = Pm ∧ hb * h = Pp ∧ β * h + h * β = -1 := by
   intro Pp Pm h hb
   have hPpβ : Pp * β = β * Pm := by
-    simp only [Pp, Pm, smul_mul_assoc, mul_smul_comm, add_mul, sub_mul, mul_add, mul_sub,
+    simp only [Pp, Pm, smul_mul_assoc, mul_smul_comm, add_mul, mul_sub,
       one_mul, mul_one]
     rw [show Γ * β = -(β * Γ) by rw [hac]; abel]
     abel
   have hPmβ : Pm * β = β * Pp := by
-    simp only [Pp, Pm, smul_mul_assoc, mul_smul_comm, add_mul, sub_mul, mul_add, mul_sub,
+    simp only [Pp, Pm, smul_mul_assoc, mul_smul_comm, sub_mul, mul_add,
       one_mul, mul_one]
     rw [show Γ * β = -(β * Γ) by rw [hac]; abel]
     abel

@@ -25,7 +25,7 @@ theorem weighted_linear (toll : ℝ) (mass : Ω → ℝ) {n : ℕ} (E : Fin n �
       intro i _
       apply sum_congr rfl
       intro ω _
-      split_ifs <;> simp_all <;> ring
+      split_ifs <;> simp_all; ring
     _ = ∑ i, toll*eventMass mass (E i) := by
       apply sum_congr rfl
       intro i _
@@ -46,7 +46,7 @@ theorem uniform_recovers_netCost (toll : ℝ) {n : ℕ} (E : Fin n → Finset Ω
 def binaryMass (p : ℝ) (b : Bool) : ℝ := if b then p else 1-p
 
 theorem binary_normalized (p : ℝ) : (∑ b, binaryMass p b)=1 := by
-  simp [binaryMass, Fintype.sum_bool]
+  simp [binaryMass]
 
 theorem binary_nonnegative {p : ℝ} (h0 : 0 ≤ p) (h1 : p ≤ 1) : ∀ b, 0 ≤ binaryMass p b := by
   intro b; cases b <;> simp [binaryMass] <;> linarith

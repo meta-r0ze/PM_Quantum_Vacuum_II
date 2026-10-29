@@ -65,6 +65,7 @@ theorem clifford_square (α : Fin 3 → Matrix n n ℂ) (k : Fin 3 → ℂ)
   simp only [smul_neg, add_smul]
   module
 
+omit [DecidableEq n] in
 /-- Each `αⱼ` anticommutes with `β` and `α₄`, hence commutes with `Γ = i β α₄`. -/
 theorem alpha_commutes_gamma (a β α₄ : Matrix n n ℂ)
     (h1 : a * β = -(β * a)) (h2 : a * α₄ = -(α₄ * a)) :

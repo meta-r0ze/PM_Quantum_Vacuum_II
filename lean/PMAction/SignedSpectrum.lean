@@ -27,7 +27,7 @@ theorem pairing (k : Fin 3 → ℝ) (δ : ℝ) :
         simp [pair, spinPair, hamiltonian, DomainWallSpectrum.H, DomainWallSpectrum.momentum,
           DomainWallSpectrum.hop, DomainWallSpectrum.back, DomainWallSpectrum.plus,
           DomainWallSpectrum.minus, alpha, beta, gamma, mul_apply, vecMul, dotProduct, transpose_apply,
-          Fintype.sum_sum_type, Fin.sum_univ_four, Fin.sum_univ_three] <;> ring
+          Fintype.sum_sum_type, Fin.sum_univ_four, Fin.sum_univ_three]
     | inr j => fin_cases i <;> fin_cases j <;>
         norm_num [pair, spinPair, hamiltonian, DomainWallSpectrum.H, DomainWallSpectrum.momentum,
           DomainWallSpectrum.hop, DomainWallSpectrum.back, DomainWallSpectrum.plus,
@@ -43,7 +43,7 @@ theorem pairing (k : Fin 3 → ℝ) (δ : ℝ) :
         simp [pair, spinPair, hamiltonian, DomainWallSpectrum.H, DomainWallSpectrum.momentum,
           DomainWallSpectrum.hop, DomainWallSpectrum.back, DomainWallSpectrum.plus,
           DomainWallSpectrum.minus, alpha, beta, gamma, mul_apply, vecMul, dotProduct, transpose_apply,
-          Fintype.sum_sum_type, Fin.sum_univ_four, Fin.sum_univ_three] <;> ring
+          Fintype.sum_sum_type, Fin.sum_univ_four, Fin.sum_univ_three]
 
 theorem neg_charpoly (k : Fin 3 → ℝ) (δ : ℝ) :
     (-hamiltonian k δ).charpoly = (hamiltonian k δ).charpoly := by
@@ -67,14 +67,14 @@ lemma square_charpoly_identity {n : Type*} [Fintype n] [DecidableEq n]
         scalar n (X^2) - C.mapMatrix (A*A) := by
       apply Matrix.ext; intro i j
       by_cases h : i=j
-      · subst j; simp [f, charmatrix_apply, scalar_apply, -Matrix.map_mul]
-      · simp [f, charmatrix_apply, scalar_apply, h, -Matrix.map_mul]
+      · subst j; simp [f, scalar_apply, -Matrix.map_mul]
+      · simp [f, scalar_apply, h, -Matrix.map_mul]
     rw [hf]
     simp only [charmatrix, map_neg, sub_neg_eq_add]
     rw [mul_add, sub_mul, sub_mul]
     have hcomm := scalar_comm (n := n) X (Commute.all _) (C.mapMatrix A)
     rw [hcomm]
-    simp only [← map_mul, ← map_pow, pow_two]
+    simp only [← map_mul, pow_two]
     abel
   change _ = f (A*A).charmatrix.det
   rw [RingHom.map_det, hc, det_mul]
@@ -117,7 +117,7 @@ lemma quadratic_multiplicity (a b e : ℂ) (he : e^2=a) (hne : e ≠ 0) (hab : a
     linear_combination h/2
   rw [hf, rootMultiplicity_mul_X_sub_C_pow hp.ne_zero]
   have hz : p.rootMultiplicity e = 0 :=
-    rootMultiplicity_eq_zero (by simp [p, IsRoot, sub_eq_zero, he, heneg, hab, hne])
+    rootMultiplicity_eq_zero (by simp [p, IsRoot, sub_eq_zero, he, hab, hne])
   rw [hz]
 
 def lightEnergy (k : Fin 3 → ℝ) (δ : ℝ) : ℝ :=

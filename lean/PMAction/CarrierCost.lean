@@ -38,7 +38,7 @@ theorem geometric_vectors_not_independent (c : Fin 3) :
     ¬ LinearIndependent ℚ (fun v : Carrier c => fun i : Fin 4 => (vector v i : ℚ)) := by
   intro h
   have hn := h.fintype_card_le_finrank
-  simp only [carrier_card, Module.finrank_pi, Module.finrank_self, Fintype.card_fin, mul_one] at hn
+  simp only [carrier_card, Module.finrank_pi, Fintype.card_fin] at hn
   norm_num at hn
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]

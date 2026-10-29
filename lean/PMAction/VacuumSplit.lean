@@ -77,7 +77,7 @@ lemma wall_projector : wall*vacuumProjector=0 := by
   cases x with
   | inl i => cases y with
     | inl j => simp [wall, hamiltonian, DomainWallSpectrum.H, DomainWallSpectrum.momentum,
-        vacuumProjector, fromBlocks_multiply, Fin.sum_univ_three]
+        vacuumProjector, fromBlocks_multiply]
     | inr j => fin_cases i <;> fin_cases j <;>
         norm_num [wall, hamiltonian, DomainWallSpectrum.H, DomainWallSpectrum.momentum,
           vacuumProjector, DomainWallSpectrum.hop, DomainWallSpectrum.back, DomainWallSpectrum.plus,
@@ -90,7 +90,7 @@ lemma wall_projector : wall*vacuumProjector=0 := by
           DomainWallSpectrum.minus, beta, gamma, mul_apply, vecMul, dotProduct,
           Fintype.sum_sum_type, Fin.sum_univ_four, Fin.sum_univ_three]
     | inr j => simp [wall, hamiltonian, DomainWallSpectrum.H, DomainWallSpectrum.momentum,
-        vacuumProjector, fromBlocks_multiply, Fin.sum_univ_three]
+        vacuumProjector, fromBlocks_multiply]
 
 lemma projector_fixes_kernel (v : Sites → ℂ) (hv : wall*ᵥv=0) : vacuumProjector*ᵥv=v := by
   have h := (kernel_coordinates v).mp hv

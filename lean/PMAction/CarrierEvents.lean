@@ -77,7 +77,7 @@ theorem reflection_formula {c : Fin 3} (v : Carrier c) :
     vector (reflect c v)=vector v-(vector v 0-vector v 1) • root := by
   ext i
   change vector v (Equiv.swap 0 1 i)=vector v i-(vector v 0-vector v 1)*root i
-  fin_cases i <;> norm_num [root, Equiv.swap_apply_def] <;> omega
+  fin_cases i <;> norm_num [root, Equiv.swap_apply_def]
 
 theorem reflection_involutive (c : Fin 3) : Function.Involutive (reflect c) := by
   intro v; apply Subtype.ext; funext i

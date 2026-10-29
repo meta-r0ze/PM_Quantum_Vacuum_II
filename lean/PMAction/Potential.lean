@@ -11,7 +11,7 @@ theorem complete_square {μ2 lam s : ℝ} (hlam : lam ≠ 0) :
     value μ2 lam s + μ2^2/(4*lam) = lam*(s-μ2/(2*lam))^2 := by
   unfold value
   field_simp
-  <;> ring
+  ring
 
 theorem global_lower_bound {μ2 lam s : ℝ} (hlam : 0 < lam) :
     -(μ2^2/(4*lam)) ≤ value μ2 lam s := by
@@ -32,7 +32,7 @@ theorem minimum_iff {μ2 lam s : ℝ} (hlam : 0 < lam) :
     exact sub_eq_zero.mp (sq_eq_zero_iff.mp hz)
   · intro hs
     rw [hs] at h ⊢
-    simp only [sub_self, zero_pow, mul_zero] at h
+    simp only [sub_self] at h
     linarith
 
 /-- With the convention |φ|² = v²/2, μ² = lam v² is the minimum condition. -/
@@ -40,7 +40,7 @@ theorem vev_convention (lam v : ℝ) (hlam : 0 < lam) :
     value (lam*v^2) lam (v^2/2) = -((lam*v^2)^2/(4*lam)) := by
   apply (minimum_iff hlam).mpr
   field_simp
-  <;> ring
+ 
 
 /-- Four allowed amplitudes already distinguish a sixth-order interaction from
 all potentials of the stipulated quadratic-plus-quartic form. -/

@@ -11,6 +11,7 @@ variable {X : Type*} [Fintype X] [DecidableEq X]
 
 def choice (e : Equiv.Perm X) (c : Fin 3) (x : X) : X := ![x,e x,e.symm x] c
 
+omit [Fintype X] [DecidableEq X] in
 lemma near_iff_choice (e : Equiv.Perm X) (x y : X) :
     Near e x y ↔ ∃ c : Fin 3, y=choice e c x := by
   constructor
@@ -24,6 +25,7 @@ lemma near_iff_choice (e : Equiv.Perm X) (x y : X) :
 def endpoint (e : Fin 3 → Equiv.Perm X) (x : X) (c : Fin 3 → Fin 3) : X :=
   choice (e 2) (c 2) (choice (e 1) (c 1) (choice (e 0) (c 0) x))
 
+omit [Fintype X] [DecidableEq X] in
 lemma reach_iff_endpoint (e : Fin 3 → Equiv.Perm X) (x y : X) :
     Reach e x y ↔ ∃ c : Fin 3 → Fin 3, y=endpoint e x c := by
   constructor

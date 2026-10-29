@@ -19,7 +19,7 @@ lemma rotation_deriv {n : Type*} [Fintype n] [DecidableEq n] (B : Matrix n n ℂ
   have hs : HasDerivAt (fun t : ℝ => (Real.sin t : ℂ)) 1 0 := by
     simpa using (Real.hasDerivAt_sin 0).ofReal_comp
   have h := (hc.smul_const (1 : Matrix n n ℂ)).add ((hs.const_mul Complex.I).smul_const B)
-  convert! h using 1 <;> first | rfl | simp
+  convert! h using 1; first | rfl | simp
 
 
 lemma onsiteCoin_eq (τ : ℝ) : onsiteCoin τ = exp (τ • ((-Complex.I) • onsiteHamiltonian)) := by

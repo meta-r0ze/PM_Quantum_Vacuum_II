@@ -44,7 +44,7 @@ theorem scaled_sinc {h : ℝ} (hh : h ≠ 0) (a : ℝ) :
   unfold scaledWilson
   rw [show h^2*a = 2*(h^2*a/2) by ring, Real.cos_two_mul_eq_one_sub]
   field_simp
-  <;> ring
+  ring
 
 /-- Controlled continuum limit of the cosine, not just its formal polynomial. -/
 theorem scaled_limit (a : ℝ) :
