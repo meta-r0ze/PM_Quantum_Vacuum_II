@@ -16,10 +16,17 @@ stated for an arbitrary normalized amplitude, which is what scalar and fermion f
 * Fermion: `wilson_form`, `stateFlag U ψ = Re⟨ψ, (2 − U − U†)ψ⟩/4`, the Wilson hopping form.
 * Scalar: `linkFlag U φ φ' = ‖φ' − Uφ‖²/4`, the gauge-covariant difference between neighbours;
   `link_on_diagonal` shows it reduces to `stateFlag` when the neighbour holds the same amplitude.
-* `common_normalization`: in all three sectors one repair event per flag at the common toll
-  gives cost `toll·m·‖(compared) − U(transported)‖²/4`. The prefactor `toll·m/4` is shared, so
-  the relative normalization of the gauge, scalar and fermion quadratic responses is fixed by the
-  single event law rather than chosen sector by sector.
+* `common_normalization`: bookkeeping, not a derivation. If every sector is priced by
+  `responseCost` (one repair event of length `m` per flag of the readout above, at one toll),
+  the cost is `toll·m·‖(compared) − U(transported)‖²/4` in each sector. The shared prefactor
+  `toll·m/4` holds by construction of `responseCost`; the proof only factors it out.
+
+What is proved here is that one readout, `stateFlag`/`linkFlag`, produces the gauge cosine, the
+Wilson fermion form and the covariant scalar difference (`state_flag_formula`, `gauge_case`,
+`wilson_form`, `link_on_diagonal`), and that on Paper I's carriers it averages to `toll·m/4`
+(`carrier_chain`). That the three sectors share one normalization is the **premise** that they
+are priced by the same readout event with the same toll and the same repair length `m`. It is
+not derived from the carrier events.
 
 Remaining inputs, unchanged from `CarrierResponse`: the repair length `m`, the preparation of the
 reference branch, and the squared-amplitude readout itself (not a Born-rule derivation).
@@ -83,7 +90,8 @@ theorem gauge_case (θ : ℝ) : stateFlag (phase θ) (fun _ => 1) = (1 - Real.co
   rw [state_flag_formula _ hu _ (by simp [nsq, dotProduct])]
   simp [phase, dotProduct, mulVec, Complex.exp_ofReal_mul_I_re]
 
-/-- One repair event per flag at the common toll, `m` events per repair. -/
+/-- Pricing premise: one repair event per flag at the common toll, `m` events per repair. Using
+this one function for every sector is what makes the normalization common. -/
 def responseCost (toll : ℝ) (m : ℕ) (q : ℝ) : ℝ := toll * m * q
 
 theorem common_normalization (toll : ℝ) (m : ℕ) (θ : ℝ) {κ : Type*} [Fintype κ] [DecidableEq κ]

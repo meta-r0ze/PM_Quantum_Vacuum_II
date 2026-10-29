@@ -8,3 +8,7 @@ name = "PMAction"
 [[require]]
 name = "pm_arch"
 path = "../../PM-1-Arch/lean"
+
+[[require]]
+name = "pm_framework"
+path = "../../PM/lean"

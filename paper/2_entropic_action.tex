@@ -20,7 +20,7 @@ Lean proves positivity and normalization, multiplicative weights for additive co
 \begin{equation}
  \frac{P_\beta(j)}{P_\beta(i)}=e^{-\beta(S_j-S_i)}.
 \end{equation}
-For finite real costs and tolerance, every weight is strictly positive. Thus suppression is not exact deletion. For a fixed finite family, \nolinkurl{Concentration} proves that the normalized distribution tends to the uniform distribution on its minimum-cost histories as $\beta\to+\infty$. A thermodynamic or long-observation application must justify its limit and effective inverse tolerance.
+For finite real costs and tolerance, every weight is strictly positive. Thus suppression is not exact deletion. For a fixed finite family, \nolinkurl{PMFramework.Gibbs.probability_limit} proves that the normalized distribution tends to the uniform distribution on its minimum-cost histories as $\beta\to+\infty$. A thermodynamic or long-observation application must justify its limit and effective inverse tolerance.
 
 Stationarity alone is weaker than a minimum: \nolinkurl{PMAction.stationary_not_minimal} supplies a counterexample. A nonnegative dissipative functional also cannot be equated directly with an unrestricted Lorentzian quadratic form (\nolinkurl{lorentzian_cost_not_nonnegative}). The relation to physical time evolution therefore requires an additional construction, discussed next.
 
@@ -34,8 +34,11 @@ in $e_0-e_1$ permutes each class reversibly and moves four of its eight states.
 root reflection preserving the actual quadratic form and glue labels, including its
 restriction through Paper I's $D_4\oplus D_4$ embedding.
 
-With explicitly uniform carrier sampling, a changed-state event has probability $1/2$
-and cost $c_0/2$. More generally, a permutation $P$ on $n>0$ carrier labels has
+With uniform carrier sampling, a changed-state event has probability $1/2$
+and cost $c_0/2$. The uniform law is not chosen: under the framework's cost-proportional hazard, it is the
+sampling law that survives selection among the candidates (Persistence Mechanics, \S4; framework Lean \nolinkurl{PMFramework.LawSelection.selected_uniform_average}),
+and on each carrier class the $D_4$ Weyl reflections act transitively (Paper~I,
+\nolinkurl{PMArch.ChannelSymmetry}); \nolinkurl{PMAction.SelectedSampling.selected_primitive_cost}. More generally, a permutation $P$ on $n>0$ carrier labels has
 \begin{equation}
  p_{\rm changed}=1-\frac{\operatorname{Re}\operatorname{Tr}P}{n},\qquad
  C_{\rm changed}=c_0p_{\rm changed}
@@ -64,6 +67,6 @@ changed-state probability is $1/2$. The operational event must therefore be spec
 For a scalar phase $U=e^{i\theta}$ the repair cost is $(c_0m/2)(1-\cos\theta)$.
 A phase-independent required comparison cost remains a baseline $B$; subtracting
 the zero-phase reference gives that excess cost, rather than declaring comparison
-free. Reference preparation, uniform sampling, squared-amplitude readout and the
-physical repair multiplicity remain explicit inputs. This is not a derivation of
-the Born rule or a unique choice of those inputs from persistence.
+free. Reference preparation, squared-amplitude readout and the
+physical repair multiplicity remain explicit inputs; uniform sampling is the selected law. This is not a derivation of
+the Born rule or a unique choice of the remaining inputs from persistence.

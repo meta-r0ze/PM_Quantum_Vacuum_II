@@ -19,7 +19,7 @@ caches are reused; no new installation was needed for the review.
 
 | Modules | Mathematical result | Boundary |
 |---|---|---|
-| Survival, Concentration | Positive normalized finite history weights, ratios and ordering; concentration uniformly on degenerate minima as inverse tolerance grows. | Finite weights do not delete alternatives; the survival law and limiting regime are inputs. |
+| Survival (with `PMFramework.Gibbs`) | Positive normalized finite history weights, ratios and ordering; concentration uniformly on degenerate minima as inverse tolerance grows (framework `Gibbs`, moved from here). | Finite weights do not delete alternatives; the survival law and limiting regime are inputs. |
 | Reconstruction | Detailed balance symmetrizes the transfer operator; symmetry plus injectivity gives a positive two-tick operator and real logarithmic energies. Spectral phases and configuration bijections preserve amplitude norms. | Detailed balance, statistical-operator injectivity and supplied amplitudes are premises; no Born rule or full field/locality reconstruction. |
 | Protocol, Gauge | Transforming links preserve transport; loop products transform by conjugation and class scores are invariant. Exact U(1) cost bounds and field-normalization freedom. | No group, unique Wilson score or numerical coupling is selected. |
 | D4Gauge | 24 roots, 192 ordered triangle pairs, exact isotropic area tensor and flux sum; quadratic normalization at beta=1/(2g²). | Constant-field geometric phase and volume/counting convention; beta itself remains free. |
@@ -141,6 +141,9 @@ The chain from Paper I's carriers to a common quadratic response is now closed i
 - `CarrierEvents`: the eight minimal vectors of each nontrivial D4 glue class are the carriers
   (`carrier_card`, `vector_surjective`); the event is a coordinate reflection, half the carriers
   move (`active_card`), and one event costs `toll/2` under uniform input.
+- `SelectedSampling`: that uniform input is the law the framework's Selection Principle keeps
+  (`PMFramework.LawSelection`); with it, event accounting is Paper I's `NetCost`
+  (`selected_recovers_netCost`) and a reflection event costs `toll/2` (`selected_primitive_cost`).
 - `SubstrateReflection`: that reflection is the restriction of an actual integral E8 root
   reflection, preserving the E8 form and the D4⊕D4 glue labels (`euclidean_intertwines`).
 - `CarrierCost`, `EventAccounting`: counted events priced at the common primitive toll; weighted
@@ -151,8 +154,10 @@ The chain from Paper I's carriers to a common quadratic response is now closed i
 - `CommonResponse`: the same readout for any normalized amplitude, `stateFlag U φ = ‖φ − Uφ‖²/4
   = (1 − Re⟨φ,Uφ⟩)/2` (`state_flag_formula`). It gives the gauge cosine (`gauge_case`), the
   fermion Wilson form `Re⟨ψ,(2 − U − U†)ψ⟩/4` (`wilson_form`) and the scalar covariant difference
-  `‖φ' − Uφ‖²/4` (`linkFlag`). All three are priced `toll·m/4·‖·‖²` (`common_normalization`), so
-  their relative normalization is fixed by one event law. `carrier_chain` evaluates the whole chain
+  `‖φ' − Uφ‖²/4` (`linkFlag`). If all three are priced by the same event (one toll, one repair
+  length `m`), each costs `toll·m/4·‖·‖²` (`common_normalization`). That shared normalization is a
+  premise of the pricing, not a derived result: `common_normalization` only factors out the
+  prefactor that `responseCost` puts there. `carrier_chain` evaluates the whole chain
   on the actual carriers: the E8 root reflection's averaged response is `toll·m/4`.
 
 Still model inputs: the repair length `m`, the reference-branch preparation, and the
