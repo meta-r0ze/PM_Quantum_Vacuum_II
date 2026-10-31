@@ -23,7 +23,8 @@ needed fact is that this kernel is positive definite for `β ≥ 0`:
 The site-reflection route in `D4ActionReflection` instead uses the fact that no
 D₄ triangle crosses the site plane, and proves reflection positivity for the finite
 shared-directed-link Gibbs action. It does not use this kernel. Link-reflection
-factorization, reciprocal-link identification and a transfer matrix remain separate.
+factorization and a transfer matrix remain separate. `ReciprocalReflection` extends
+the site-reflection result to reciprocal links.
 -/
 
 noncomputable section

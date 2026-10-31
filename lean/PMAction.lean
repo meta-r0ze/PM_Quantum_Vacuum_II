@@ -253,3 +253,9 @@ import PMAction.ProjectedEvolution
 import PMAction.JointSpaceTime
 
 import PMAction.D4ActionReflection
+
+import PMAction.TransportExistence
+
+import PMAction.ReciprocalReflection
+
+import PMAction.CompositionalTransport

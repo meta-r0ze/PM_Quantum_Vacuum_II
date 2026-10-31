@@ -21,7 +21,8 @@ Hypotheses: measurable, bounded `F`; measurable `A` bounded below; probability r
 finite shared-directed-link bridge is proved in `FiniteReflection`, `FiniteD4Reflection`
 and `D4ActionReflection`: geometric link reindexing, product Haar factorization, the exact
 D₄ action split, and normalized Gibbs reflection positivity. Opposite directed links
-are independent in that model; reciprocal-link configurations need their own bridge.
+are independent in that model; `ReciprocalReflection` proves the reciprocal-link
+bridge and gauge invariance for one explicitly constructed physical measure.
 A transfer matrix, nonnegative Hamiltonian and quantum continuum limit remain open.
 -/
 

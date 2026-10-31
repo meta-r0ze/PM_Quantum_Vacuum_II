@@ -23,7 +23,8 @@ assignment `ℓ` is arbitrary: identifying distinct edges can make its configura
 space fail to be closed under local gauge transformations. Thus this theorem alone
 does not construct a locally gauge-invariant lattice model. `D4ActionReflection`
 separately supplies geometric shared directed edges and their site-reflection bridge;
-the configuration-space gauge action and measure-invariance theorem remain open. Also,
+`GeometricGauge` proves its configuration-space gauge action and measure invariance;
+`ReciprocalReflection` supplies the reciprocal-link version. Also,
 `SU(N)` (the closed subgroup `det = 1`) is not constructed, though the same compactness argument
 applies.
 -/
