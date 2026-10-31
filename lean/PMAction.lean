@@ -204,6 +204,16 @@ import PMAction.ScalarTransport
 import PMAction.UniformGaugeAction
 import PMAction.IntegratedGaugeAction
 import PMAction.IntegratedScalarAction
+import PMAction.ClassicalYangMills
+import PMAction.D4Isotropy
+import PMAction.LatticeGibbs
+import PMAction.LatticeGibbsU1
+import PMAction.ReflectionKernel
+import PMAction.D4Reflection
+import PMAction.SiteReflection
+import PMAction.GaugeInvariance
+import PMAction.UnitaryHaar
+import PMAction.ParallelTransport
 
 import PMAction.RunningResponse
 
