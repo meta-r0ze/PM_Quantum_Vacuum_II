@@ -262,16 +262,34 @@ def triangle (A : E → E →L[ℝ] R) (x a b : E) (h : ℝ) : R :=
 def curvature (A : E → E →L[ℝ] R) (DA : E → E →L[ℝ] (E →L[ℝ] R)) (x a b : E) : R :=
   DA x a b - DA x b a + (A x a * A x b - A x b * A x a)
 
+/-- Explicit cubic remainder constant from the triangle expansion. Exposing its
+continuous dependence on local Taylor data permits uniform bounds on compact sets. -/
+def triangleBound (A : E → E →L[ℝ] R) (DA : E → E →L[ℝ] (E →L[ℝ] R))
+    (x : E) (L : ℝ) (a b : E) : ℝ :=
+  let T1 := L * ‖a‖^2 * ‖a‖ / 4
+  let T2 := L * ‖a+b‖^2 * ‖b-a‖ / 4
+  let T3 := L * ‖b‖^2 * ‖b‖ / 4
+  let D := (‖DA x a a‖+T1)+(‖DA x (a+b) (b-a)‖+T2)+(‖-(DA x b b)‖+T3)
+  let M0 := ‖A x a‖+‖A x (b-a)‖+‖-(A x b)‖+D
+  let M := M0+M0^2
+  let K := M0^3 * Real.exp M0
+  let K1 := 2*K+3*M^2+4*M*K+K^2
+  let K' := K1+K
+  let M' := 3*M+M^2
+  let K2 := 2*K'+3*M'^2+4*M'*K'+K'^2
+  K2+(T1+T2+T3)+12*M0*D
+
 set_option maxHeartbeats 1000000 in
 /-- **Varying non-Abelian triangle holonomy.**  For a `C^{1,1}` connection one-form (with the stated global derivative bound
 about the base point), the midpoint-link triangle holonomy is
 `1 + (h²/2) F(a,b) + O(h³)`, with a constant independent of `h ∈ [0,1]`. -/
-theorem triangle_expand [CompleteSpace R] {A : E → E →L[ℝ] R}
+theorem triangle_expand_explicit [CompleteSpace R] {A : E → E →L[ℝ] R}
     {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x : E} {L : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
     (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (a b : E) :
-    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
-      ‖triangle A x a b h - (1 + (h ^ 2 / 2) • curvature A DA x a b)‖ ≤ C * h ^ 3 := by
+    0 ≤ triangleBound A DA x L a b ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
+      ‖triangle A x a b h - (1 + (h ^ 2 / 2) • curvature A DA x a b)‖ ≤
+        triangleBound A DA x L a b * h ^ 3 := by
   -- Taylor data for the three edges.
   set X := A x a
   set Y := A x (b - a)
@@ -301,7 +319,11 @@ theorem triangle_expand [CompleteSpace R] {A : E → E →L[ℝ] R}
   have hM' : 0 ≤ M' := by rw [hM'd]; positivity
   obtain ⟨K2, hK2d⟩ : ∃ K'', K'' = 2 * K' + 3 * M' ^ 2 + 4 * M' * K' + K' ^ 2 := ⟨_, rfl⟩
   have hK2 : 0 ≤ K2 := by rw [hK2d]; positivity
-  refine ⟨K2 + (T1 + T2 + T3) + 12 * M0 * D, by positivity, ?_⟩
+  have heq : triangleBound A DA x L a b=K2+(T1+T2+T3)+12*M0*D := by
+    simp only [triangleBound,hK2d,hM'd,hK'd,hK1d,hKd,hMd,hM0d,hDd,
+      hT1d,hT2d,hT3d,X,Y,Z,g1,g2,g3]
+  rw [heq]
+  refine ⟨by positivity, ?_⟩
   intro h h0 h1
   have hah : |h| = h := abs_of_nonneg h0
   have ht : 0 ≤ h / 2 := by positivity
@@ -457,6 +479,16 @@ theorem triangle_expand [CompleteSpace R] {A : E → E →L[ℝ] R}
   have ex : (K2 + (T1 + T2 + T3) + 12 * M0 * D) * h ^ 3 =
       K2 * h ^ 3 + (T1 + T2 + T3) * h ^ 3 + 12 * M0 * D * h ^ 3 := by ring
   linarith only [s2, n2', n3', hA1, hA2, ex]
+
+/-- The original existence interface, retaining its theorem name and hypotheses. -/
+theorem triangle_expand [CompleteSpace R] {A : E → E →L[ℝ] R}
+    {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x : E} {L : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
+    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (a b : E) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
+      ‖triangle A x a b h - (1 + (h ^ 2 / 2) • curvature A DA x a b)‖ ≤ C * h ^ 3 := by
+  obtain ⟨hc,hb⟩ := triangle_expand_explicit hA hL0 hL a b
+  exact ⟨triangleBound A DA x L a b,hc,hb⟩
 
 /-- A skew-adjoint (`u(N)`-valued) connection has unitary triangle holonomy. -/
 theorem triangle_unitary [CompleteSpace R] [StarRing R] [ContinuousStar R] [StarModule ℝ R]

@@ -201,6 +201,9 @@ import PMAction.ReferenceSampling
 import PMAction.SummedReference
 
 import PMAction.ScalarTransport
+import PMAction.UniformGaugeAction
+import PMAction.IntegratedGaugeAction
+import PMAction.IntegratedScalarAction
 
 import PMAction.RunningResponse
 
@@ -225,6 +228,8 @@ import PMAction.WallDispersion
 import PMAction.RecordSupply
 import PMAction.HomogeneousRouting
 import PMAction.PersistenceSelection
+import PMAction.PersistentBackground
+import PMAction.CompletionSelection
 
 import PMAction.ReadoutAdditivity
 

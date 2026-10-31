@@ -102,18 +102,29 @@ abbrev V := Fin 4 → ℝ
 /-- Column packets of the scalar field. -/
 abbrev Col (N : ℕ) := Matrix (Fin N) (Fin 1) ℂ
 
-/-- **First-order link expansion.** A midpoint link is `1 + h A(x)v + O(h²)`. -/
-theorem link_first {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+/-- Explicit constant of the first-order link expansion. It depends continuously on the local
+Taylor data, which gives uniform bounds on compact regions. -/
+def linkBound (A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)
+    (DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)) (x : V) (L : ℝ) (v : V) : ℝ :=
+  let D0 := ‖DA x v v‖ + L * ‖v‖ ^ 3
+  let M := ‖A x v‖ + D0
+  M ^ 2 / 2 + M ^ 3 * Real.exp M + D0
+
+/-- **First-order link expansion, explicit constant.** -/
+theorem link_first_explicit {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {x : V} {L : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
     (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (v : V) :
-    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
-      ‖link A x v h - (1 + h • A x v)‖ ≤ C * h ^ 2 := by
+    0 ≤ linkBound A DA x L v ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
+      ‖link A x v h - (1 + h • A x v)‖ ≤ linkBound A DA x L v * h ^ 2 := by
   obtain ⟨D0, hD0d⟩ : ∃ D, D = ‖DA x v v‖ + L * ‖v‖ ^ 3 := ⟨_, rfl⟩
   have hD0 : 0 ≤ D0 := by rw [hD0d]; positivity
   obtain ⟨M, hMd⟩ : ∃ M, M = ‖A x v‖ + D0 := ⟨_, rfl⟩
   have hM : 0 ≤ M := by rw [hMd]; positivity
-  refine ⟨M ^ 2 / 2 + M ^ 3 * Real.exp M + D0, by positivity, fun h h0 h1 => ?_⟩
+  have heq : linkBound A DA x L v = M ^ 2 / 2 + M ^ 3 * Real.exp M + D0 := by
+    simp only [linkBound, hMd, hD0d]
+  rw [heq]
+  refine ⟨by positivity, fun h h0 h1 => ?_⟩
   set c := A (x + (h / 2) • v) v
   have ht : 0 ≤ h / 2 := by positivity
   have tap := taylor_apply (w := v) hA hL0 hL ht v
@@ -167,9 +178,25 @@ theorem link_first {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
       M ^ 3 * Real.exp M * h ^ 2 + M ^ 2 / 2 * h ^ 2 + D0 * h ^ 2 := by ring
   linarith
 
-/-- **Covariant difference.** For a `C^{1,1}` column field `Φ` and a link within `K h³` of the
-midpoint link, `U Φ(x + h v) − Φ(x) = h (∂_v Φ + A_v Φ)(x) + O(h²)`. -/
-theorem covariant_expand {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+/-- **First-order link expansion.** A midpoint link is `1 + h A(x)v + O(h²)`. -/
+theorem link_first {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+    {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {x : V} {L : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
+    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (v : V) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
+      ‖link A x v h - (1 + h • A x v)‖ ≤ C * h ^ 2 :=
+  ⟨_, (link_first_explicit hA hL0 hL v).1, (link_first_explicit hA hL0 hL v).2⟩
+
+/-- Explicit constant of the covariant difference. -/
+def covBound (A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)
+    (DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)) (Φ : V → Col N)
+    (DΦ : V → V →L[ℝ] Col N) (x : V) (L LΦ K : ℝ) (v : V) : ℝ :=
+  let B1 := ‖DΦ x v‖ + LΦ * ‖v‖ ^ 2
+  let B2 := ‖Φ x‖ + B1
+  (K + linkBound A DA x L v) * B2 + LΦ * ‖v‖ ^ 2 + ‖A x v‖ * B1
+
+/-- **Covariant difference, explicit constant.** -/
+theorem covariant_expand_explicit {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {x : V} {L : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
     (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
@@ -178,14 +205,21 @@ theorem covariant_expand {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     (hLΦ : ∀ y, ‖DΦ y - DΦ x‖ ≤ LΦ * ‖y - x‖)
     (v : V) (U : ℝ → Matrix (Fin N) (Fin N) ℂ) {K : ℝ} (hK : 0 ≤ K)
     (hU : ∀ h, 0 < h → h ≤ 1 → ‖U h - link A x v h‖ ≤ K * h ^ 3) :
-    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 < h → h ≤ 1 →
-      ‖(U h * Φ (x + h • v) - Φ x) - h • (DΦ x v + A x v * Φ x)‖ ≤ C * h ^ 2 := by
-  obtain ⟨C1, hC1, hl⟩ := link_first hA hL0 hL v
+    0 ≤ covBound A DA Φ DΦ x L LΦ K v ∧ ∀ h : ℝ, 0 < h → h ≤ 1 →
+      ‖(U h * Φ (x + h • v) - Φ x) - h • (DΦ x v + A x v * Φ x)‖ ≤
+        covBound A DA Φ DΦ x L LΦ K v * h ^ 2 := by
+  have hC1 := (link_first_explicit hA hL0 hL v).1
+  have hl := (link_first_explicit hA hL0 hL v).2
+  obtain ⟨C1, hC1d⟩ : ∃ C, C = linkBound A DA x L v := ⟨_, rfl⟩
+  rw [← hC1d] at hC1 hl
   obtain ⟨B1, hB1d⟩ : ∃ B, B = ‖DΦ x v‖ + LΦ * ‖v‖ ^ 2 := ⟨_, rfl⟩
   have hB1 : 0 ≤ B1 := by rw [hB1d]; positivity
   obtain ⟨B2, hB2d⟩ : ∃ B, B = ‖Φ x‖ + B1 := ⟨_, rfl⟩
   have hB2 : 0 ≤ B2 := by rw [hB2d]; positivity
-  refine ⟨(K + C1) * B2 + LΦ * ‖v‖ ^ 2 + ‖A x v‖ * B1, by positivity, fun h hh h1 => ?_⟩
+  have heq : covBound A DA Φ DΦ x L LΦ K v = (K + C1) * B2 + LΦ * ‖v‖ ^ 2 + ‖A x v‖ * B1 := by
+    simp only [covBound, hB1d, hB2d, hC1d]
+  rw [heq]
+  refine ⟨by positivity, fun h hh h1 => ?_⟩
   set P := Φ (x + h • v)
   have tv := taylor_vec (w := v) hΦ hLΦ0 hLΦ hh.le
   have hP1 : ‖P - Φ x‖ ≤ h * B1 := by
@@ -232,6 +266,22 @@ theorem covariant_expand {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
   have ex : ((K + C1) * B2 + LΦ * ‖v‖ ^ 2 + ‖A x v‖ * B1) * h ^ 2 =
       (K + C1) * h ^ 2 * B2 + LΦ * ‖v‖ ^ 2 * h ^ 2 + ‖A x v‖ * B1 * h ^ 2 := by ring
   linarith
+
+/-- **Covariant difference.** For a `C^{1,1}` column field `Φ` and a link within `K h³` of the
+midpoint link, `U Φ(x + h v) − Φ(x) = h (∂_v Φ + A_v Φ)(x) + O(h²)`. -/
+theorem covariant_expand {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+    {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {x : V} {L : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
+    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    {Φ : V → Col N} {DΦ : V → V →L[ℝ] Col N} {LΦ : ℝ}
+    (hΦ : ∀ y, HasFDerivAt Φ (DΦ y) y) (hLΦ0 : 0 ≤ LΦ)
+    (hLΦ : ∀ y, ‖DΦ y - DΦ x‖ ≤ LΦ * ‖y - x‖)
+    (v : V) (U : ℝ → Matrix (Fin N) (Fin N) ℂ) {K : ℝ} (hK : 0 ≤ K)
+    (hU : ∀ h, 0 < h → h ≤ 1 → ‖U h - link A x v h‖ ≤ K * h ^ 3) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 < h → h ≤ 1 →
+      ‖(U h * Φ (x + h • v) - Φ x) - h • (DΦ x v + A x v * Φ x)‖ ≤ C * h ^ 2 :=
+  ⟨_, (covariant_expand_explicit hA hL0 hL hΦ hLΦ0 hLΦ v U hK hU).1,
+    (covariant_expand_explicit hA hL0 hL hΦ hLΦ0 hLΦ v U hK hU).2⟩
 
 /-! ## The event-priced scalar action on D₄ -/
 
