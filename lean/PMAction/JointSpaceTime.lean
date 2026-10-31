@@ -51,16 +51,16 @@ theorem curve_deriv (p : Fin 3 → ℝ) : HasDerivAt (curve p) (continuum p) 0 :
   have hs (j : Fin 3) : HasDerivAt (fun a : ℝ => Real.sin (a*p j)) (p j) 0 := by
     have h := (Real.hasDerivAt_sin (0*p j)).comp 0 ((hasDerivAt_id 0).mul_const (p j))
     apply hasDerivAt_iff_tendsto_slope.mpr
-    simpa [slope,Function.comp_def,Pi.sub_apply] using h.tendsto_slope
+    simpa [slope_fun_def,Function.comp_def,Pi.sub_apply] using h.tendsto_slope
   have hc (j : Fin 3) : HasDerivAt (fun a : ℝ => 1-Real.cos (a*p j)) 0 0 := by
     have h := (hasDerivAt_const 0 (1 : ℝ)).sub
       ((Real.hasDerivAt_cos (0*p j)).comp 0 ((hasDerivAt_id 0).mul_const (p j)))
     apply hasDerivAt_iff_tendsto_slope.mpr
-    simpa [slope,Function.comp_def,Pi.sub_apply] using h.tendsto_slope
+    simpa [slope_fun_def,Function.comp_def,Pi.sub_apply] using h.tendsto_slope
   have hw : HasDerivAt (fun a => DomainWallSpectrum.wilson (fun j => a*p j)) 0 0 := by
     have h := ((hc 0).add (hc 1)).add (hc 2)
     apply hasDerivAt_iff_tendsto_slope.mpr
-    simpa only [slope,DomainWallSpectrum.wilson,Fin.sum_univ_three,Pi.add_apply,zero_add] using
+    simpa only [slope_fun_def,DomainWallSpectrum.wilson,Fin.sum_univ_three,Pi.add_apply,zero_add] using
       h.tendsto_slope
   have hd := ((((hasDerivAt_const 0 VacuumSplit.wall).add
     ((hs 0).smul_const (VacuumTangent.alpha8 0))).add
@@ -75,7 +75,7 @@ theorem curve_deriv (p : Fin 3 → ℝ) : HasDerivAt (curve p) (continuum p) 0 :
     exact decomposition _ _
   rw [hf]
   apply hasDerivAt_iff_tendsto_slope.mpr
-  simpa only [slope,continuum,zero_smul,zero_add,add_zero,Pi.add_apply] using hd.tendsto_slope
+  simpa only [slope_fun_def,continuum,zero_smul,zero_add,add_zero,Pi.add_apply] using hd.tendsto_slope
 
 lemma continuum_hermitian (p : Fin 3 → ℝ) : (continuum p).IsHermitian := by
   have hh (j : Fin 3) : (VacuumTangent.alpha8 j).IsHermitian := by
@@ -164,6 +164,27 @@ theorem joint_limit (p : Fin 3 → ℝ) (T : ℝ) (a : ℕ → ℝ) (n : ℕ →
   apply tendsto_iff_norm_sub_tendsto_zero.mpr
   apply squeeze_zero (fun _ => norm_nonneg _) (fun r => ?_) hb
   simpa only [heq,Function.comp_def] using error p (a r) T (n r)
+
+lemma continuum_evolution_commutes (p : Fin 3 → ℝ) (T : ℝ) :
+    VacuumSplit.vacuumProjector*ProjectedEvolution.evolution (continuum p) T=
+      ProjectedEvolution.evolution (continuum p) T*VacuumSplit.vacuumProjector := by
+  have hc : Commute VacuumSplit.vacuumProjector (continuum p) := (continuum_commutes p).symm
+  exact ((hc.smul_right (-Complex.I)).smul_right T).exp_right.eq
+
+/-- Every fixed initial state in the original zero-wall kernel has the joint
+massless evolution limit. This is state evolution, not just an eigenvalue limit. -/
+theorem kernel_state_limit (p : Fin 3 → ℝ) (T : ℝ) (a : ℕ → ℝ) (n : ℕ → ℕ)
+    (ha : ∀ r, 0<a r) (ha0 : Tendsto a atTop (𝓝 0))
+    (hscale : Tendsto (fun r => 1/((a r)^2*((n r+1 : ℕ) : ℝ))) atTop (𝓝 0))
+    (ψ : Sites → ℂ) (hψ : VacuumSplit.wall*ᵥψ=0) :
+    Tendsto (fun r => VacuumSplit.momentumUpdate (fun j => a r*p j)
+      (IterationError.mesh (T/a r) (n r))^(n r+1) *ᵥ ψ) atTop
+      (𝓝 (ProjectedEvolution.evolution (continuum p) T *ᵥ ψ)) := by
+  have hc : Continuous (fun A : M => A *ᵥ ψ) :=
+    Continuous.matrix_mulVec continuous_id continuous_const
+  have hh := hc.continuousAt.tendsto.comp (joint_limit p T a n ha ha0 hscale)
+  have hp := VacuumSplit.projector_fixes_kernel ψ hψ
+  simpa only [Function.comp_def,continuum_evolution_commutes,← mulVec_mulVec,hp] using hh
 
 /-- One concrete simultaneous refinement: a=1/(r+1), N=(r+1)³. The polynomial
 index is N−1 without natural subtraction, so every step count is positive. -/
