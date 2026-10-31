@@ -20,10 +20,10 @@ needed fact is that this kernel is positive definite for `β ≥ 0`:
   the entries.
 * `wilson_kernel_psd`: so the kernel `exp(β Re tr(U Vᴴ))` is positive definite on all matrices.
 
-Still open for PM's D₄ action: that every D₄ triangle crossing a reflection plane factors as
-`tr(Φ Ψᴴ)` with `Φ`, `Ψ` on opposite sides (the geometric half of Osterwalder–Seiler), and the
-resulting transfer matrix. That needs the D₄ lattice's reflection planes, which this file does not
-treat.
+The site-reflection route in `D4ActionReflection` instead uses the fact that no
+D₄ triangle crosses the site plane, and proves reflection positivity for the finite
+shared-directed-link Gibbs action. It does not use this kernel. Link-reflection
+factorization, reciprocal-link identification and a transfer matrix remain separate.
 -/
 
 noncomputable section

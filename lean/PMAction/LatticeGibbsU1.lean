@@ -14,9 +14,10 @@ normalized Haar measure. The link matrix on a directed edge is the `1×1` unitar
   `exp(−β S)` with PM's D₄ action `S` (`LatticeGibbs.action`) normalizes the product Haar measure
   to a probability measure on link configurations.
 
-This is an existing finite-volume lattice quantum measure for PM's D₄ action, in the abelian case.
-The non-abelian `SU(N)` case needs a compact Haar measure on the unitary group, which this Mathlib
-version does not provide as instances.
+This is a finite Gibbs probability measure for the supplied assignment. The
+non-abelian `U(N)` case is `UnitaryHaar`. An arbitrary assignment `ℓ` can identify
+distinct edges so that local gauge transformations leave the represented configuration
+space. Configuration-space gauge closure and measure invariance are not asserted.
 -/
 
 noncomputable section
@@ -40,7 +41,8 @@ theorem link_unitary (θ : UnitAddCircle) : linkOf θ ∈ unitary (Matrix (Fin 1
 def links {m : ℕ} (ℓ : V4 → V4 → ℝ → Fin m) (θ : Fin m → UnitAddCircle) :
     V4 → V4 → ℝ → Matrix (Fin 1) (Fin 1) ℂ := fun y v h => linkOf (θ (ℓ y v h))
 
-/-- **A concrete `U(1)` lattice measure for PM's D₄ action.** -/
+/-- A finite `U(1)` Gibbs probability measure for a supplied edge assignment.
+Local gauge closure of that assignment is not asserted. -/
 theorem u1_gibbs {m : ℕ} (ℓ : V4 → V4 → ℝ → Fin m) (X : Finset V4) (h β : ℝ) (hβ : 0 ≤ β) :
     IsProbabilityMeasure (LatticeGibbs.gibbs (volume : Measure (Fin m → UnitAddCircle)) β
       (fun θ => LatticeGibbs.action X (links ℓ θ) h)) := by

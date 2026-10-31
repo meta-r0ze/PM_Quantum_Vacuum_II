@@ -3,23 +3,31 @@ import PMAction.IntegratedGaugeAction
 /-!
 # PM's lattice gauge action has the classical Yang–Mills continuum limit
 
-**Main theorem (`pm_lattice_yang_mills`).** Let `A` be a `u(N)`-valued `C^{1,1}` connection on
-`ℝ⁴` with continuous derivative, and let `U` be PM's actual link family on the D₄ lattice: any
-unitary matrices, one per directed edge, within `K h³` of the midpoint exponentials of `A`
-(cubic consistency, one constant `K` on the region). Take PM's Wilson density on the D₄ minimal
-triangles, `linkDensity U x β h = (β/12) Σ_△ Re tr(1 − U_△)/h⁴`. Accumulate it with cell volumes
-over any refining sequence of tagged partitions of a box `I` while the spacing `h → 0⁺`. Then the
-lattice action converges to
+**Main theorem (`pm_lattice_yang_mills`).** Let `A` be a `u(N)`-valued connection on `ℝ⁴` with
+continuous derivative, Lipschitz within distance two of each point of a box `I` (one constant), and
+let `U` be any unitary link family, one matrix per directed edge, within `K h³` of the midpoint
+exponentials of `A` (cubic consistency: the links discretize `A`). Take the Wilson density on the
+D₄ minimal triangles, `linkDensity U x β h = (β/12) Σ_△ Re tr(1 − U_△)/h⁴`. Accumulate it with
+cell volumes over any refining sequence of tagged partitions of `I` while `h → 0⁺`. Then the sums
+converge to
 
     ∫_I (β/2) Σ_{μ,ν} ‖F_{μν}(x)‖²_F dx,
 
 the classical Yang–Mills action on `I`.
 
-**Normalization (`canonical_density`).** With `β = 1/g²` and generators normalized so that
-`‖F_{μν}‖²_F = (g²/2) Σ_a (F^a_{μν})²` (anti-Hermitian `A = −i g A^a T^a`,
-`tr T^a T^b = δ^{ab}/2`), the limit density is exactly `(1/4) Σ_{μν a} (F^a_{μν})²`, the canonical
-Yang–Mills Lagrangian. In PM, `β` is fixed by event pricing: a summed-read sector is canonical
-exactly when `g² = 1/(κ·toll·m·W)` (`SummedReference.sum_canonical_iff`).
+**What this is and is not.** The tagged partitions are unrelated to the lattice: this is a Riemann
+sum of the per-site density, sampled anywhere. The sum over the actual D₄ sites with the D₄ cell
+volume is `LatticeSiteAction.d4_yang_mills_action`, which also removes the consistency and
+unitarity hypotheses for parallel-transport links. In every version the link field is built from
+a given smooth connection `A`; no theorem derives the links from PM's substrate update. The gauge
+group, `N` and `β` are inputs.
+
+**Normalization.** `canonical_density` takes the generator identity
+`‖F_{μν}‖²_F = (g²/2) Σ_a (F^a_{μν})²` as a hypothesis (pure arithmetic). `canonical_from_generators`
+derives it from `F = −i g Σ_a F^a T^a` with Hermitian `tr T^a T^b = δ^{ab}/2`
+(`generator_norm`): at `β = 1/g²` the limit is the canonical `(1/4) Σ_{μν a} (F^a_{μν})²`. This is
+a convention-matching statement, not a derivation of `g`: `SummedReference.sum_canonical_iff` only
+restates the canonical condition as `g² = 1/(κ·toll·m·W)`, and those factors are not all fixed.
 
 Proof chain, all in Lean: triangle Taylor expansion with explicit remainder
 (`VaryingFields.triangle_expand_explicit`), unitarity identity for the Wilson term
@@ -27,13 +35,12 @@ Proof chain, all in Lean: triangle Taylor expansion with explicit remainder
 compactness for one constant on the box (`UniformGaugeAction`), and Riemann-sum convergence
 (`IntegratedGaugeAction.sampled_limit`).
 
-Hypotheses retained: `C^{1,1}` regularity with one Lipschitz constant on the box; cubic link
-consistency, which says the links discretize `A`. It is a theorem for parallel-transport links
-(`ParallelTransport.transport_consistent`), and `ParallelTransport.pm_lattice_yang_mills_transport`
-states this result with it removed. `GaugeTransport` shows unitarity, locality and conservation
-alone do not imply it. A bounded box. This is a **classical**
-statement about smooth fields. It constructs no quantum measure and says nothing about a mass
-gap; see `YANG-MILLS-STATUS.md`.
+Hypotheses retained: local `C^{1,1}` regularity (the derivative bound is used only within
+distance two of the box; earlier versions demanded a global bound, which excluded every connection
+whose derivative grows, e.g. polynomial ones); cubic consistency, a theorem for parallel-transport
+links (`ParallelTransport.transport_consistent`). `GaugeTransport` shows unitarity, locality and
+conservation alone do not imply it. This is a **classical** statement about smooth fields. It
+constructs no quantum measure and says nothing about a mass gap; see `YANG-MILLS-STATUS.md`.
 -/
 
 noncomputable section
@@ -49,7 +56,7 @@ variable {N : ℕ}
 theorem holonomy_uniform {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {s : Set V4} (hs : IsCompact s)
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA) {L K : ℝ} (hL0 : 0 ≤ L)
-    (hL : ∀ x ∈ s, ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hL : ∀ x ∈ s, ∀ y, ‖y - x‖ ≤ 2 → ‖DA y - DA x‖ ≤ L * ‖y - x‖)
     (hskew : ∀ y v, star (A y v) = -A y v)
     (U : V4 → V4 → ℝ → Matrix (Fin N) (Fin N) ℂ) (hU : ∀ y v h, U y v h ∈ unitary _)
     (hK : 0 ≤ K) (hc : ∀ x ∈ s, LinkConsistency.CubicConsistent U A x K)
@@ -57,7 +64,8 @@ theorem holonomy_uniform {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     ∃ K' : ℝ, 0 ≤ K' ∧ ∀ x ∈ s, ∀ h : ℝ, 0 < h → h ≤ 1 →
       ‖(LinkConsistency.holonomy U x (rv p.1) (rv p.2) h - 1) -
         h ^ 2 • ((1 / 2 : ℝ) • curvature A DA x (rv p.1) (rv p.2))‖ ≤ K' * h ^ 3 := by
-  obtain ⟨C0, hC0, hb⟩ := UniformGaugeAction.triangle_uniform hs hA hDA hL0 hL (rv p.1) (rv p.2)
+  obtain ⟨C0, hC0, hb⟩ := UniformGaugeAction.triangle_uniform hs hA hDA hL0 (rv p.1) (rv p.2)
+    (fun x hx y hy => hL x hx y (hy.trans (rv_pair p)))
   refine ⟨C0 + 3 * K, by positivity, fun x hx h hh h1 => ?_⟩
   have ha := LinkConsistency.rv_norm p.1
   have hb2 := LinkConsistency.rv_norm p.2
@@ -96,7 +104,7 @@ theorem holonomy_uniform {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
 theorem link_wilson_uniform {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {s : Set V4} (hs : IsCompact s)
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA) {L K : ℝ} (hL0 : 0 ≤ L)
-    (hL : ∀ x ∈ s, ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hL : ∀ x ∈ s, ∀ y, ‖y - x‖ ≤ 2 → ‖DA y - DA x‖ ≤ L * ‖y - x‖)
     (hskew : ∀ y v, star (A y v) = -A y v)
     (U : V4 → V4 → ℝ → Matrix (Fin N) (Fin N) ℂ) (hU : ∀ y v h, U y v h ∈ unitary _)
     (hK : 0 ≤ K) (hc : ∀ x ∈ s, LinkConsistency.CubicConsistent U A x K)
@@ -120,20 +128,20 @@ theorem link_wilson_uniform {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
 theorem quadratic_eq {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {x : V4} {L : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA) (hL0 : 0 ≤ L)
-    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hL : ∀ y, ‖y - x‖ ≤ 2 → ‖DA y - DA x‖ ≤ L * ‖y - x‖)
     (hskew : ∀ y v, star (A y v) = -A y v) (β : ℝ) :
     UniformGaugeAction.quadraticDensity A DA x β = UniformGaugeAction.yangMillsDensity A DA x β := by
   obtain ⟨C, hC, hb⟩ := UniformGaugeAction.quadratic_uniform (isCompact_singleton (x := x)) hA
-    hDA hL0 (fun y hy z => by rw [mem_singleton_iff.mp hy]; exact hL z) hskew β
+    hDA hL0 (fun y hy z hz => by rw [mem_singleton_iff.mp hy] at hz ⊢; exact hL z hz) hskew β
   have hnew := UniformGaugeAction.limit_of_bound (fun h => d4Density A x β h) _ C hC
     (hb x (mem_singleton x))
-  exact tendsto_nhds_unique hnew (d4_yang_mills_tendsto hA hL0 hL hskew β)
+  exact tendsto_nhds_unique hnew (d4_yang_mills_tendsto_loc hA hL0 hL hskew β)
 
 /-- **Uniform convergence of PM's link density to the Yang–Mills density.** -/
 theorem link_yang_mills_uniform {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {s : Set V4} (hs : IsCompact s)
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA) {L K : ℝ} (hL0 : 0 ≤ L)
-    (hL : ∀ x ∈ s, ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hL : ∀ x ∈ s, ∀ y, ‖y - x‖ ≤ 2 → ‖DA y - DA x‖ ≤ L * ‖y - x‖)
     (hskew : ∀ y v, star (A y v) = -A y v)
     (U : V4 → V4 → ℝ → Matrix (Fin N) (Fin N) ℂ) (hU : ∀ y v h, U y v h ∈ unitary _)
     (hK : 0 ≤ K) (hc : ∀ x ∈ s, LinkConsistency.CubicConsistent U A x K) (β : ℝ) :
@@ -160,7 +168,7 @@ theorem link_yang_mills_uniform {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) 
 theorem pm_lattice_yang_mills {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} (I : Box (Fin 4))
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA) {L K : ℝ} (hL0 : 0 ≤ L)
-    (hL : ∀ x ∈ I.Icc, ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hL : ∀ x ∈ I.Icc, ∀ y, ‖y - x‖ ≤ 2 → ‖DA y - DA x‖ ≤ L * ‖y - x‖)
     (hskew : ∀ y v, star (A y v) = -A y v)
     (U : V4 → V4 → ℝ → Matrix (Fin N) (Fin N) ℂ) (hU : ∀ y v h, U y v h ∈ unitary _)
     (hK : 0 ≤ K) (hc : ∀ x ∈ I.Icc, LinkConsistency.CubicConsistent U A x K) (β : ℝ)
@@ -192,5 +200,47 @@ theorem canonical_density (A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)
   simp only [hF, ← Finset.mul_sum]
   field_simp
   ring
+
+/-- Frobenius norm as a trace. -/
+theorem frobenius_eq (X : Matrix (Fin N) (Fin N) ℂ) :
+    ∑ i, ∑ j, ‖X i j‖ ^ 2 = (trace (Xᴴ * X)).re := by
+  simp only [trace, diag, mul_apply, conjTranspose_apply, Complex.re_sum]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
+  rw [← Complex.normSq_eq_norm_sq, Complex.normSq_apply]
+  simp [Complex.mul_re]
+
+/-- **Generator normalization, derived.** For Hermitian generators with
+`tr(T^a T^b) = δ^{ab}/2`, a field `F = −i g Σ_a c_a T^a` has `‖F‖²_F = (g²/2) Σ_a c_a²`. -/
+theorem generator_norm {n : ℕ} (Tg : Fin n → Matrix (Fin N) (Fin N) ℂ)
+    (hherm : ∀ a, (Tg a)ᴴ = Tg a)
+    (hnorm : ∀ a b, trace (Tg a * Tg b) = if a = b then (1 / 2 : ℂ) else 0)
+    (g : ℝ) (c : Fin n → ℝ) :
+    ∑ i, ∑ j, ‖(∑ a, (-(Complex.I * g * c a)) • Tg a) i j‖ ^ 2 = g ^ 2 / 2 * ∑ a, c a ^ 2 := by
+  rw [frobenius_eq, conjTranspose_sum, Finset.sum_mul]
+  simp only [Finset.mul_sum, conjTranspose_smul, hherm, smul_mul_smul_comm, trace_sum, trace_smul,
+    hnorm, smul_eq_mul, mul_ite, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true,
+    Complex.re_sum, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun a _ => ?_
+  simp only [star_neg, star_mul', Complex.star_def, Complex.conj_I, Complex.conj_ofReal]
+  simp only [Complex.mul_re, Complex.mul_im, Complex.neg_re, Complex.neg_im, Complex.I_re,
+    Complex.I_im, Complex.ofReal_re, Complex.ofReal_im]
+  norm_num
+  ring
+
+/-- **Canonical normalization from the generator basis.** If the field strength is
+`F_{μν} = −i g Σ_a F^a_{μν} T^a` with Hermitian `tr(T^a T^b) = δ^{ab}/2` generators, then at
+`β = 1/g²` the limit density is the canonical `(1/4) Σ_{μν a} (F^a_{μν})²`. The Frobenius-norm
+identity is proved (`generator_norm`), not assumed. -/
+theorem canonical_from_generators (A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)
+    (DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)) (x : V4) {g : ℝ} (hg : g ≠ 0)
+    {n : ℕ} (Tg : Fin n → Matrix (Fin N) (Fin N) ℂ) (hherm : ∀ a, (Tg a)ᴴ = Tg a)
+    (hnorm : ∀ a b, trace (Tg a * Tg b) = if a = b then (1 / 2 : ℂ) else 0)
+    (Fa : Fin 4 → Fin 4 → Fin n → ℝ)
+    (hdec : ∀ μ ν, fieldStrength A DA x μ ν = ∑ a, (-(Complex.I * g * Fa μ ν a)) • Tg a) :
+    UniformGaugeAction.yangMillsDensity A DA x (1 / g ^ 2) =
+      1 / 4 * ∑ μ, ∑ ν, ∑ a, Fa μ ν a ^ 2 :=
+  canonical_density A DA x hg Fa fun μ ν => by
+    rw [hdec μ ν]; exact generator_norm Tg hherm hnorm g (Fa μ ν)
 
 end PMAction.ClassicalYangMills

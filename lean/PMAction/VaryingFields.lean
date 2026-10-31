@@ -171,10 +171,11 @@ variable {R : Type*} [NormedRing R] [NormedAlgebra ℝ R]
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 /-- First-order Taylor expansion of a connection one-form along a line, with a
-quadratic remainder controlled by a Lipschitz bound on its derivative at the base point. -/
-theorem taylor_line {A : E → E →L[ℝ] R} {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x w : E} {L t : ℝ}
+quadratic remainder controlled by a Lipschitz bound on its derivative at the base point.
+Only points within `t‖w‖` of the base point are used. -/
+theorem taylor_line_loc {A : E → E →L[ℝ] R} {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x w : E} {L t : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
-    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (ht : 0 ≤ t) :
+    (hL : ∀ y, ‖y - x‖ ≤ t * ‖w‖ → ‖DA y - DA x‖ ≤ L * ‖y - x‖) (ht : 0 ≤ t) :
     ‖A (x + t • w) - A x - t • DA x w‖ ≤ L * ‖w‖ ^ 2 * t ^ 2 := by
   set g : ℝ → (E →L[ℝ] R) := fun s => A (x + s • w) - s • DA x w with hgdef
   have hg : ∀ s, HasDerivAt g (DA (x + s • w) w - DA x w) s := by
@@ -195,7 +196,8 @@ theorem taylor_line {A : E → E →L[ℝ] R} {DA : E → E →L[ℝ] (E →L[�
     calc _ ≤ ‖DA (x + s • w) - DA x‖ * ‖w‖ := ContinuousLinearMap.le_opNorm _ _
       _ ≤ (L * (t * ‖w‖)) * ‖w‖ := by
           gcongr
-          exact (hL _).trans (by simpa using mul_le_mul_of_nonneg_left hs' hL0)
+          have hy : ‖x + s • w - x‖ ≤ t * ‖w‖ := by rw [add_sub_cancel_left]; exact hs'
+          exact (hL _ hy).trans (by simpa using mul_le_mul_of_nonneg_left hs' hL0)
       _ = L * ‖w‖ ^ 2 * t := by ring
   have := norm_image_sub_le_of_norm_deriv_le_segment' (f := g) (a := 0) (b := t)
     (fun s _ => (hg s).hasDerivWithinAt) hb t ⟨ht, le_rfl⟩
@@ -207,16 +209,28 @@ theorem taylor_line {A : E → E →L[ℝ] R} {DA : E → E →L[ℝ] (E →L[�
   calc _ ≤ L * ‖w‖ ^ 2 * t * (t - 0) := this
     _ = _ := by ring
 
-theorem taylor_apply {A : E → E →L[ℝ] R} {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x w : E} {L t : ℝ}
+theorem taylor_line {A : E → E →L[ℝ] R} {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x w : E} {L t : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
-    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (ht : 0 ≤ t) (v : E) :
+    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (ht : 0 ≤ t) :
+    ‖A (x + t • w) - A x - t • DA x w‖ ≤ L * ‖w‖ ^ 2 * t ^ 2 :=
+  taylor_line_loc hA hL0 (fun y _ => hL y) ht
+
+theorem taylor_apply_loc {A : E → E →L[ℝ] R} {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x w : E} {L t : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
+    (hL : ∀ y, ‖y - x‖ ≤ t * ‖w‖ → ‖DA y - DA x‖ ≤ L * ‖y - x‖) (ht : 0 ≤ t) (v : E) :
     ‖A (x + t • w) v - A x v - t • DA x w v‖ ≤ L * ‖w‖ ^ 2 * ‖v‖ * t ^ 2 := by
   have e : A (x + t • w) v - A x v - t • DA x w v = (A (x + t • w) - A x - t • DA x w) v := by
     simp
   rw [e]
   calc _ ≤ ‖A (x + t • w) - A x - t • DA x w‖ * ‖v‖ := ContinuousLinearMap.le_opNorm _ _
-    _ ≤ (L * ‖w‖ ^ 2 * t ^ 2) * ‖v‖ := by gcongr; exact taylor_line hA hL0 hL ht
+    _ ≤ (L * ‖w‖ ^ 2 * t ^ 2) * ‖v‖ := by gcongr; exact taylor_line_loc hA hL0 hL ht
     _ = _ := by ring
+
+theorem taylor_apply {A : E → E →L[ℝ] R} {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x w : E} {L t : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
+    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (ht : 0 ≤ t) (v : E) :
+    ‖A (x + t • w) v - A x v - t • DA x w v‖ ≤ L * ‖w‖ ^ 2 * ‖v‖ * t ^ 2 :=
+  taylor_apply_loc hA hL0 (fun y _ => hL y) ht v
 
 omit [NormedSpace ℝ E] in
 lemma coeff_close {c c0 g : R} {T h : ℝ} (hT : 0 ≤ T) (h0 : 0 ≤ h) (h1 : h ≤ 1)
@@ -285,8 +299,8 @@ about the base point), the midpoint-link triangle holonomy is
 `1 + (h²/2) F(a,b) + O(h³)`, with a constant independent of `h ∈ [0,1]`. -/
 theorem triangle_expand_explicit [CompleteSpace R] {A : E → E →L[ℝ] R}
     {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x : E} {L : ℝ}
-    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
-    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (a b : E) :
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L) (a b : E)
+    (hL : ∀ y, ‖y - x‖ ≤ ‖a‖ + ‖b‖ → ‖DA y - DA x‖ ≤ L * ‖y - x‖) :
     0 ≤ triangleBound A DA x L a b ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
       ‖triangle A x a b h - (1 + (h ^ 2 / 2) • curvature A DA x a b)‖ ≤
         triangleBound A DA x L a b * h ^ 3 := by
@@ -332,14 +346,19 @@ theorem triangle_expand_explicit [CompleteSpace R] {A : E → E →L[ℝ] R}
   set c3 := -(A (x + (h / 2) • b) b)
   -- Taylor remainders
   have tq : ∀ q : ℝ, q * (h / 2) ^ 2 = q / 4 * h ^ 2 := fun q => by ring
+  have rad : ∀ n : ℝ, 0 ≤ n → n ≤ ‖a‖ + ‖b‖ → h / 2 * n ≤ ‖a‖ + ‖b‖ := fun n hn hnR => by
+    nlinarith [mul_nonneg (sub_nonneg.mpr h1) hn]
   have e1 : ‖c1 - X - (h / 2) • g1‖ ≤ T1 * h ^ 2 := by
-    have := taylor_apply (w := a) hA hL0 hL ht a
+    have := taylor_apply_loc (w := a) hA hL0 (fun y hy => hL y (hy.trans
+      (rad _ (norm_nonneg _) (le_add_of_nonneg_right (norm_nonneg _))))) ht a
     rw [tq, ← hT1d] at this; exact this
   have e2 : ‖c2 - Y - (h / 2) • g2‖ ≤ T2 * h ^ 2 := by
-    have := taylor_apply (w := a + b) hA hL0 hL ht (b - a)
+    have := taylor_apply_loc (w := a + b) hA hL0 (fun y hy => hL y (hy.trans
+      (rad _ (norm_nonneg _) (norm_add_le a b)))) ht (b - a)
     rw [tq, ← hT2d] at this; exact this
   have e3 : ‖c3 - -Z - (h / 2) • g3‖ ≤ T3 * h ^ 2 := by
-    have := taylor_apply (w := b) hA hL0 hL ht b
+    have := taylor_apply_loc (w := b) hA hL0 (fun y hy => hL y (hy.trans
+      (rad _ (norm_nonneg _) (le_add_of_nonneg_left (norm_nonneg _))))) ht b
     rw [tq, ← hT3d] at this
     have eq : c3 - -Z - (h / 2) • g3 = -(A (x + (h / 2) • b) b - A x b - (h / 2) • DA x b b) := by
       simp only [c3, Z, g3, smul_neg]; abel
@@ -481,14 +500,22 @@ theorem triangle_expand_explicit [CompleteSpace R] {A : E → E →L[ℝ] R}
   linarith only [s2, n2', n3', hA1, hA2, ex]
 
 /-- The original existence interface, retaining its theorem name and hypotheses. -/
+theorem triangle_expand_loc [CompleteSpace R] {A : E → E →L[ℝ] R}
+    {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x : E} {L : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L) (a b : E)
+    (hL : ∀ y, ‖y - x‖ ≤ ‖a‖ + ‖b‖ → ‖DA y - DA x‖ ≤ L * ‖y - x‖) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
+      ‖triangle A x a b h - (1 + (h ^ 2 / 2) • curvature A DA x a b)‖ ≤ C * h ^ 3 := by
+  obtain ⟨hc,hb⟩ := triangle_expand_explicit hA hL0 a b hL
+  exact ⟨triangleBound A DA x L a b,hc,hb⟩
+
 theorem triangle_expand [CompleteSpace R] {A : E → E →L[ℝ] R}
     {DA : E → E →L[ℝ] (E →L[ℝ] R)} {x : E} {L : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
     (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖) (a b : E) :
     ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
-      ‖triangle A x a b h - (1 + (h ^ 2 / 2) • curvature A DA x a b)‖ ≤ C * h ^ 3 := by
-  obtain ⟨hc,hb⟩ := triangle_expand_explicit hA hL0 hL a b
-  exact ⟨triangleBound A DA x L a b,hc,hb⟩
+      ‖triangle A x a b h - (1 + (h ^ 2 / 2) • curvature A DA x a b)‖ ≤ C * h ^ 3 :=
+  triangle_expand_loc hA hL0 a b (fun y _ => hL y)
 
 /-- A skew-adjoint (`u(N)`-valued) connection has unitary triangle holonomy. -/
 theorem triangle_unitary [CompleteSpace R] [StarRing R] [ContinuousStar R] [StarModule ℝ R]
@@ -579,15 +606,15 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 /-- **Wilson term of one triangle.**  For a `u(N)`-valued `C^{1,1}` connection the triangle
 Wilson term satisfies `Re tr(1 − P_h)/h⁴ = Σ |F(a,b)_{ij}|²/8 + O(h)`. -/
-theorem triangle_wilson {A : E → E →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+theorem triangle_wilson_loc {A : E → E →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : E → E →L[ℝ] (E →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {x : E} {L : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
-    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
-    (hskew : ∀ y v, star (A y v) = -A y v) (a b : E) :
+    (hskew : ∀ y v, star (A y v) = -A y v) (a b : E)
+    (hL : ∀ y, ‖y - x‖ ≤ ‖a‖ + ‖b‖ → ‖DA y - DA x‖ ≤ L * ‖y - x‖) :
     ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 < h → h ≤ 1 →
       |(trace (1 - triangle A x a b h)).re / h ^ 4 -
         (∑ i, ∑ j, ‖curvature A DA x a b i j‖ ^ 2) / 8| ≤ C * h := by
-  obtain ⟨C0, hC0, hb⟩ := triangle_expand hA hL0 hL a b
+  obtain ⟨C0, hC0, hb⟩ := triangle_expand_loc hA hL0 a b hL
   set F := curvature A DA x a b
   set F' : Matrix (Fin N) (Fin N) ℂ := (1 / 2 : ℝ) • F
   refine ⟨(N : ℝ) ^ 2 * (C0 * (2 * ‖F'‖ + C0)) / 2, by positivity, ?_⟩
@@ -629,6 +656,16 @@ theorem triangle_wilson {A : E → E →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
       (N : ℝ) ^ 2 * (C0 * (2 * ‖F'‖ + C0) * h) / 2 := by ring
   rw [this]
   exact div_le_div_of_nonneg_right hs (by norm_num)
+
+theorem triangle_wilson {A : E → E →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+    {DA : E → E →L[ℝ] (E →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {x : E} {L : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
+    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hskew : ∀ y v, star (A y v) = -A y v) (a b : E) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 < h → h ≤ 1 →
+      |(trace (1 - triangle A x a b h)).re / h ^ 4 -
+        (∑ i, ∑ j, ‖curvature A DA x a b i j‖ ^ 2) / 8| ≤ C * h :=
+  triangle_wilson_loc hA hL0 hskew a b (fun y _ => hL y)
 
 end Matrix
 section D4
@@ -731,21 +768,31 @@ def d4Density (A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) 
     (x : Fin 4 → ℝ) (β h : ℝ) : ℝ :=
   (β / 12) * ∑ p ∈ D4Gauge.tri, (trace (1 - triangle A x (rv p.1) (rv p.2) h)).re / h ^ 4
 
+lemma rv_norm_le_one (k : Fin 4 → Fin 3) : ‖rv k‖ ≤ 1 := by
+  refine (pi_norm_le_iff_of_nonneg (by norm_num)).mpr fun i => ?_
+  simp only [rv, D4Gauge.vec, Real.norm_eq_abs]
+  generalize k i = m
+  fin_cases m <;> norm_num
+
+lemma rv_pair (p : (Fin 4 → Fin 3) × (Fin 4 → Fin 3)) : ‖rv p.1‖ + ‖rv p.2‖ ≤ 2 := by
+  linarith [rv_norm_le_one p.1, rv_norm_le_one p.2]
+
 /-- **Varying non-Abelian D₄ continuum limit.**  For a `u(N)`-valued `C^{1,1}` connection,
 the actual D₄ minimal-triangle Wilson density converges, with an `O(h)` error, to the
 Yang–Mills density `(β/2) Σ_{μν} Σ_{ij} |F_{μν,ij}|²` built from
-`F_{μν} = ∂_μ A_ν − ∂_ν A_μ + [A_μ, A_ν]`. -/
-theorem d4_yang_mills {A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+`F_{μν} = ∂_μ A_ν − ∂_ν A_μ + [A_μ, A_ν]`. Only the derivative bound within distance two of
+`x` is used. -/
+theorem d4_yang_mills_loc {A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] ((Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ)}
     {x : Fin 4 → ℝ} {L : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
-    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hL : ∀ y, ‖y - x‖ ≤ 2 → ‖DA y - DA x‖ ≤ L * ‖y - x‖)
     (hskew : ∀ y v, star (A y v) = -A y v) (β : ℝ) :
     ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 < h → h ≤ 1 →
       |d4Density A x β h -
         (β / 2) * ∑ μ, ∑ ν, ∑ i, ∑ j, ‖fieldStrength A DA x μ ν i j‖ ^ 2| ≤ C * h := by
   have hc := fun p : (Fin 4 → Fin 3) × (Fin 4 → Fin 3) =>
-    triangle_wilson hA hL0 hL hskew (rv p.1) (rv p.2)
+    triangle_wilson_loc hA hL0 hskew (rv p.1) (rv p.2) (fun y hy => hL y (hy.trans (rv_pair p)))
   choose C hC0 hCb using hc
   refine ⟨|β| / 12 * ∑ p ∈ D4Gauge.tri, C p,
     mul_nonneg (by positivity) (Finset.sum_nonneg fun p _ => hC0 p), ?_⟩
@@ -805,16 +852,28 @@ theorem d4_yang_mills {A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] Matrix 
   calc |β| / 12 * |_| ≤ |β| / 12 * ((∑ p ∈ D4Gauge.tri, C p) * h) := by gcongr
     _ = _ := by ring
 
-/-- Controlled-limit form. -/
-theorem d4_yang_mills_tendsto {A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+/-- Global-bound form. -/
+theorem d4_yang_mills {A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] ((Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ)}
     {x : Fin 4 → ℝ} {L : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
     (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
     (hskew : ∀ y v, star (A y v) = -A y v) (β : ℝ) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ h : ℝ, 0 < h → h ≤ 1 →
+      |d4Density A x β h -
+        (β / 2) * ∑ μ, ∑ ν, ∑ i, ∑ j, ‖fieldStrength A DA x μ ν i j‖ ^ 2| ≤ C * h :=
+  d4_yang_mills_loc hA hL0 (fun y _ => hL y) hskew β
+
+/-- Controlled-limit form. -/
+theorem d4_yang_mills_tendsto_loc {A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+    {DA : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] ((Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ)}
+    {x : Fin 4 → ℝ} {L : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
+    (hL : ∀ y, ‖y - x‖ ≤ 2 → ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hskew : ∀ y v, star (A y v) = -A y v) (β : ℝ) :
     Filter.Tendsto (fun h => d4Density A x β h) (nhdsWithin 0 (Set.Ioi 0))
       (nhds ((β / 2) * ∑ μ, ∑ ν, ∑ i, ∑ j, ‖fieldStrength A DA x μ ν i j‖ ^ 2)) := by
-  obtain ⟨C, hC, hb⟩ := d4_yang_mills hA hL0 hL hskew β
+  obtain ⟨C, hC, hb⟩ := d4_yang_mills_loc hA hL0 hL hskew β
   rw [Metric.tendsto_nhdsWithin_nhds]
   intro ε hε
   refine ⟨min 1 (ε / (C + 1)), by positivity, fun h hh hd => ?_⟩
@@ -827,6 +886,17 @@ theorem d4_yang_mills_tendsto {A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ]
     _ ≤ (C + 1) * h := by nlinarith
     _ < (C + 1) * (ε / (C + 1)) := by gcongr
     _ = ε := by field_simp
+
+/-- Global-bound form. -/
+theorem d4_yang_mills_tendsto {A : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+    {DA : (Fin 4 → ℝ) → (Fin 4 → ℝ) →L[ℝ] ((Fin 4 → ℝ) →L[ℝ] Matrix (Fin N) (Fin N) ℂ)}
+    {x : Fin 4 → ℝ} {L : ℝ}
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)
+    (hL : ∀ y, ‖DA y - DA x‖ ≤ L * ‖y - x‖)
+    (hskew : ∀ y v, star (A y v) = -A y v) (β : ℝ) :
+    Filter.Tendsto (fun h => d4Density A x β h) (nhdsWithin 0 (Set.Ioi 0))
+      (nhds ((β / 2) * ∑ μ, ∑ ν, ∑ i, ∑ j, ‖fieldStrength A DA x μ ν i j‖ ^ 2)) :=
+  d4_yang_mills_tendsto_loc hA hL0 (fun y _ => hL y) hskew β
 
 end D4
 end PMAction.VaryingFields

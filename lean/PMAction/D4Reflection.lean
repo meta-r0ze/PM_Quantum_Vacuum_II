@@ -13,8 +13,10 @@ halves. The site reflection `θ : x₀ ↦ −x₀` does both.
 * `no_crossing_pair`: no triangle `0, a, b` has `a₀ = 1` and `b₀ = −1` (their dot product would be
   at most `0`, not `1`).
 * `one_side`: hence every triangle based at a site with integer `x₀` has all three vertices in
-  `{x₀ ≥ 0}` or all in `{x₀ ≤ 0}`. The D₄ triangle action splits as `S₊ + θS₊`, with triangles in
-  the plane `x₀ = 0` shared, exactly as for the hypercubic Wilson action.
+  `{x₀ ≥ 0}` or all in `{x₀ ≤ 0}`. This is what lets the D₄ triangle action be written as
+  `S₊ + θS₊`, with triangles in the plane `x₀ = 0` shared, as for the hypercubic Wilson action.
+  `FiniteD4Reflection` and `D4ActionReflection` prove the finite shared-directed-link
+  action split and its product-measure/Gibbs bridge.
 
 This is the combinatorial input to `SiteReflection.reflection_positive`.
 -/

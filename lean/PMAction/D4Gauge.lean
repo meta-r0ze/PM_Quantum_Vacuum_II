@@ -17,7 +17,11 @@ The coordinate sector forced in Paper I is D₄. Its nearest-neighbour graph has
   to the canonical Maxwell density exactly when `β = 1/(2g²)`.
 
 The normalization theorem matches the quadratic coefficient; the actual cosine
-limit is proved in GaugeContinuum. Neither result fixes `β`.
+limit is proved in GaugeContinuum. Neither result fixes `β`. `normalization` is arithmetic on
+supplied factors (`1/6`, `g/4`, cell volume `2`); the derived statements are
+`ClassicalYangMills.pm_lattice_yang_mills` and `LatticeSiteAction.d4_yang_mills_action`, whose
+`(β/2) Σ ‖F‖²_F` reduces to `β = 1/(2g²)` for `U(1)` with `A = i g a`, and to `β = 1/g²` for
+generators with `tr T^a T^b = δ^{ab}/2` (`ClassicalYangMills.canonical_from_generators`).
 -/
 
 namespace PMAction.D4Gauge

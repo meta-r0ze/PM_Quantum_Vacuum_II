@@ -12,9 +12,8 @@ A lattice gauge transformation assigns a unitary `g(y)` to every site and acts o
   `U_△ ↦ g(x) U_△ g(x)ᴴ`.
 * `wilson_gauge`: so each Wilson term `Re tr(1 − U_△)` (a Wilson loop) is gauge invariant.
 * `action_gauge`, `weight_gauge`: PM's D₄ action and its survival weight `exp(−β S)` are gauge
-  invariant. With a gauge-invariant (Haar) reference measure, the Gibbs measure of
-  `LatticeGibbs` is gauge invariant, and Wilson loops are observables of the gauge-invariant
-  algebra.
+  invariant. Not proved: invariance of the Gibbs measure itself (a pushforward statement needing
+  two-sided Haar invariance on each link; `UnitaryHaar` provides left invariance only).
 -/
 
 noncomputable section

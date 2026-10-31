@@ -2,17 +2,32 @@
 
 ## Proved: the classical continuum limit with canonical normalization
 
-`PMAction.ClassicalYangMills` (standard axioms only):
+Audited 2026-10-31 against `PM-1-Arch/calculations/lean_review.tex`; the full catalog is
+`LEAN-AUDIT-YANG-MILLS.md`. Standard axioms only.
 
-- **`pm_lattice_yang_mills`.** Take a `u(N)`-valued `C^{1,1}` connection `A` on `ℝ⁴` with continuous
-  derivative. Take PM's actual unitary link family `U`, cubically consistent with `A` (within `K h³`
-  of the midpoint exponentials, one `K` on the region). PM's Wilson density on the D₄ minimal
-  triangles, `(β/12) Σ_△ Re tr(1 − U_△)/h⁴`, accumulated with cell volumes on any refining tagged
-  partitions of a box `I` as `h → 0⁺`, converges to `∫_I (β/2) Σ_{μν} ‖F_{μν}‖²_F`.
-- **`canonical_density`.** With `β = 1/g²` and `‖F_{μν}‖²_F = (g²/2) Σ_a (F^a_{μν})²`, the limit is the
-  canonical Lagrangian `(1/4) Σ_{μν a} (F^a_{μν})²`.
-- **PM's coupling.** Event pricing fixes `β`: a summed-read sector is canonical exactly when
-  `g² = 1/(κ·toll·m·W)` (`SummedReference.sum_canonical_iff`).
+- **Main theorem: `LatticeSiteAction.d4_yang_mills_action`.** Let `A` be a `u(N)`-valued
+  connection on `ℝ⁴` whose derivative is Lipschitz on compact sets (every `C²` connection). Let
+  the links be its parallel transports along the D₄ edges. Sum the Wilson density
+  `(β/12) Σ_△ Re tr(1 − U_△)/h⁴` over the actual D₄ sites of any bounded measurable region `S`
+  with null boundary, each weighted by the D₄ cell volume `2h⁴`. Then as `h = 1/n → 0` the sum
+  converges to `∫_S (β/2) Σ_{μν} ‖F_{μν}‖²_F`, the classical Yang–Mills action.
+  - The sites are proved to be exactly D₄ (`d4_sites`: integer vectors with even coordinate sum),
+    with cell volume 2 (`d4Map_det`).
+  - Unitarity of the transport is derived (`transport_unitary`), not assumed.
+  - No cubic-consistency hypothesis, no global derivative bound, no free choice of partition.
+- **Earlier forms, still valid.** `ClassicalYangMills.pm_lattice_yang_mills` (any links cubically
+  consistent with `A`, Riemann sums over arbitrary tagged partitions of a box) and
+  `ParallelTransport.pm_yang_mills_locally_lipschitz`. Their derivative hypotheses are now local
+  (within distance two or three of the region); they previously required a global Lipschitz
+  bound, which excluded every connection with growing derivative.
+- **Normalization: `canonical_from_generators`.** For `F = −i g Σ_a F^a T^a` with Hermitian
+  `tr T^a T^b = δ^{ab}/2`, the Frobenius identity `‖F‖²_F = (g²/2) Σ (F^a)²` is proved
+  (`generator_norm`), so at `β = 1/g²` the limit is `(1/4) Σ_{μν a} (F^a_{μν})²`. This matches a
+  convention; it does not determine `g`.
+- **The coupling is an input.** `SummedReference.sum_canonical_iff` only rewrites "the
+  coefficient is `1/4`" as `g² = 1/(κ·toll·m·W)`. It fixes `g` only if `κ`, `toll`, `m` and `W`
+  are independently fixed, which they are not. Earlier wording that "event pricing fixes `β`" is
+  withdrawn.
 - **Supporting results:**
   - `link_yang_mills_uniform`: one error constant on any compact region.
   - `IntegratedScalarAction`: the same limit for the scalar action.
@@ -20,13 +35,11 @@
     (`RunningResponse`, `GaugeFluctuation`), the ghost determinant power (`FluctuationClosure`), the
     Landau degeneracy, and the pointwise lattice Hessian (`LatticeToContinuum`).
 
-**Hypotheses kept:** `C^{1,1}` fields with one Lipschitz constant on the box; cubic link
-consistency, which says the links discretize `A`. It is a theorem when each link is the parallel
-transport of `A` along its edge (`ParallelTransport.transport_consistent`), and
-`ParallelTransport.pm_lattice_yang_mills_transport` gives the limit for parallel-transport links with
-no consistency hypothesis (global Lipschitz `DA` instead). `GaugeTransport` shows unitarity, locality
-and conservation alone do not imply it;
-a bounded box. All of this is about fixed smooth classical fields.
+**What this does not show.** In every version the link field is constructed from a given smooth
+connection. No theorem derives the links from PM's substrate update, so this establishes that
+D₄ Wilson triangles are a correct discretization of Yang–Mills, not that PM produces Yang–Mills.
+The gauge group, `N`, `β` and the existence of the transport solution are inputs. The density is
+Euclidean. All of this is about fixed smooth classical fields.
 
 ## The quantum problem, and what is missing
 
@@ -36,13 +49,15 @@ axioms for its Euclidean Schwinger functions), and prove a mass gap `Δ > 0`. No
 exists in this project, and items marked (M) also lack Mathlib infrastructure.
 
 1. **A lattice quantum measure.** A finite-volume, finite-spacing probability measure
-   `Z⁻¹ exp(−S(U)) Π_edges dHaar(U)` on link configurations, with `S` PM's D₄ action. Missing: a
-   concrete Haar measure on products of `SU(N)` (M). Also missing: why PM's real-time unitary update
+   `Z⁻¹ exp(−S(U)) Π_edges dHaar(U)` on link configurations, with `S` PM's D₄ action. Now done for
+   `U(1)` and `U(N)` (see below); `SU(N)` is not constructed. Also missing: why PM's real-time unitary update
    gives a Euclidean measure (a transfer-matrix or Wick-rotation identification). PM's survival
    weight `exp(−β·cost)` has the Gibbs form, but identifying it with this measure is not proved.
-2. **Reflection positivity.** Osterwalder–Seiler prove it for the hypercubic Wilson action. It is
-   not proved for the D₄ triangle action. It is what gives a Hilbert space, a transfer matrix and a
-   Hamiltonian `H ≥ 0`.
+2. **Reflection positivity.** The finite site-reflection bridge is now proved for
+   the existing D₄ action on shared geometric directed links, with product `U(N)`
+   Haar and a reflection-symmetric finite integer-site region; see below. Opposite
+   directions are independent. The reciprocal-link version, link-reflection and
+   transfer-matrix/nonnegative-Hamiltonian reconstruction remain open.
 3. **Gauge-invariant observables.** The observable algebra: Wilson loops and local gauge-invariant
    fields, with gauge fixing or a gauge-invariant construction of the measure's moments.
 4. **Infinite volume.** Existence (and uniqueness or translation invariance) of the
@@ -73,34 +88,38 @@ exists in this project, and items marked (M) also lack Mathlib infrastructure.
     Relative weights are survival ratios (`gibbs_ratio`).
   - For `U(1)`, this is fully concrete: angles in `ℝ/ℤ` with Mathlib's normalized Haar measure, and
     PM's D₄ action, give a probability measure on any finite region (`u1_gibbs`).
-  - Open: `SU(N)` needs compact Haar measure on the unitary group, which this Mathlib does not
-    provide as instances. The identification of PM's real-time update with this Euclidean measure
-    is also open.
+  - The measure-theoretic statement is generic: any bounded action normalizes any probability
+    measure. That the Wilson action is PM's survival cost is asserted, not derived.
+  - Open: `SU(N)` (`U(N)` is `UnitaryHaar`), and the identification of PM's real-time update with
+    this Euclidean measure.
 - **Item 6, Euclidean covariance: `D4Isotropy`.**
-  - The 24 D₄ roots have isotropic moments through degree four: odd moments vanish,
+  - The 24 D₄ roots have isotropic moments through degree four: first and third moments vanish,
     `Σ k_μ k_ν = 12 δ`, `Σ k_μ k_ν k_ρ k_σ = 4(δδ + δδ + δδ)` (kernel-checked).
   - Hence `Σ_k (k·w)⁴ = 12|w|⁴`, invariant under every orthogonal map
     (`quartic_rotation_invariant`). The hypercubic directions fail this (`hypercubic_not_isotropic`).
   - So the `O(h²)` lattice artifacts of PM's D₄ action are `O(4)`-invariant; rotation symmetry is
     broken first at higher order. Open: `O(4)` restoration in the quantum continuum limit.
-- **Item 2, reflection positivity, the kernel half: `ReflectionKernel`.**
-  - The Osterwalder–Seiler kernel is positive definite: `Σ c_i c_j exp(β Re tr(U_i U_jᴴ)) ≥ 0` for
-    `β ≥ 0` (`wilson_kernel_psd`). The proof is an induction on Gram-kernel powers
-    (`gram_power_psd`) and the exponential series (`gram_exp_psd`).
-  - Open: the geometric half for D₄. Every triangle crossing a reflection plane must factor as
-    `tr(Φ Ψᴴ)` with `Φ`, `Ψ` on opposite sides. Then the transfer matrix and `H ≥ 0` follow.
-- **Item 2, reflection positivity, now both halves: `D4Reflection`, `SiteReflection`.**
-  - The site reflection `x₀ ↦ −x₀` maps D₄ roots and triangles to themselves (`reflect_tri`), and
-    no D₄ triangle crosses its plane (`no_crossing_pair`, `one_side`). So PM's action splits as
-    `S₊ + θS₊`.
-  - For an action that splits this way, `∫ F · θF · e^{−S} = ∫_plane |G_F|² ≥ 0`
-    (`reflection_identity`, `reflection_positive`). More generally, the OS form is the `L²` inner
-    product of the plane functions `G_F` (`os_inner_product`), so the physical Hilbert space is
-    the closure of the `G_F` in `L²(plane)`.
-  - Open: the transfer matrix and the Hamiltonian `H ≥ 0` built from it.
+- **Item 2, reflection positivity: `ReflectionKernel`, `D4Reflection`, `SiteReflection`,
+  `FiniteReflection`, `FiniteD4Reflection`, `D4ActionReflection`.**
+  - The positive-definite Wilson kernel and the abstract Fubini identity remain valid.
+  - `D4Reflection.one_side` proves no triangle crosses the site plane. On a finite
+    reflection-symmetric region, `FiniteD4Reflection` constructs the actual shared
+    directed edges, reflected cells and half-action, sharing plane terms by halves.
+  - `FiniteReflection.measure_preserving` proves the product Haar factorization,
+    rather than assuming independence of triangle variables. `action_eq` identifies
+    the geometric action with `LatticeGibbs.action`; `action_factor` proves its split.
+  - `D4ActionReflection.gibbs_reflection_positive` proves the normalized Gibbs form
+    real and nonnegative for all bounded measurable upper-half observables, β ≥ 0.
+    The theorem uses unit lattice spacing and integer-site regions, including D₄
+    regions. It needs no smooth background connection.
+  - **Convention boundary:** opposite directed edges are independent. The reciprocal
+    constraint `U(y,x) = U(x,y)†` is not imposed or selected from PM. Thus the bridge
+    is closed for this explicit directed-link model, while the reciprocal-link model,
+    transfer matrix and `H ≥ 0` reconstruction remain open.
 - **Item 1 for `U(N)`: `UnitaryHaar`.** The unitary group is compact (`isCompact_unitary`). Its
-  normalized, left-invariant Haar measure (`haar`) makes the `U(N)` lattice measure of PM's D₄
-  action concrete on any finite region (`uN_gibbs`).
+  normalized, left-invariant Haar measure (`haar`) gives a `U(N)` lattice measure with PM's D₄
+  Wilson action on any finite region (`uN_gibbs`). The edge-to-variable assignment is arbitrary in
+  that theorem; `SU(N)` is not constructed.
 - **Item 3, gauge invariance: `GaugeInvariance`.** Gauge transformations conjugate every triangle
   holonomy (`holonomy_gauge`). So Wilson loops, PM's action and the survival weight are gauge
   invariant (`wilson_gauge`, `action_gauge`, `weight_gauge`). Open: invariance of the full Gibbs

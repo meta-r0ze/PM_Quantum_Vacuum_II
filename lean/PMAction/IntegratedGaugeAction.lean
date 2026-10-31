@@ -88,7 +88,7 @@ box. One common C¹,¹ bound over the region is retained explicitly. -/
 theorem midpoint_sampled_limit {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)}
     (I : Box (Fin 4)) (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA)
-    {L : ℝ} (hL0 : 0 ≤ L) (hL : ∀ x ∈ I.Icc, ∀ y, ‖DA y-DA x‖ ≤ L*‖y-x‖)
+    {L : ℝ} (hL0 : 0 ≤ L) (hL : ∀ x ∈ I.Icc, ∀ y, ‖y-x‖ ≤ 2 → ‖DA y-DA x‖ ≤ L*‖y-x‖)
     (hskew : ∀ y v, star (A y v) = -A y v) (β : ℝ)
     (π : ℕ → TaggedPrepartition I)
     (hπ : Tendsto π atTop (IntegrationParams.Riemann.toFilteriUnion I ⊤))

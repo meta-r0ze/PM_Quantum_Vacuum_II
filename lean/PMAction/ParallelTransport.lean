@@ -20,6 +20,11 @@ inequality, and `T(h) − exp(h B_m) = (W(h) − 1) exp(h B_m)`.
 * `transport_consistent`: parallel-transport links are `CubicConsistent`.
 * `pm_lattice_yang_mills_transport`: `ClassicalYangMills.pm_lattice_yang_mills` with the
   consistency hypothesis replaced by "the links are the parallel transports of `A`".
+* `pm_yang_mills_locally_lipschitz`: the same with only a Lipschitz bound on compact sets for `DA`
+  (all `C²` connections). The derivative bound is used only on the 3-neighbourhood of the box.
+
+The links are defined from the given connection `A`: this shows parallel transport is a valid
+discretization, not that PM's substrate produces parallel-transport links.
 -/
 
 noncomputable section
@@ -88,8 +93,9 @@ def K (MA D L : ℝ) : ℝ :=
 
 /-- **Taylor expansion of the transport generator about the midpoint.** -/
 theorem generator_taylor {A : V4 → V4 →L[ℝ] M} {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] M)}
-    (hA : ∀ y, HasFDerivAt A (DA y) y) {L : ℝ} (hL0 : 0 ≤ L)
-    (hLip : ∀ z₁ z₂, ‖DA z₁ - DA z₂‖ ≤ L * ‖z₁ - z₂‖) (y v : V4) (hv : ‖v‖ ≤ 2) (h : ℝ)
+    (hA : ∀ y, HasFDerivAt A (DA y) y) {L : ℝ} (hL0 : 0 ≤ L) (y v : V4) (hv : ‖v‖ ≤ 2) (h : ℝ)
+    (hLoc : ∀ z, ‖z - (y + (h / 2) • v)‖ ≤ h →
+      ‖DA z - DA (y + (h / 2) • v)‖ ≤ L * ‖z - (y + (h / 2) • v)‖)
     (s : ℝ) (hs0 : 0 ≤ s) (hsh : s ≤ h) :
     ‖A (y + s • v) v - A (y + (h / 2) • v) v - (s - h / 2) • DA (y + (h / 2) • v) v v‖ ≤
       8 * L * h ^ 2 := by
@@ -97,11 +103,11 @@ theorem generator_taylor {A : V4 → V4 →L[ℝ] M} {DA : V4 → V4 →L[ℝ] (
   have hv3 : ‖v‖ ^ 2 * ‖v‖ ≤ 8 := by
     have := norm_nonneg v
     nlinarith
-  have hL : ∀ z, ‖DA z - DA x0‖ ≤ L * ‖z - x0‖ := fun z => hLip z x0
   rcases le_total (h / 2) s with hc | hc
   · have ht : 0 ≤ s - h / 2 := by linarith
     have e : y + s • v = x0 + (s - h / 2) • v := by simp only [x0, sub_smul]; abel
-    have hb := taylor_apply (x := x0) (w := v) hA hL0 hL ht v
+    have hb := taylor_apply_loc (x := x0) (w := v) hA hL0
+      (fun z hz => hLoc z (hz.trans (by nlinarith [norm_nonneg v]))) ht v
     rw [← e] at hb
     refine hb.trans ?_
     have : (s - h / 2) ^ 2 ≤ h ^ 2 := by nlinarith
@@ -111,7 +117,8 @@ theorem generator_taylor {A : V4 → V4 →L[ℝ] M} {DA : V4 → V4 →L[ℝ] (
   · have ht : 0 ≤ h / 2 - s := by linarith
     have e : y + s • v = x0 + (h / 2 - s) • -v := by
       simp only [x0, smul_neg, sub_smul]; abel
-    have hb := taylor_apply (x := x0) (w := -v) hA hL0 hL ht v
+    have hb := taylor_apply_loc (x := x0) (w := -v) hA hL0
+      (fun z hz => hLoc z (hz.trans (by rw [norm_neg]; nlinarith [norm_nonneg v]))) ht v
     rw [← e, norm_neg] at hb
     have e2 : (h / 2 - s) • DA x0 (-v) v = (s - h / 2) • DA x0 v v := by
       rw [map_neg, _root_.neg_apply, smul_neg, ← neg_smul, neg_sub]
@@ -127,8 +134,8 @@ set_option maxHeartbeats 1000000 in
 /-- **Parallel transport is within `K h³` of the midpoint link.** -/
 theorem transport_cubic {A : V4 → V4 →L[ℝ] M} {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] M)}
     (hA : ∀ y, HasFDerivAt A (DA y) y) {L : ℝ} (hL0 : 0 ≤ L)
-    (hLip : ∀ z₁ z₂, ‖DA z₁ - DA z₂‖ ≤ L * ‖z₁ - z₂‖)
-    (hskew : ∀ y v, star (A y v) = -A y v) (y v : V4) (hv : ‖v‖ ≤ 2) {MA D : ℝ}
+    (hskew : ∀ y v, star (A y v) = -A y v) (y v : V4) (hv : ‖v‖ ≤ 2)
+    (hLip : ∀ z₁ z₂, ‖z₁ - y‖ ≤ 2 → ‖z₂ - y‖ ≤ 2 → ‖DA z₁ - DA z₂‖ ≤ L * ‖z₁ - z₂‖) {MA D : ℝ}
     (hMA : 0 ≤ MA) (hD : 0 ≤ D)
     (hAb : ∀ t : ℝ, 0 ≤ t → t ≤ 1 → ‖A (y + t • v)‖ ≤ MA)
     (hDb : ∀ t : ℝ, 0 ≤ t → t ≤ 1 → ‖DA (y + t • v) v v‖ ≤ D)
@@ -152,8 +159,18 @@ theorem transport_cubic {A : V4 → V4 →L[ℝ] M} {DA : V4 → V4 →L[ℝ] (V
       _ = MB := by ring
   have hBm : ‖Bm‖ ≤ MB := hBb (h / 2) (by positivity) (by linarith)
   have hBc : ‖Bc‖ ≤ D := hDb (h / 2) (by positivity) (by linarith)
+  have hx0 : ‖x0 - y‖ ≤ 1 := by
+    show ‖y + (h / 2) • v - y‖ ≤ 1
+    rw [add_sub_cancel_left, norm_smul, Real.norm_eq_abs, abs_of_nonneg (by positivity)]
+    nlinarith [norm_nonneg v]
+  have hLoc : ∀ z, ‖z - x0‖ ≤ h → ‖DA z - DA x0‖ ≤ L * ‖z - x0‖ := by
+    intro z hz
+    refine hLip z x0 ?_ (by linarith)
+    calc ‖z - y‖ = ‖(z - x0) + (x0 - y)‖ := by congr 1; abel
+      _ ≤ ‖z - x0‖ + ‖x0 - y‖ := norm_add_le _ _
+      _ ≤ 2 := by linarith
   have htay : ∀ s, 0 ≤ s → s ≤ h → ‖B s - Bm - (s - h / 2) • Bc‖ ≤ 8 * L * h ^ 2 :=
-    fun s hs0 hsh => generator_taylor hA hL0 hLip y v hv h s hs0 hsh
+    fun s hs0 hsh => generator_taylor hA hL0 y v hv h hLoc s hs0 hsh
   have hdiff : ∀ s, 0 ≤ s → s ≤ h → ‖B s - Bm‖ ≤ Δ * h := by
     intro s hs0 hsh
     have habs : |s - h / 2| ≤ h := by rw [abs_le]; constructor <;> linarith
@@ -239,8 +256,9 @@ theorem transport_cubic {A : V4 → V4 →L[ℝ] M} {DA : V4 → V4 →L[ℝ] (V
 /-- **Parallel-transport links are cubically consistent.** -/
 theorem transport_consistent {A : V4 → V4 →L[ℝ] M} {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] M)}
     (hA : ∀ y, HasFDerivAt A (DA y) y) {L : ℝ} (hL0 : 0 ≤ L)
-    (hLip : ∀ z₁ z₂, ‖DA z₁ - DA z₂‖ ≤ L * ‖z₁ - z₂‖)
-    (hskew : ∀ y v, star (A y v) = -A y v) (x : V4) {MA D : ℝ} (hMA : 0 ≤ MA) (hD : 0 ≤ D)
+    (hskew : ∀ y v, star (A y v) = -A y v) (x : V4)
+    (hLip : ∀ z₁ z₂, ‖z₁ - x‖ ≤ 3 → ‖z₂ - x‖ ≤ 3 → ‖DA z₁ - DA z₂‖ ≤ L * ‖z₁ - z₂‖)
+    {MA D : ℝ} (hMA : 0 ≤ MA) (hD : 0 ≤ D)
     (hAb : ∀ z, ‖z - x‖ ≤ 3 → ‖A z‖ ≤ MA)
     (hDb : ∀ z, ‖z - x‖ ≤ 3 → ∀ v : V4, ‖v‖ ≤ 2 → ‖DA z v v‖ ≤ D)
     (T : V4 → V4 → ℝ → M) (hT0 : ∀ y v, T y v 0 = 1)
@@ -257,7 +275,13 @@ theorem transport_consistent {A : V4 → V4 →L[ℝ] M} {DA : V4 → V4 →L[�
           rw [norm_smul, Real.norm_eq_abs, abs_of_nonneg ht0]
           gcongr
       _ = 3 := by norm_num
-  exact transport_cubic hA hL0 hLip hskew y v hv hMA hD
+  have hball : ∀ z, ‖z - y‖ ≤ 2 → ‖z - x‖ ≤ 3 := by
+    intro z hz
+    calc ‖z - x‖ = ‖(z - y) + (y - x)‖ := by congr 1; abel
+      _ ≤ ‖z - y‖ + ‖y - x‖ := norm_add_le _ _
+      _ ≤ 3 := by linarith
+  exact transport_cubic hA hL0 hskew y v hv
+    (fun z₁ z₂ h₁ h₂ => hLip z₁ z₂ (hball z₁ h₁) (hball z₂ h₂)) hMA hD
     (fun t ht0 ht1 => hAb _ (hseg t ht0 ht1)) (fun t ht0 ht1 => hDb _ (hseg t ht0 ht1) v hv)
     (T y v) (hT0 y v) (hTd y v) (hTu y v) h hh h1
 
@@ -267,7 +291,8 @@ Yang–Mills action. No consistency hypothesis remains. -/
 theorem pm_lattice_yang_mills_transport {A : V4 → V4 →L[ℝ] M}
     {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] M)} (I : BoxIntegral.Box (Fin 4))
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA) {L : ℝ} (hL0 : 0 ≤ L)
-    (hLip : ∀ z₁ z₂, ‖DA z₁ - DA z₂‖ ≤ L * ‖z₁ - z₂‖)
+    (hLip : ∀ z₁ z₂, z₁ ∈ Metric.cthickening 3 (BoxIntegral.Box.Icc I) →
+      z₂ ∈ Metric.cthickening 3 (BoxIntegral.Box.Icc I) → ‖DA z₁ - DA z₂‖ ≤ L * ‖z₁ - z₂‖)
     (hskew : ∀ y v, star (A y v) = -A y v)
     (T : V4 → V4 → ℝ → M) (hT0 : ∀ y v, T y v 0 = 1)
     (hTd : ∀ y v s, HasDerivAt (T y v) (T y v s * A (y + s • v) v) s)
@@ -293,11 +318,39 @@ theorem pm_lattice_yang_mills_transport {A : V4 → V4 →L[ℝ] M}
   have hMD0 : 0 ≤ max MD 0 := le_max_right _ _
   have hKpos : 0 ≤ K (max MA 0) (max MD 0) L := by unfold K; positivity
   refine ClassicalYangMills.pm_lattice_yang_mills I hA hDA hL0
-    (fun x _ y => hLip y x) hskew T hTu hKpos (fun x hx => ?_) β π hπ h hh
-  exact transport_consistent hA hL0 hLip hskew x hMA0 hMD0
+    (fun x hx y hy => hLip y x (hmem x hx y (by linarith))
+      (Metric.self_subset_cthickening _ hx)) hskew T hTu hKpos (fun x hx => ?_) β π hπ h hh
+  exact transport_consistent hA hL0 hskew x
+    (fun z₁ z₂ h₁ h₂ => hLip z₁ z₂ (hmem x hx z₁ h₁) (hmem x hx z₂ h₂)) hMA0 hMD0
     (fun z hz => (hMA z (hmem x hx z hz)).trans (le_max_left _ _))
     (fun z hz v hv => (hMD (z, v) ⟨hmem x hx z hz, by
       rw [Metric.mem_closedBall, dist_zero_right]; exact hv⟩).trans (le_max_left _ _))
     T hT0 hTd hTu
+
+/-- **The classical Yang–Mills limit for locally `C^{1,1}` connections.** The regularity assumed
+is that `A` is differentiable and its derivative is Lipschitz on each compact set (equivalently,
+locally Lipschitz). This covers every `C²` connection, including those whose derivative grows
+without bound (e.g. polynomial `A`), which the global Lipschitz form excluded. The constant used
+near the box is chosen from this, not supplied. (Stated with norms rather than Mathlib's
+`LocallyLipschitz`, whose metric on iterated matrix-valued maps is not definitionally the
+operator norm used here.) -/
+theorem pm_yang_mills_locally_lipschitz {A : V4 → V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
+    {DA : V4 → V4 →L[ℝ] (V4 →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} (I : BoxIntegral.Box (Fin 4))
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA)
+    (hLL : ∀ S : Set V4, IsCompact S → ∃ L : ℝ, 0 ≤ L ∧
+      ∀ z₁ ∈ S, ∀ z₂ ∈ S, ‖DA z₁ - DA z₂‖ ≤ L * ‖z₁ - z₂‖)
+    (hskew : ∀ y v, star (A y v) = -A y v)
+    (T : V4 → V4 → ℝ → Matrix (Fin N) (Fin N) ℂ) (hT0 : ∀ y v, T y v 0 = 1)
+    (hTd : ∀ y v s, HasDerivAt (T y v) (T y v s * A (y + s • v) v) s)
+    (hTu : ∀ y v s, T y v s ∈ unitary (Matrix (Fin N) (Fin N) ℂ)) (β : ℝ)
+    (π : ℕ → BoxIntegral.TaggedPrepartition I)
+    (hπ : Tendsto π atTop (BoxIntegral.IntegrationParams.Riemann.toFilteriUnion I ⊤))
+    (h : ℕ → ℝ) (hh : Tendsto h atTop (𝓝[>] (0 : ℝ))) :
+    Tendsto (fun r => IntegratedGaugeAction.sample I
+        (fun x => LinkConsistency.linkDensity T x β (h r)) (π r)) atTop
+      (𝓝 (∫ x in I, UniformGaugeAction.yangMillsDensity A DA x β)) := by
+  obtain ⟨L, hL0, hL⟩ := hLL _ I.isCompact_Icc.cthickening
+  exact pm_lattice_yang_mills_transport I hA hDA hL0 (fun z₁ z₂ h₁ h₂ => hL z₁ h₁ z₂ h₂) hskew
+    T hT0 hTd hTu β π hπ h hh
 
 end PMAction.ParallelTransport

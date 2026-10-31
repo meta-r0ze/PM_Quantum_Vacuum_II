@@ -19,9 +19,10 @@ finite region that weight is a valid Gibbs density, because PM's action is bound
   their survival weights.
 
 So the survival weight defines the finite-volume lattice measure; no ultraviolet or infrared
-issue arises on a finite region. Still open: the reference measure for `SU(N)` in Mathlib (compact
-Haar on the unitary group; see `LatticeGibbsU1` for the concrete `U(1)` case), and the
-identification of PM's real-time update with this Euclidean measure.
+issue arises on a finite region. The measure-theoretic content is general: any bounded action
+normalizes any probability measure. What is PM-specific is the claim that the Wilson action is the
+survival cost; that identification, and the identification of PM's real-time update with this
+Euclidean measure, are not derived. Concrete reference measures: `LatticeGibbsU1`, `UnitaryHaar`.
 -/
 
 noncomputable section

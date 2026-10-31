@@ -5,9 +5,10 @@ import Mathlib.Tactic
 # The D₄ roots are isotropic through fourth order
 
 The 24 D₄ roots `±eᵢ ± eⱼ` (the vertices of the 24-cell) are the link directions of PM's lattice.
-Their moments match those of a rotation-invariant distribution through degree five:
+Their moments match those of a rotation-invariant distribution through degree four:
 
-* `odd_moments`: first and third moments vanish (central symmetry; the fifth follows the same way).
+* `odd_moments`: first and third moments vanish (central symmetry; higher odd moments are not
+  stated here).
 * `second_moment`: `Σ k_μ k_ν = 12 δ_{μν}`.
 * `fourth_moment`: `Σ k_μ k_ν k_ρ k_σ = 4 (δ_{μν}δ_{ρσ} + δ_{μρ}δ_{νσ} + δ_{μσ}δ_{νρ})`, the isotropic
   form.
@@ -16,10 +17,12 @@ Their moments match those of a rotation-invariant distribution through degree fi
 * `hypercubic_not_isotropic`: the hypercubic directions `±eᵢ` fail this: `Σ (k·w)⁴ = 2 Σ wᵢ⁴`,
   which is not a function of `|w|` alone.
 
-Relevance to Osterwalder–Schrader covariance (`YANG-MILLS-STATUS.md`, item 6). The `O(h²)`
-artifacts of a lattice derivative summed over link directions come from the fourth moment, so on
-D₄ they are `O(4)`-invariant (`∝ (∂²)²`). On a hypercubic lattice they break rotation symmetry at
-that order. Full `O(4)` restoration in the quantum continuum limit is not proved here.
+These are identities for root-direction moments. They do not by themselves prove
+rotation invariance of discretization corrections to the D₄ triangle gauge action:
+the corrections also depend on the triangle/link scheme and field derivatives.
+Indeed midpoint links admit rotated smooth U(1) fields with different O(h²) errors
+(see `LEAN-AUDIT-YANG-MILLS.md`). Neither a full gauge-action correction formula nor
+O(4) restoration in the quantum continuum limit is proved here.
 -/
 
 namespace PMAction.D4Isotropy

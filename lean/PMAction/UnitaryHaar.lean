@@ -18,8 +18,14 @@ unitary group. Here it is constructed.
   and `β ≥ 0`, PM's survival weight with PM's D₄ action normalizes product Haar measure to a
   probability measure on `U(N)` link configurations.
 
-So the finite-volume lattice quantum measure of PM's D₄ action exists for `U(N)`. `SU(N)` is the
-closed subgroup `det = 1` and is handled the same way.
+This constructs a finite Gibbs probability measure for the supplied assignment. The
+assignment `ℓ` is arbitrary: identifying distinct edges can make its configuration
+space fail to be closed under local gauge transformations. Thus this theorem alone
+does not construct a locally gauge-invariant lattice model. `D4ActionReflection`
+separately supplies geometric shared directed edges and their site-reflection bridge;
+the configuration-space gauge action and measure-invariance theorem remain open. Also,
+`SU(N)` (the closed subgroup `det = 1`) is not constructed, though the same compactness argument
+applies.
 -/
 
 noncomputable section
@@ -71,7 +77,8 @@ local notation "V4" => (Fin 4 → ℝ)
 def links {m : ℕ} (ℓ : V4 → V4 → ℝ → Fin m) (U : Fin m → UN n) :
     V4 → V4 → ℝ → Matrix (Fin n) (Fin n) ℂ := fun y v h => (U (ℓ y v h) : Matrix (Fin n) (Fin n) ℂ)
 
-/-- **The `U(n)` lattice quantum measure of PM's D₄ action exists.** -/
+/-- The supplied finite edge assignment gives a Gibbs probability measure.
+This does not assert closure under local gauge transformations. -/
 theorem uN_gibbs {m : ℕ} (ℓ : V4 → V4 → ℝ → Fin m) (X : Finset V4) (h β : ℝ) (hβ : 0 ≤ β) :
     IsProbabilityMeasure (LatticeGibbs.gibbs (Measure.pi fun _ : Fin m => haar n) β
       (fun U => LatticeGibbs.action X (links n ℓ U) h)) :=

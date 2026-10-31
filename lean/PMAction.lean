@@ -214,6 +214,7 @@ import PMAction.SiteReflection
 import PMAction.GaugeInvariance
 import PMAction.UnitaryHaar
 import PMAction.ParallelTransport
+import PMAction.LatticeSiteAction
 
 import PMAction.RunningResponse
 
@@ -250,3 +251,5 @@ import PMAction.LocalIsometricDynamics
 import PMAction.ProjectedEvolution
 
 import PMAction.JointSpaceTime
+
+import PMAction.D4ActionReflection

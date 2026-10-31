@@ -17,9 +17,12 @@ reflection swaps `u` and `d`. For an observable `F(p, u)` of the upper half, `θ
   Osterwalder–Schrader reflection positivity for the lattice measure.
 
 Hypotheses: measurable, bounded `F`; measurable `A` bounded below; probability reference measures.
-Together with `D4Reflection` (the split) and `LatticeGibbs` (the measure), this is reflection
-positivity for PM's D₄ action under the site reflection, for any compact gauge group whose Haar
-measure is supplied. Construction of the transfer matrix from it is the next step.
+**Scope.** This module proves the abstract measure-theoretic identity. The concrete
+finite shared-directed-link bridge is proved in `FiniteReflection`, `FiniteD4Reflection`
+and `D4ActionReflection`: geometric link reindexing, product Haar factorization, the exact
+D₄ action split, and normalized Gibbs reflection positivity. Opposite directed links
+are independent in that model; reciprocal-link configurations need their own bridge.
+A transfer matrix, nonnegative Hamiltonian and quantum continuum limit remain open.
 -/
 
 noncomputable section

@@ -2,7 +2,8 @@ import PMAction.LinkConsistency
 
 /-! Compact-region error control for the D₄ gauge density. The uniform constant
 is derived from the explicit triangle remainder and compactness, under a common
-C¹,¹ derivative bound and continuous derivative. No gauge regularity or link law
+local C¹,¹ derivative bound (within distance two of each point of the region) and
+continuous derivative. No gauge regularity or link law
 is selected by persistence here. -/
 noncomputable section
 set_option backward.isDefEq.respectTransparency false
@@ -23,14 +24,14 @@ theorem bound_continuous (A : E → E →L[ℝ] R) (DA : E → E →L[ℝ] (E �
 /-- A common spatial bound follows from compactness of the local Taylor data. -/
 theorem triangle_uniform [CompleteSpace R] {A : E → E →L[ℝ] R}
     {DA : E → E →L[ℝ] (E →L[ℝ] R)} {s : Set E} (hs : IsCompact s)
-    (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA) {L : ℝ} (hL0 : 0 ≤ L)
-    (hL : ∀ x ∈ s, ∀ y, ‖DA y-DA x‖ ≤ L*‖y-x‖) (a b : E) :
+    (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA) {L : ℝ} (hL0 : 0 ≤ L) (a b : E)
+    (hL : ∀ x ∈ s, ∀ y, ‖y-x‖ ≤ ‖a‖+‖b‖ → ‖DA y-DA x‖ ≤ L*‖y-x‖) :
     ∃ C : ℝ, 0 ≤ C ∧ ∀ x ∈ s, ∀ h : ℝ, 0 ≤ h → h ≤ 1 →
       ‖triangle A x a b h-(1+(h^2/2) • curvature A DA x a b)‖ ≤ C*h^3 := by
   have hAc : Continuous A := continuous_iff_continuousAt.mpr fun x => (hA x).continuousAt
   obtain ⟨B,hB⟩ := hs.bddAbove_image (bound_continuous A DA hAc hDA L a b).continuousOn
   refine ⟨max B 0,le_max_right _ _,fun x hx h hh h1 => ?_⟩
-  have hb := (triangle_expand_explicit hA hL0 (hL x hx) a b).2 h hh h1
+  have hb := (triangle_expand_explicit hA hL0 a b (hL x hx)).2 h hh h1
   have hc : triangleBound A DA x L a b ≤ max B 0 :=
     (hB (mem_image_of_mem _ hx)).trans (le_max_left _ _)
   exact hb.trans (mul_le_mul_of_nonneg_right hc (by positivity))
@@ -65,11 +66,11 @@ theorem wilson_uniform {P : V → ℝ → Matrix (Fin N) (Fin N) ℂ}
 theorem triangle_wilson_uniform {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {s : Set V}
     (hs : IsCompact s) (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA)
-    {L : ℝ} (hL0 : 0 ≤ L) (hL : ∀ x ∈ s, ∀ y, ‖DA y-DA x‖ ≤ L*‖y-x‖)
-    (hskew : ∀ y v, star (A y v) = -A y v) (a b : V) :
+    {L : ℝ} (hL0 : 0 ≤ L) (hskew : ∀ y v, star (A y v) = -A y v) (a b : V)
+    (hL : ∀ x ∈ s, ∀ y, ‖y-x‖ ≤ ‖a‖+‖b‖ → ‖DA y-DA x‖ ≤ L*‖y-x‖) :
     ∃ C : ℝ, 0 ≤ C ∧ ∀ x ∈ s, ∀ h : ℝ, 0 < h → h ≤ 1 →
       |(trace (1-triangle A x a b h)).re/h^4-triangleTarget A DA x a b| ≤ C*h := by
-  obtain ⟨K,hK,hb⟩ := triangle_uniform hs hA hDA hL0 hL a b
+  obtain ⟨K,hK,hb⟩ := triangle_uniform hs hA hDA hL0 a b hL
   have hAc : Continuous A := continuous_iff_continuousAt.mpr fun x => (hA x).continuousAt
   have hc : Continuous (fun x => (1/2 : ℝ) • curvature A DA x a b) := by
     unfold curvature
@@ -97,12 +98,13 @@ def yangMillsDensity (A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)
 theorem quadratic_uniform {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {s : Set V}
     (hs : IsCompact s) (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA)
-    {L : ℝ} (hL0 : 0 ≤ L) (hL : ∀ x ∈ s, ∀ y, ‖DA y-DA x‖ ≤ L*‖y-x‖)
+    {L : ℝ} (hL0 : 0 ≤ L) (hL : ∀ x ∈ s, ∀ y, ‖y-x‖ ≤ 2 → ‖DA y-DA x‖ ≤ L*‖y-x‖)
     (hskew : ∀ y v, star (A y v) = -A y v) (β : ℝ) :
     ∃ C : ℝ, 0 ≤ C ∧ ∀ x ∈ s, ∀ h : ℝ, 0 < h → h ≤ 1 →
       |d4Density A x β h-quadraticDensity A DA x β| ≤ C*h := by
   have hp (p : (Fin 4 → Fin 3) × (Fin 4 → Fin 3)) :=
-    triangle_wilson_uniform hs hA hDA hL0 hL hskew (rv p.1) (rv p.2)
+    triangle_wilson_uniform hs hA hDA hL0 hskew (rv p.1) (rv p.2)
+      (fun x hx y hy => hL x hx y (hy.trans (rv_pair p)))
   choose C hC hb using hp
   refine ⟨|β|/12*∑ p ∈ D4Gauge.tri, C p,
     mul_nonneg (by positivity) (Finset.sum_nonneg fun p _ => hC p),fun x hx h hh h1 => ?_⟩
@@ -121,7 +123,8 @@ lemma limit_of_bound (f : ℝ → ℝ) (q C : ℝ) (hC : 0 ≤ C)
   rw [Metric.tendsto_nhdsWithin_nhds]
   intro ε hε
   refine ⟨min 1 (ε/(C+1)),by positivity,fun h hh hd => ?_⟩
-  rw [Real.dist_eq,sub_zero,abs_of_pos hh] at hd
+  have hpos : 0 < h := hh
+  rw [Real.dist_eq,sub_zero,abs_of_pos hpos] at hd
   rw [Real.dist_eq]
   have h1 : h ≤ 1 := (hd.trans_le (min_le_left _ _)).le
   have h2 : h < ε/(C+1) := hd.trans_le (min_le_right _ _)
@@ -136,7 +139,7 @@ region. A common C¹,¹ bound is retained; compactness supplies the common const
 theorem yang_mills_uniform {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {s : Set V}
     (hs : IsCompact s) (hA : ∀ y, HasFDerivAt A (DA y) y) (hDA : Continuous DA)
-    {L : ℝ} (hL0 : 0 ≤ L) (hL : ∀ x ∈ s, ∀ y, ‖DA y-DA x‖ ≤ L*‖y-x‖)
+    {L : ℝ} (hL0 : 0 ≤ L) (hL : ∀ x ∈ s, ∀ y, ‖y-x‖ ≤ 2 → ‖DA y-DA x‖ ≤ L*‖y-x‖)
     (hskew : ∀ y v, star (A y v) = -A y v) (β : ℝ) :
     ∃ C : ℝ, 0 ≤ C ∧ ∀ x ∈ s, ∀ h : ℝ, 0 < h → h ≤ 1 →
       |d4Density A x β h-yangMillsDensity A DA x β| ≤ C*h := by
@@ -144,7 +147,7 @@ theorem yang_mills_uniform {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
   refine ⟨C,hC,fun x hx h hh h1 => ?_⟩
   have hnew := limit_of_bound (fun h => d4Density A x β h) (quadraticDensity A DA x β) C hC
     (hb x hx)
-  have hold := d4_yang_mills_tendsto hA hL0 (hL x hx) hskew β
+  have hold := d4_yang_mills_tendsto_loc hA hL0 (hL x hx) hskew β
   have heq : quadraticDensity A DA x β=yangMillsDensity A DA x β :=
     tendsto_nhds_unique hnew hold
   rw [← heq]

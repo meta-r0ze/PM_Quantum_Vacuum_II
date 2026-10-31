@@ -15,6 +15,8 @@ This is the summed read.
   Yang–Mills density exactly when `g² = 1/(κ_R·toll·m·W)`.
 
 Which read (mean or summed) a sector performs is a premise of the readout contract.
+`sum_canonical_iff` is algebra: it restates "the coefficient equals `1/4`" as a formula for `g²`.
+It does not fix `g` unless `κ_R`, `toll`, `m` and `W` are independently fixed.
 -/
 
 noncomputable section
