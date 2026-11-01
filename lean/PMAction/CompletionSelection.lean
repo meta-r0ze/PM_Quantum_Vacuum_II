@@ -95,4 +95,30 @@ theorem selected_is_identity (E : Matrix a b ℂ) (U : Matrix b b ℂ) (W : Matr
     (h : P E * W * P E = P E) : extendW E U W = IsometricDynamics.extend E U := by
   rw [extendW, h, IsometricDynamics.extend]
 
+/-- Completion selection restricted to admitted options. The identity on the
+invisible complement must itself be admitted; its accessibility is not derived
+by comparing its price with that of other matrices. A shared baseline is retained. -/
+theorem most_persistent_in_family (E : Matrix a b ℂ) (hE : Eᴴ * E = 1)
+    (toll β baseline : ℝ) (ht : 0 < toll) (hβ : 0 < β)
+    (F : Set (Matrix a a ℂ)) (hI : 1 ∈ F) (W : Matrix a a ℂ) :
+    (W ∈ F ∧ ∀ W' ∈ F, Real.exp (-β * (baseline + invisibleCost E toll W')) ≤
+      Real.exp (-β * (baseline + invisibleCost E toll W))) ↔
+      W ∈ F ∧ P E * W * P E = P E := by
+  rw [PersistenceSelection.within_family_iff_cheapest β hβ]
+  have hI0 : invisibleCost E toll 1 = 0 := by simp [invisibleCost, P_idem E hE]
+  constructor
+  · rintro ⟨hW, hmin⟩
+    refine ⟨hW, (most_persistent_completion E hE toll β ht hβ W).mp ?_⟩
+    have hz : invisibleCost E toll W = 0 :=
+      le_antisymm (by simpa only [hI0] using hmin 1 hI) (invisibleCost_nonneg E toll ht W)
+    apply (PersistenceSelection.most_persistent_iff_cheapest β hβ _ W).mpr
+    intro W'
+    rw [hz]
+    exact invisibleCost_nonneg E toll ht W'
+  · rintro ⟨hW, hfix⟩
+    refine ⟨hW, fun W' _ => ?_⟩
+    have hz : invisibleCost E toll W = 0 := by simp [invisibleCost, hfix]
+    rw [hz]
+    exact invisibleCost_nonneg E toll ht W'
+
 end PMAction.CompletionSelection

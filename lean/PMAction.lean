@@ -265,3 +265,11 @@ import PMAction.NativeRootGenerators
 import PMAction.FiniteMatrixTransport
 import PMAction.NativeCoherentLinks
 import PMAction.NativePacketUpdate
+import PMAction.FiniteEncoding
+import PMAction.SectorObservation
+import PMAction.CarrierClassBundle
+import PMAction.ReversibleStationarity
+import PMAction.InvolutionComparison
+
+import PMAction.RayPersistence
+import PMAction.SpatialComparison

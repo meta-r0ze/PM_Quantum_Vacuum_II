@@ -32,6 +32,28 @@ theorem packet_vector_injective {a b : Fin 3} (hab : a ≠ b) :
       exact (hab he.symm).elim
     | inr w => exact congrArg Sum.inr (vector_injective b h)
 
+/-- One certified root on the first wall; the second wall is retained and idle. -/
+def firstWallRoot (c : Fin 3) : Equiv.Perm (Packet c c) :=
+  Equiv.sumCongr (reflect c) (Equiv.refl (Carrier c))
+
+/-- Vector-only observation of an equal-class packet is not a closed state
+description for this one-wall event: identical present vectors can have
+different next vectors. Retaining the wall label avoids the ambiguity. -/
+theorem equal_class_vector_not_closed (c : Fin 3) :
+    ¬ ∃ update : (Fin 4 → ℤ) → (Fin 4 → ℤ), ∀ v : Packet c c,
+      packetVector (firstWallRoot c v) = update (packetVector v) := by
+  rintro ⟨update, hu⟩
+  obtain ⟨v, hv⟩ : (active c).Nonempty := by
+    apply Finset.card_pos.mp
+    rw [active_card]
+    norm_num
+  have hne : reflect c v ≠ v := by simpa [active] using hv
+  have hl := hu (Sum.inl v)
+  have hr := hu (Sum.inr v)
+  change vector (reflect c v) = update (vector v) at hl
+  change vector v = update (vector v) at hr
+  exact hne (vector_injective c (hl.trans hr.symm))
+
 /-- Eight minimal states are not eight independent geometric vectors in four coordinates.
 A Hilbert-space amplitude basis is an additional construction, not this cardinality count. -/
 theorem geometric_vectors_not_independent (c : Fin 3) :

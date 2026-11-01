@@ -146,4 +146,16 @@ theorem no_closed_universal_reset [Finite R] (r : R) (F : State R → State R)
   rw [hs] at hh
   cases hh
 
+/-- If repairing the reference fixes the control uniquely, that same control
+cannot independently choose the state of another resource with two distinct
+settings. This is a statement about the supplied task/control maps. -/
+theorem no_spare_no_ownership {P T D : Type*} [Nonempty T] (ρ : P → T) (σ : P → D)
+    (huniq : ∀ t, ∃! p, ρ p = t) (hmaint : ∀ t d, ∃ p, ρ p = t ∧ σ p = d) : Subsingleton D := by
+  obtain ⟨t⟩ := ‹Nonempty T›
+  refine ⟨fun d1 d2 => ?_⟩
+  obtain ⟨p1, h1, e1⟩ := hmaint t d1
+  obtain ⟨p2, h2, e2⟩ := hmaint t d2
+  have hp : p1 = p2 := (huniq t).unique h1 h2
+  rw [← e1, ← e2, hp]
+
 end PMAction.ReferenceMaintenance

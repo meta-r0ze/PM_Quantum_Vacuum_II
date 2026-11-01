@@ -33,6 +33,24 @@ theorem most_persistent_iff_cheapest {ι : Type*} (β : ℝ) (hβ : 0 < β) (C :
   refine forall_congr' fun j => ?_
   exact (survival_strictAnti β hβ).le_iff_ge
 
+/-- Survival selection within the actual admissible family, retaining a common
+baseline price. Neither family membership nor a lower-cost accessible witness
+follows from the monotonicity of survival. -/
+theorem within_family_iff_cheapest {ι : Type*} (β : ℝ) (hβ : 0 < β)
+    (C : ι → ℝ) (F : Set ι) (baseline : ℝ) (i : ι) :
+    (i ∈ F ∧ ∀ j ∈ F, Real.exp (-β * (baseline + C j)) ≤
+      Real.exp (-β * (baseline + C i))) ↔
+      i ∈ F ∧ ∀ j ∈ F, C i ≤ C j := by
+  constructor
+  · rintro ⟨hi, h⟩
+    refine ⟨hi, fun j hj => ?_⟩
+    have hc := (survival_strictAnti β hβ).le_iff_ge.mp (h j hj)
+    linarith
+  · rintro ⟨hi, h⟩
+    refine ⟨hi, fun j hj => ?_⟩
+    apply (survival_strictAnti β hβ).le_iff_ge.mpr
+    linarith [h j hj]
+
 /-- **Every occurring event has a positive price.** With the transition toll `c₀ = 1` (Closure),
 an event of positive probability `p` costs `c₀ · p > 0`. -/
 theorem event_price_pos (c₀ p : ℝ) (hc : c₀ = 1) (hp : 0 < p) : 0 < c₀ * p := by
