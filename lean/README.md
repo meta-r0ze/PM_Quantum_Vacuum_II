@@ -19,6 +19,92 @@ the spectral transport with exp(i t H); `Main.hypotheses_satisfiable` gives a fi
 witness. These results do not select a physical generator, gauge representation,
 state/readout contract or primitive implementation from persistence alone.
 
+## Shared state/controller integration (2026-11-01)
+
+`FiniteEncoding` now owns sparse label encodings, coherent isometry, complete
+complex pairing, recovery and permutation/readout intertwining. Paper III's
+`GenerationHistory` reuses it. `RayPersistence.beats` and
+`ReferenceMaintenance.no_spare_no_ownership` are also canonical here; Paper III
+retains its prior entry points as wrappers.
+
+`SectorObservation` combines dependent native sectors without identifying their
+labels. `CarrierClassBundle` applies it to all three glue classes: 48 native
+labels, 24 observed modes, the actual common vacuum generator and exact evolution
+readout. Wall parity is class-independent at that readout. Every class
+superposition of an energy mode has the same energy, so class replication alone
+selects neither splittings nor mixing. This is a consistent representation
+candidate, not a selection of three physical generations or a proof of full
+native wall symmetry on the invisible complement.
+
+`InvolutionComparison` gives a smaller comparison circuit for spectral phases of
+involutions: quarter phases of branch exchange and the controlled involution
+suffice, with no independent branch Z marker. Exact comparisons compose for
+noncommuting root-phase words. Inverses can be three forward quarters, giving
+nine forward spectral-phase calls per stage. The calls are not nine primitive
+E8 events. `SpatialComparison` allocates the two branches to two supplied cells,
+retains all payload labels, proves full-field unitarity and exact observation,
+and fixes outside basis states. It does not reuse the chirality wall as the
+comparison register. Coherent phase admission, cell preparation, routing/timing
+and primitive tariffs remain supplied; arbitrary payload permutations are not
+certified as E8 primitives by the construction.
+
+`PersistenceSelection.within_family_iff_cheapest`,
+`PersistentBackground.persistent_in_family` and
+`CompletionSelection.most_persistent_in_family` retain the actual admissible
+family and a shared baseline. Background selection requires an accessible
+stationary witness; completion selection requires the identity-complement option
+to be admitted. `ReversibleStationarity` proves that iterating a closed injective
+update cannot reach its fixed point from a nonfixed state in finitely many steps.
+Thus the unrestricted minimization theorem is not a preparation protocol.
+
+`IndependentRegisters` gives a finite-configuration route for distinct spinor
+and internal labels: two disjoint Boolean register banks, with exactly one
+occupied register each, have a sector equivalent to the product of their label
+spaces. Their reversible relabelings conserve occupation, leave the other bank's
+bits unchanged, commute across banks and have exact tensor-product coherent
+readout. `TensorObservation` supplies general tensor/composed readouts;
+`RegisterPrograms` extends the construction to operator expressions and exact
+evolution readout on every ambient amplitude. These results require the banks,
+occupancy sector and admitted operations. They do not select or prepare them,
+prove locality or statistics, or price a coherent expression as one event.
+Paper III's `CarrierRegisterModel` applies this to its actual carrier labels.
+
+`RegisterHamiltonian` extends this to any supplied finite Hermitian generator:
+matrix entries act as Boolean-register hops, followed by Hermitian completion.
+The one-occupation-per-bank sector has exactly the generator's tensor readout,
+with no feedback from other amplitudes. Evolution is unitary and conserves total
+occupation and every payload bit on all sectors. The higher-occupation completion
+is a specified construction, not fermionic statistics, a selected microscopic
+Hamiltonian or a priced E8 implementation. Paper III's `CarrierRegisterVacuum`
+now wraps the canonical `RegisterVacuum` construction here, specialized to its
+packet labels.
+
+## Shared register, current and schedule layer
+
+| Modules | Shared result |
+| --- | --- |
+| `TensorEvolution`, `TensorKernel` | Exact evolution on independent factors; kernel statements for arbitrary entangled amplitudes |
+| `RegisterVacuum` | Full native generator/readout for every supplied carrier class and finite payload; intrinsic chiral projector |
+| `RegisterInteraction` | Both banks have explicit hopping operators; supplied Hermitian tensor interactions have exact readout, unitary evolution and conserved total occupation |
+| `ChiralRegisterCurrent` | Chiral charge acts as second-wall selection on the zero kernel, preserves it and acts on the existing exchanged reference; no global packet/wall identification |
+| `ClockDynamics`, `RegisterSplit` | Full real-space split on the configuration model, all-state readout histories, coherent-clock unitarity, and four clock phases per tick (five generator exponentials) |
+| `RegisterReference` | One common spatial register/readout model for vacuum, chiral charge and payload × record labels; explicit memory count and order-independent current/routing readout |
+| `RegisterControl` | Joint label permutations extend reversibly to the Boolean configuration; involution phases are unitary and observed exactly; invalid occupancy configurations are fixed |
+
+`RegisterSplit` lifts the existing directional-exponential completion, whose
+finite-range locality is not asserted. The distinct `LocalIsometricDynamics`
+completion retains its finite-stencil theorem. `RegisterReference` counts
+`16·|X| + |payload|·|record|` Boolean registers; the four-phase clock is separate.
+Extra branch labels must be present in the allocated state space before using
+the joint-control construction. Those counts and pulse counts are not primitive
+event tariffs.
+
+These are compatible finite constructions with supplied banks, occupancy,
+amplitudes, charge and update admission. They do not select the physical current,
+prepare its reference, derive a fresh-record source, choose the clock calibration
+or determine microscopic costs. Broader field/PDE and quantum-limit work remains
+listed in [REVIEW-AND-NEXT.md](REVIEW-AND-NEXT.md).
+
 ## Proof map
 
 All module names below refer to canonical sources under `PMAction/`, imported by
@@ -42,6 +128,22 @@ All module names below refer to canonical sources under `PMAction/`, imported by
 | Gauge and scalar transport | `D4Gauge`, `GaugeContinuum`, `VaryingFields`, `LinkConsistency`, `GaugeTransport`, `ReferenceSampling`, `SummedReference`, `ReadoutAdditivity`, `ScalarTransport` | Pointwise D₄ density limits, cubic-consistent link robustness, link extraction from a supplied linear hop, reference readout and scalar kinetic normalization. Smooth refinement, representations, sampling, exact-refresh and pricing contracts remain visible. |
 | Gauge fluctuations and running | `RunningCoefficients`, `RunningResponse`, `GaugeFluctuation`, `FluctuationPremises`, `FluctuationClosure`, `ContinuumFields`, `LandauDegeneracy`, `LatticeToContinuum` | Spin/orbital kernel coefficients, gauge-fixed Hessian and Ward algebra, finite-dimensional ghost determinant power, concrete field identities, strip-centre density and pointwise lattice-to-continuum second variation. These do not establish a quantum continuum measure or an integrated lattice action limit. |
 | Currents and decay foundations | `ChargedCurrent`, `NeutralCurrent`, `ContactMatching`, `WallChiralCurrent`, `ChiralityConvention`, `VATrace`, `MassiveVATrace`, `SpinorCompleteness`, `AmplitudeTrace`, `WeakVertex` | Charged/neutral normalization, wall-projector algebra, spin sums, bilinear-to-trace amplitude and factor 64, contact matching and kernel-basis existence. Physical interaction, mediator, external-state interpretation and phase-space measure remain application inputs. |
+
+The finite Yang–Mills model now includes reciprocal links with
+`U(y,x) = U(x,y)†`. `GeometricGauge` proves the geometric configuration-space
+gauge action and Gibbs invariance; `ReciprocalReflection` proves both gauge
+invariance and site-reflection positivity for the same reciprocal-link measure.
+`TransportExistence` constructs global unitary transport from a continuous skew
+connection; `ConnectionRegularity` supplies the literal C² site-action interface.
+`CompositionalTransport` derives the ODE and classical limit from conserving
+single-hop updates under explicit subdivision and infinitesimal-response contracts.
+`NativePacketUpdate` proves those contracts for the native E8 packet subsystem (the
+coordinate-odd sector of the eight D₄ carrier labels, evolved by the native root-response
+generators with smooth controls), so the classical limit holds for its own links. The
+controls and the admission of that coherent evolution as the substrate dynamics remain
+inputs. See
+[YANG-MILLS-STATUS.md](YANG-MILLS-STATUS.md) and
+[LEAN-AUDIT-YANG-MILLS.md](LEAN-AUDIT-YANG-MILLS.md).
 
 ## Joint space/time evolution
 

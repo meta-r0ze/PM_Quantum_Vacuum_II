@@ -273,3 +273,16 @@ import PMAction.InvolutionComparison
 
 import PMAction.RayPersistence
 import PMAction.SpatialComparison
+import PMAction.TensorObservation
+import PMAction.IndependentRegisters
+import PMAction.RegisterPrograms
+import PMAction.RegisterHamiltonian
+import PMAction.TensorEvolution
+import PMAction.TensorKernel
+import PMAction.RegisterVacuum
+import PMAction.RegisterInteraction
+import PMAction.ChiralRegisterCurrent
+import PMAction.ClockDynamics
+import PMAction.RegisterSplit
+import PMAction.RegisterReference
+import PMAction.RegisterControl
