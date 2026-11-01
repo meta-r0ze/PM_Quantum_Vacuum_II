@@ -199,13 +199,17 @@ theorem pair_coefficient (a : ℝ) :
 
 /-! ## The running coefficient per unit index -/
 
-/-- **Spin decomposition derived.** The `B²` coefficient of a helicity pair with Zeeman factor
-`a = 2s`, times the statistics sign `(−1)^{2s}`, is `RunningCoefficients.spinTerm`. -/
+/-- **Spin decomposition, assembled.** `pair_coefficient` derives the `B²` coefficient `a² − 1/3` of
+a helicity pair. With Zeeman factor `a = 2s` (derived for `s = 1/2` by `zeeman`/`concrete_spin`,
+for `s = 1` by `GaugeFluctuation.vector_kernel`) and the statistics sign `(−1)^{2s}` (an input:
+spin–statistics is not derived here), it is `RunningCoefficients.spinTerm`. This theorem itself
+is only the cast identity for that definition. -/
 theorem spin_term_from_response (twoS : ℕ) :
     ((RunningCoefficients.spinTerm twoS : ℚ) : ℝ) = (-1) ^ twoS * (((twoS : ℝ)) ^ 2 - 1 / 3) := by
   simp [RunningCoefficients.spinTerm]
 
-/-- Spin `1/2` uses the Zeeman factor `a = 1` derived above (`zeeman`, `concrete_spin`). -/
+/-- Arithmetic for spin `1/2`: `a = 1` (from `zeeman`, `concrete_spin`) and fermionic sign `−1`
+give `−2/3`. The link to those theorems is by substitution, not by this proof. -/
 theorem weyl_term : (-1 : ℝ) ^ 1 * ((1 : ℝ) ^ 2 - 1 / 3) = -2 / 3 := by norm_num
 
 end PMAction.RunningResponse

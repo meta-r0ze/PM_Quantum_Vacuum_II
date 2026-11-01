@@ -259,3 +259,9 @@ import PMAction.TransportExistence
 import PMAction.ReciprocalReflection
 
 import PMAction.CompositionalTransport
+import PMAction.NativePacketLinks
+import PMAction.NativePacketRouting
+import PMAction.NativeRootGenerators
+import PMAction.FiniteMatrixTransport
+import PMAction.NativeCoherentLinks
+import PMAction.NativePacketUpdate

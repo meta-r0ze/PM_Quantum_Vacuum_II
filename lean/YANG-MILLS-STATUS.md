@@ -48,8 +48,23 @@ Audited 2026-10-31 against `PM-1-Arch/calculations/lean_review.tex`; the full ca
   hypotheses; skewness and cubic consistency are conclusions. This is a sufficient
   operational criterion, not a proof that the native E8 update satisfies it.
 
-**What this does not show.** The native E8 packet subsystem and its refinement law
-are not identified. The connection, group, representation and `β` are not selected
+- **Native packet subsystem: contracts proved.** `NativePacketUpdate.packet_contracts`
+  proves all four `CompositionalTransport` contracts (conservation, identity at zero length,
+  exact straight-edge subdivision, C² infinitesimal response) for the packet update read from
+  the native eight-label carrier dynamics. The packet is the coordinate-odd sector of the actual
+  D₄ carrier labels (restrictions of certified E8 reflections); the generator is a smooth
+  combination of the native root-response cost operators (`NativeCoherentLinks`). Subdivision
+  follows from the transport cocycle (`transport_cocycle`), not from an added law; the full
+  native update conserves norm and composes too, and its packet readout is exactly the packet
+  update (`readout_hop`, `embed_hop`). `native_packet_yang_mills` then gives the classical limit.
+  The realization is unique (`realization_unique`). Pure root-word permutations cannot refine
+  continuously (`NativePacketRouting.pure_permutation_refinement_trivial`), so the coherent
+  generator is required.
+
+**What this does not show.** The control one-forms that weight the native root generators
+are inputs, and admitting coherent Hermitian evolution by the root-response cost operators as
+the substrate's dynamics is the existing amplitude contract, not derived here. The discrete
+tick is not shown to implement this continuous family. The connection, group, representation and `β` are not selected
 by the postulates. Thus the classical result still does not show that PM produces
 Yang–Mills. Transport existence and the literal C² interface are no longer missing.
 The density is Euclidean, and the convergence result concerns smooth classical fields.

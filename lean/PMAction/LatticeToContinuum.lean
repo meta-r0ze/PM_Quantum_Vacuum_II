@@ -212,7 +212,8 @@ lemma norm_sq_star (z : ℂ) : ‖z‖ ^ 2 = (star z * z).re := by
 `ContinuumFields`), `q₂ = 2β · ¼ Σ_{μν} (τ(G_μν G_μν) + 2 τ(F_μν [a_μ, a_ν]))`. Here
 `G_μν = D_μ a_ν − D_ν a_μ` (`Gc`). This is the pointwise integrand of
 `ContinuumFields.quad2` without the gauge-fixing term. -/
-theorem q2_trace (hA : ∀ y, HasFDerivAt (F := Vec →L[ℝ] Mat N) A (DA y) y)
+theorem q2_trace {A a : Vec → Vec →L[ℝ] Mat N} {DA Da : Vec → Vec →L[ℝ] (Vec →L[ℝ] Mat N)}
+    (hA : ∀ y, HasFDerivAt (F := Vec →L[ℝ] Mat N) A (DA y) y)
     (ha : ∀ y, HasFDerivAt (F := Vec →L[ℝ] Mat N) a (Da y) y)
     (sA : ∀ y v, (A y v)ᴴ = -A y v) (sa : ∀ y v, (a y v)ᴴ = -a y v) (x : Vec) (β : ℝ) :
     q2 A a DA Da x β = 2 * β * ((1 / 4) * ∑ μ, ∑ ν,

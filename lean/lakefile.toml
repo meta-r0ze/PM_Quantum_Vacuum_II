@@ -4,6 +4,7 @@ defaultTargets = ["PMAction"]
 
 [[lean_lib]]
 name = "PMAction"
+leanOptions = { autoImplicit = false }
 
 [[require]]
 name = "pm_arch"
