@@ -16,9 +16,9 @@ theorem stationary_not_minimal :
   norm_num
 
 /-- A dissipation budget constrains a product without determining each factor. -/
-theorem complexity_speed_bound {ξ K f C : ℝ} (hξ : 0 < ξ) (hK : 0 < K)
-    (hbudget : ξ * K * f ≤ C) : f ≤ C / (ξ*K) := by
-  apply (le_div_iff₀ (mul_pos hξ hK)).mpr
+theorem complexity_speed_bound {c K f C : ℝ} (hc : 0 < c) (hK : 0 < K)
+    (hbudget : c * K * f ≤ C) : f ≤ C / (c*K) := by
+  apply (le_div_iff₀ (mul_pos hc hK)).mpr
   nlinarith
 
 /-- A positive dissipation density cannot be identified with an unrestricted
