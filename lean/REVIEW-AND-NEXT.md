@@ -1,7 +1,7 @@
 # Paper II: open work (todo)
 
 Checked mathematics and the module map are in [`OVERVIEW.md`](OVERVIEW.md). This
-file is only what remains. Paper II builds clean (3878 jobs, zero warnings, 5557
+file is only what remains. Paper II builds clean (3879 jobs, zero warnings, 5580
 strict-audited declarations). Each item states the frontier: what is proved, and
 the physical or mathematical input still missing. Nothing here is a missing Lean
 *statement* hidden behind an extra hypothesis; each needs a model law or a new
@@ -69,7 +69,7 @@ Paper III owns packet representations and constants; Paper IV flavour/mass; Pape
 decay/phase-space; Paper VI cosmology. See [`OVERVIEW.md`](OVERVIEW.md).
 
 ## Verification
-**3878** build jobs, **zero** errors, **zero** warnings.
-**5557** strict-audited PMAction declarations.
+**3879** build jobs, **zero** errors, **zero** warnings.
+**5580** strict-audited PMAction declarations.
 No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
 Run `./check.sh` for current numbers.

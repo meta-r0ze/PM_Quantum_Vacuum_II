@@ -19,6 +19,14 @@ with the squared displacement equal to `t²‖Hφ‖²` up to an explicitly boun
 fourth-order remainder. These results do **not** select a physical generator, gauge
 representation, state/readout contract or primitive implementation.
 
+Shared results also include the **conservation → continuity** derivation
+(`Continuity`) and the **gravitational weak-field reconstruction** from the
+capacity ledger (`WeakField`, with `channelCapacity = ν = 16`): `g_00 = −(1+2Φ)` for
+both the paper's linearized pair and the exact clock-squared pair, with
+`Φ = −K/ν + K²/(2ν²)`. The **discrete causal structure** (`DiscreteCausal`) and the
+**discrete response law** (`ResponseLaw`: Laplacian source-neutrality) are derived from
+the actual update stencil and adjacency, not postulated.
+
 ## Where to look
 
 - **[OVERVIEW.md](OVERVIEW.md)** — what is proved and reusable: the module map,
@@ -48,7 +56,7 @@ stated hypotheses; it does **not** select the physical inputs.
 
 ## Verification
 
-**3878** build jobs, **zero** errors, **zero** warnings.
-**5557** strict-audited PMAction declarations.
+**3883** build jobs, **zero** errors, **zero** warnings.
+**5648** strict-audited PMAction declarations.
 No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
 Re-run `./check.sh` for the current numbers rather than trusting this line.
