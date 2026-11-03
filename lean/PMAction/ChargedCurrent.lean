@@ -59,4 +59,45 @@ theorem vertex_coefficient {n : Type*} [Fintype n] [DecidableEq n] (Γ : Matrix 
     (g / Real.sqrt 2) • ((1 / 2 : ℂ) • (1 - Γ)) = (g / (2 * Real.sqrt 2)) • (1 - Γ) := by
   rw [smul_smul]; congr 1; ring
 
+set_option linter.unusedSimpArgs false
+set_option linter.unusedTactic false
+set_option linter.unreachableTactic false
+set_option linter.unnecessarySeqFocus false
+
+/-! ## The su(2) doublet current algebra -/
+
+/-- `T₃ = diag(1/2, −1/2)`, the diagonal generator of the doublet. -/
+def T3 : Matrix (Fin 2) (Fin 2) ℂ := !![1/2, 0; 0, -1/2]
+
+/-- `[T₁, T₂] = i T₃`. -/
+theorem commutator_T1_T2 : T1 * T2 - T2 * T1 = Complex.I • T3 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [T1, T2, T3, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    ring_nf <;> simp [Complex.I_sq] <;> norm_num
+
+/-- `[T₃, T₊] = T₊`: the raising generator raises `T₃` by one. -/
+theorem commutator_T3_Tp : T3 * Tp - Tp * T3 = Tp := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [T3, Tp, T1, T2, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    ring_nf <;> simp [Complex.I_sq] <;> norm_num
+
+/-- `[T₃, T₋] = −T₋`. -/
+theorem commutator_T3_Tm : T3 * Tm - Tm * T3 = -Tm := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [T3, Tm, T1, T2, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    ring_nf <;> simp [Complex.I_sq] <;> norm_num
+
+/-- `[T₊, T₋] = 2 T₃`. -/
+theorem commutator_Tp_Tm : Tp * Tm - Tm * Tp = (2 : ℂ) • T3 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [T3, Tp, Tm, T1, T2, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    ring_nf <;> simp [Complex.I_sq] <;> norm_num
+
+/-- `{T₊, T₋} = 1`. -/
+theorem anticommutator_Tp_Tm : Tp * Tm + Tm * Tp = 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [Tp, Tm, T1, T2, Matrix.mul_apply, Fin.sum_univ_two, one_apply] <;>
+    ring_nf <;> simp [Complex.I_sq] <;> norm_num
+
 end PMAction.ChargedCurrent
+

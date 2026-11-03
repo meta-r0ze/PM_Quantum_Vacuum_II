@@ -14,7 +14,9 @@ A lattice gauge transformation assigns a unitary `g(y)` to every site and acts o
 * `action_gauge`, `weight_gauge`: PM's D₄ action and its survival weight `exp(−β S)` are gauge
   invariant. `GeometricGauge` proves two-sided Haar and Gibbs pushforward invariance
   on the concrete geometric configuration space; `ReciprocalReflection` supplies
-  the reciprocal-link version. Arbitrary edge-identification quotients are not covered.
+  the reciprocal-link version. `QuotientClosure.gibbs_quotient_invariant` proves
+  invariance descends to any measurable edge-identification quotient compatible
+  with the action, so an arbitrary quotient needs only its map and induced action.
 -/
 
 noncomputable section

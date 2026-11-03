@@ -48,7 +48,7 @@ stated hypotheses; it does **not** select the physical inputs.
 
 ## Verification
 
-**3877** build jobs, **zero** errors, **zero** warnings.
-**5555** strict-audited PMAction declarations.
+**3878** build jobs, **zero** errors, **zero** warnings.
+**5557** strict-audited PMAction declarations.
 No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
 Re-run `./check.sh` for the current numbers rather than trusting this line.

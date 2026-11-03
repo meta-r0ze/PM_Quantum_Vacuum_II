@@ -156,4 +156,28 @@ theorem basis_exists (p : Fin 4 → ℝ) (m : ℝ) :
     exact Submodule.sum_mem _ fun i _ =>
       Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
 
+/-! ## Properties of the V−A projector `P_L` -/
+
+set_option linter.unnecessarySeqFocus false
+
+/-- `P_L = ½(1 − γ⁵)`. -/
+theorem PL_eq : PL = (1 / 2 : ℂ) • (1 - ConcreteFermion.gamma) := by
+  rw [PL, VATrace.L_eq]
+
+/-- The chiral projector is idempotent. -/
+theorem PL_idempotent : PL * PL = PL := by
+  rw [PL_eq]
+  exact ChargedCurrent.projector_idempotent ConcreteFermion.gamma ConcreteFermion.gamma_square
+
+/-- The chiral projector is Hermitian. -/
+theorem PL_hermitian : PL.IsHermitian := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [PL, VATrace.L, conjTranspose_apply]
+
+/-- The chiral projector has rank two: its trace is `2`. -/
+theorem PL_trace : PL.trace = 2 := by
+  simp [PL, VATrace.L, Matrix.trace, Fin.sum_univ_four] <;> norm_num
+
 end PMAction.WeakVertex
+

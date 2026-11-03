@@ -1,7 +1,7 @@
 # Paper II: open work (todo)
 
 Checked mathematics and the module map are in [`OVERVIEW.md`](OVERVIEW.md). This
-file is only what remains. Paper II builds clean (3877 jobs, zero warnings, 5555
+file is only what remains. Paper II builds clean (3878 jobs, zero warnings, 5557
 strict-audited declarations). Each item states the frontier: what is proved, and
 the physical or mathematical input still missing. Nothing here is a missing Lean
 *statement* hidden behind an extra hypothesis; each needs a model law or a new
@@ -42,11 +42,12 @@ determine it.
 Proved: `CompositionalTransport` derives the transport ODE and classical limit from
 conserving single-hop updates under subdivision + C² response; `NativePacketUpdate`
 proves the contracts for the native E8 packet subsystem; `GeometricGauge`,
-`ReciprocalReflection` give gauge/Gibbs/site-reflection positivity.
+`ReciprocalReflection` give gauge/Gibbs/site-reflection positivity, and
+`QuotientClosure.gibbs_quotient_invariant` closes the edge-identification case
+(invariance descends to any measurable quotient compatible with the action).
 Open: the microscopic E8 realization of the abstract hop, its physical readout and
 price law, shared group/trace normalization across spacings, and the admission of
-the coherent root-generator evolution as the substrate dynamics. Arbitrary
-edge-identification quotients still need their own closure proof.
+the coherent root-generator evolution as the substrate dynamics.
 
 ## 6. Full field and integrated limits
 Proved: `JointSpaceTime` gives the fixed-momentum joint limit (`a→0`, `1/(a²N)→0`),
@@ -68,7 +69,7 @@ Paper III owns packet representations and constants; Paper IV flavour/mass; Pape
 decay/phase-space; Paper VI cosmology. See [`OVERVIEW.md`](OVERVIEW.md).
 
 ## Verification
-**3877** build jobs, **zero** errors, **zero** warnings.
-**5555** strict-audited PMAction declarations.
+**3878** build jobs, **zero** errors, **zero** warnings.
+**5557** strict-audited PMAction declarations.
 No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
 Run `./check.sh` for current numbers.
