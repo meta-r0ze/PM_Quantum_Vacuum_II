@@ -278,6 +278,11 @@ import PMAction.TensorObservation
 import PMAction.IndependentRegisters
 import PMAction.RegisterPrograms
 import PMAction.RegisterHamiltonian
+import PMAction.Continuity
+import PMAction.WeakField
+import PMAction.DiscreteCausal
+import PMAction.ResponseLaw
+import PMAction.SpatialResponse
 import PMAction.TensorEvolution
 import PMAction.TensorKernel
 import PMAction.RegisterVacuum
