@@ -24,7 +24,9 @@ Shared results also include the **conservation → continuity** derivation
 capacity ledger (`WeakField`, with `channelCapacity = ν = 16`): `g_00 = −(1+2Φ)` for
 both the paper's linearized pair and the exact clock-squared pair, with
 `Φ = −K/ν + K²/(2ν²)`. The **discrete causal structure** (`DiscreteCausal`) and the
-**discrete response law** (`ResponseLaw`: Laplacian source-neutrality) are derived from
+**discrete response law** (`ResponseLaw`: Laplacian source-neutrality) and the
+**Coulomb kernel** interface (`CoulombKernel`: `lap G = δ`, concrete 2/3/4-site
+path Green functions) are derived from
 the actual update stencil and adjacency, not postulated.
 
 ## Where to look

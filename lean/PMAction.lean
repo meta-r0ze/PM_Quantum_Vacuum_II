@@ -282,6 +282,7 @@ import PMAction.Continuity
 import PMAction.WeakField
 import PMAction.DiscreteCausal
 import PMAction.ResponseLaw
+import PMAction.CoulombKernel
 import PMAction.SpatialResponse
 import PMAction.TensorEvolution
 import PMAction.TensorKernel
