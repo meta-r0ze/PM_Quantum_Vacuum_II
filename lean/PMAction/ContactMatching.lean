@@ -14,7 +14,7 @@ A charged-current amplitude exchanges a vector of mass `m` between two currents 
   measures only the scale `v`.
 
 The mass relation `m² = g²v²/4` is not assumed here; Paper III derives it from the reference
-(`PMNested.ReferenceMasses.charged_entry`). Paper V's `MassScaling.mediator_matching` is the same
+(`PMConstants.ReferenceMasses.charged_entry`). Paper V's `MassScaling.mediator_matching` is the same
 identity.
 -/
 

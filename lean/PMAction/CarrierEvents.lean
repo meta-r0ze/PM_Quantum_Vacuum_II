@@ -1,5 +1,5 @@
-import PMArch.Channels
-import PMArch.NetCost
+import PMSubstrate.Channels
+import PMSubstrate.NetCost
 import Mathlib.LinearAlgebra.Matrix.Permutation
 
 /-! Actual minimal D4 glue-class carriers and reversible reflection events.
@@ -7,7 +7,7 @@ Uniform sampling is explicit; this does not select the physical event law. -/
 noncomputable section
 namespace PMAction.CarrierEvents
 open Matrix Finset
-open PMArch.Channels
+open PMSubstrate.Channels
 
 /-- A nontrivial glue class: vector, spinor or conjugate spinor. -/
 def classLabel (c : Fin 3) : ℕ := c.val+1
@@ -89,14 +89,14 @@ def active (c : Fin 3) : Finset (Carrier c) := univ.filter (fun v => reflect c v
 theorem active_card (c : Fin 3) : (active c).card=4 := by
   fin_cases c <;> decide +kernel
 
-theorem uniform_activation (c : Fin 3) : PMArch.NetCost.prob (active c)=1/2 := by
-  rw [PMArch.NetCost.prob, active_card, carrier_card]
+theorem uniform_activation (c : Fin 3) : PMSubstrate.NetCost.prob (active c)=1/2 := by
+  rw [PMSubstrate.NetCost.prob, active_card, carrier_card]
   norm_num
 
 /-- Cost of one explicitly identified primitive reflection event under uniform input. -/
 theorem uniform_primitive_cost (c : Fin 3) (toll : ℝ) :
-    PMArch.NetCost.expectedCost toll (fun _ : Fin 1 => active c)=toll/2 := by
-  rw [PMArch.NetCost.expected_count_linear]
+    PMSubstrate.NetCost.expectedCost toll (fun _ : Fin 1 => active c)=toll/2 := by
+  rw [PMSubstrate.NetCost.expected_count_linear]
   simp [uniform_activation, div_eq_mul_inv]
 
 end PMAction.CarrierEvents

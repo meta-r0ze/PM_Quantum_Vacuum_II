@@ -1,5 +1,5 @@
 import PMAction.ReadoutGateBoundary
-import PMArch.PersistenceEvents
+import PMSubstrate.PersistenceEvents
 
 /-!
 # A parity-readout circuit using Paper I's three-leg witness
@@ -12,7 +12,7 @@ its net effect can be the identity on that input. No minimal-cost claim is made.
 -/
 noncomputable section
 namespace PMAction.ParityReadoutCircuit
-open PMArch.Arity
+open PMSubstrate.Arity
 
 abbrev Bits := Bool × Bool × Bool
 
@@ -20,11 +20,11 @@ inductive Gate | vertex | flip0 | flip1 | flip2 | exchange01
   deriving DecidableEq
 
 def action : Gate → Bits → Bits
-  | .vertex => PMArch.Arity.vertex
+  | .vertex => PMSubstrate.Arity.vertex
   | .flip0 => fun s => (!s.1,s.2.1,s.2.2)
   | .flip1 => fun s => (s.1,!s.2.1,s.2.2)
   | .flip2 => fun s => (s.1,s.2.1,!s.2.2)
-  | .exchange01 => PMArch.Arity.s12
+  | .exchange01 => PMSubstrate.Arity.s12
 
 theorem action_involutive : ∀ g : Gate, Function.Involutive (action g) := by
   intro g

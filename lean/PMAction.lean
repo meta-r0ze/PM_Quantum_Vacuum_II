@@ -213,6 +213,7 @@ import PMAction.D4Reflection
 import PMAction.SiteReflection
 import PMAction.GaugeInvariance
 import PMAction.UnitaryHaar
+import PMAction.SpecialUnitaryHaar
 import PMAction.ParallelTransport
 import PMAction.LatticeSiteAction
 

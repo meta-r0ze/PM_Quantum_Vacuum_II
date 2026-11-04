@@ -52,7 +52,7 @@ lemma cost_observed (c : Fin 3) (j : Fin 4) :
   NativeObservation.sub NativeObservation.one (observed c (root c j))
 
 def rootMatrixZ (j : Fin 4) (a b : Fin 4) : ℤ :=
-  PMArch.ChannelSymmetry.refl (PMArch.ChannelSymmetry.simple j) (Pi.single b 1) a
+  PMSubstrate.ChannelSymmetry.refl (PMSubstrate.ChannelSymmetry.simple j) (Pi.single b 1) a
 
 def rootMatrix (j : Fin 4) : Matrix (Fin 4) (Fin 4) ℂ := fun a b => (rootMatrixZ j a b : ℂ)
 
@@ -83,7 +83,7 @@ not restricted to flat frame relabelings. -/
 theorem noncommuting_costs (c : Fin 3) :
     (packetCost c 0*packetCost c 1-packetCost c 1*packetCost c 0) 0 2=1 := by
   norm_num [packetCost,root_link,rootMatrix,rootMatrixZ,Matrix.mul_apply,Matrix.sub_apply,
-    Matrix.one_apply,PMArch.ChannelSymmetry.refl,PMArch.ChannelSymmetry.simple,
-    PMArch.ChannelSymmetry.dot4,Fin.sum_univ_four,Pi.single_apply]
+    Matrix.one_apply,PMSubstrate.ChannelSymmetry.refl,PMSubstrate.ChannelSymmetry.simple,
+    PMSubstrate.ChannelSymmetry.dot4,Fin.sum_univ_four,Pi.single_apply]
 
 end PMAction.NativeRootGenerators

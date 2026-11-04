@@ -1,5 +1,5 @@
 import PMAction.FiniteRestorationBridge
-import PMArch.Lattices
+import PMSubstrate.Lattices
 
 /-!
 # A retained record does not automatically give an autonomous live residual
@@ -19,7 +19,7 @@ physical vacuum dynamics.
 -/
 noncomputable section
 namespace PMAction.RecordFeedbackBoundary
-open Matrix PMArch.Lattices
+open Matrix PMSubstrate.Lattices
 
 abbrev State := Fin 8 → ℤ
 

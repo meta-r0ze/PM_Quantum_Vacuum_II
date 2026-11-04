@@ -96,16 +96,24 @@ shows closed injective updates cannot finitely prepare a stationary state.
 
 `GeometricGauge`, `ReciprocalLinks`, `ReciprocalReflection` give the geometric
 configuration-space gauge action and Gibbs invariance, with one reciprocal-link
-measure that is gauge invariant and site-reflection positive. `TransportExistence`
-constructs global unitary transport from a continuous skew connection;
-`CompositionalTransport` derives the ODE and classical limit from conserving
-single-hop updates; `NativePacketUpdate` proves those contracts for the native E8
-packet subsystem. `UniformGaugeAction`, `IntegratedGaugeAction`,
+measure that is gauge invariant and site-reflection positive. `LatticeGibbs`,
+`LatticeGibbsU1`, `UnitaryHaar` and `SpecialUnitaryHaar` give the finite-volume
+Euclidean probability measures for `U(1)`, `U(N)` and `SU(N)` links.
+`TransportExistence` constructs global unitary transport from a continuous skew
+connection; `CompositionalTransport` derives the ODE and classical limit from
+conserving single-hop updates; `NativePacketUpdate` proves those contracts for the
+native E8 packet subsystem. `UniformGaugeAction`, `IntegratedGaugeAction`,
 `IntegratedScalarAction`, `LatticeSiteAction`, `ClassicalYangMills` give the
 site-sum-to-integral limits on a box under explicit regularity.
 `QuotientClosure.gibbs_quotient_invariant` proves gauge invariance descends to any
 measurable edge-identification quotient compatible with the action. Details and audit:
 [YANG-MILLS-STATUS.md](YANG-MILLS-STATUS.md), [LEAN-AUDIT-YANG-MILLS.md](LEAN-AUDIT-YANG-MILLS.md).
+
+The quantum-Yang–Mills programme (infinite volume, renormalized continuum, full
+O(4) restoration, transfer matrix, mass gap, nontriviality) is deliberately out of
+scope for this test; see the scope decision in `YANG-MILLS-STATUS.md`. The remaining
+PM-specific inputs are the two `NativePacketUpdate` controls/admission premises,
+not additional standard lattice-QFT constructions.
 
 ## Interpretation boundaries (what is *not* selected)
 
@@ -129,7 +137,7 @@ projector with `P_L`; the flavour generator and mediator remain Paper IV inputs.
 
 ## Verification
 
-**3883** build jobs, **zero** errors, **zero** warnings.
-**5648** strict-audited PMAction declarations.
+**3885** build jobs, **zero** errors, **zero** warnings.
+**5713** strict-audited PMAction declarations.
 No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
 Run `./check.sh` for the current numbers (this line is a snapshot, not a guarantee).

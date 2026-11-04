@@ -13,19 +13,19 @@ reconstructed real-time preparation.
 -/
 noncomputable section
 namespace PMAction.RootTransferAccounting
-open Matrix Finset PMFramework.LawSelection
+open Matrix Finset PersistenceMechanics.LawSelection
 
 /-- The two equally counted moving-orbit alternatives have costs zero and cost.
 Their choice and multiplicity are explicit history-model inputs. -/
 def attemptAction (cost : ℝ) (b : Bool) : ℝ := if b then cost else 0
 
 def gibbsRate (β cost : ℝ) : ℝ :=
-  PMFramework.Gibbs.probability β (attemptAction cost) true
+  PersistenceMechanics.Gibbs.probability β (attemptAction cost) true
 
 lemma gibbsRate_formula (β cost : ℝ) :
     gibbsRate β cost = Real.exp (-β*cost) / (1 + Real.exp (-β*cost)) := by
-  simp [gibbsRate, PMFramework.Gibbs.probability, PMFramework.Gibbs.partition,
-    PMFramework.Gibbs.weight, attemptAction, add_comm]
+  simp [gibbsRate, PersistenceMechanics.Gibbs.probability, PersistenceMechanics.Gibbs.partition,
+    PersistenceMechanics.Gibbs.weight, attemptAction, add_comm]
 
 /-- Positive action bias makes the transfer reconstructible; no numerical rate is fitted. -/
 theorem gibbsRate_range (β cost : ℝ) (hβ : 0 < β) (hc : 0 < cost) :

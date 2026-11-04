@@ -1,5 +1,5 @@
-import PMArch.NetCost
-import PMArch.Impedance
+import PMSubstrate.NetCost
+import PMSubstrate.Impedance
 
 /-!
 # Economy and positive prices from Paper I's survival law
@@ -57,9 +57,9 @@ theorem event_price_pos (c₀ p : ℝ) (hc : c₀ = 1) (hp : 0 < p) : 0 < c₀ *
   rw [hc, one_mul]; exact hp
 
 /-- Paper I's derived Toll is positive. -/
-theorem toll_pos : 0 < PMArch.tollTerm PMArch.baseline := by
-  norm_num [PMArch.tollTerm, PMArch.baseline, PMArch.Parameters.eulerCharacteristic,
-    PMArch.Parameters.resolution, PMArch.Parameters.embeddingDimension,
-    PMArch.Parameters.nodeCapacity]
+theorem toll_pos : 0 < PMSubstrate.tollTerm PMSubstrate.baseline := by
+  norm_num [PMSubstrate.tollTerm, PMSubstrate.baseline, PMSubstrate.Parameters.eulerCharacteristic,
+    PMSubstrate.Parameters.resolution, PMSubstrate.Parameters.embeddingDimension,
+    PMSubstrate.Parameters.nodeCapacity]
 
 end PMAction.PersistenceSelection

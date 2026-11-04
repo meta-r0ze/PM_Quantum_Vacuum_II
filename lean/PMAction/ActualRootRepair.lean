@@ -113,12 +113,12 @@ theorem occupied_record_returns (input reference : Fin 2 → ℂ) :
 /-- Classical carrier-label sampling over these ports charges every root operation.
 This supplied experiment differs from a coherent comparison measurement. -/
 theorem classical_event_price (toll : ℝ) :
-    PMArch.NetCost.expectedCost toll (fun _ : Fin 1 =>
+    PMSubstrate.NetCost.expectedCost toll (fun _ : Fin 1 =>
       Finset.univ.filter (fun j : Ports => root (label j) ≠ label j)) = toll := by
   have he : Finset.univ.filter (fun j : Ports => root (label j) ≠ label j) = Finset.univ := by
     ext j; simp [label_moves]
-  rw [he, PMArch.NetCost.expected_count_linear]
-  norm_num [PMArch.NetCost.prob, Fintype.card_sum]
+  rw [he, PMSubstrate.NetCost.expected_count_linear]
+  norm_num [PMSubstrate.NetCost.prob, Fintype.card_sum]
 
 /-- A coherently equal live/reference pair is fixed by the very same root operator. -/
 theorem reference_response (reference : Fin 2 → ℂ) :

@@ -18,9 +18,9 @@ def event (c : Fin 3) (j : Fin 4) : Equiv.Perm (Carrier c) :=
   else if j=2 then CarrierWeyl.simple c 2
   else CarrierWeyl.simple c 3
 
-lemma roots_norm : ∀ j, PMArch.ChannelSymmetry.dot4 (roots j) (roots j)=2 := by decide +kernel
+lemma roots_norm : ∀ j, PMSubstrate.ChannelSymmetry.dot4 (roots j) (roots j)=2 := by decide +kernel
 lemma event_is_root : ∀ c j (v : Carrier c), vector (event c j v)=
-    PMArch.ChannelSymmetry.refl (roots j) (vector v) := by decide +kernel
+    PMSubstrate.ChannelSymmetry.refl (roots j) (vector v) := by decide +kernel
 lemma event_involutive : ∀ c j, Function.Involutive (event c j) := by
   change ∀ c j (v : Carrier c), event c j (event c j v)=v
   decide +kernel

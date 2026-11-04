@@ -1,5 +1,5 @@
 import PMAction.ClockControlledRoot
-import PMArch.SelfReadable
+import PMSubstrate.SelfReadable
 
 /-! A reversible register realization of the exact modulo-two pairing used
 by Paper I's one-bit readability postulate. The conditional clock coupling and
@@ -7,7 +7,7 @@ its preparation/cost/local implementation remain supplied. This is not a
 derivation of an execution rate or of the coherent comparison readout. -/
 noncomputable section
 namespace PMAction.MatchedLatticeProbe
-open Matrix PMArch.Lattices SubstrateReflection
+open Matrix PMSubstrate.Lattices SubstrateReflection
 
 /-- Input lattice state, retained substrate probe state, writable phase register. -/
 abbrev State := Lattice × (Lattice × Fin 43)

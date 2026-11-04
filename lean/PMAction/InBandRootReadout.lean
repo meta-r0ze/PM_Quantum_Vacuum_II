@@ -12,7 +12,7 @@ nearest-neighbour displacement.
 -/
 noncomputable section
 namespace PMAction.InBandRootReadout
-open Matrix PMArch.Lattices SubstrateReflection
+open Matrix PMSubstrate.Lattices SubstrateReflection
 
 def record (z : Lattice) : Bool := ParityReadoutCircuit.coordinateBit (z 2)
 

@@ -53,14 +53,14 @@ theorem trace_cost [Nonempty ι] (toll : ℝ) (m : ℕ) (U : Matrix ι ι ℂ)
 
 /-- State-change and coherent-comparison events are different operational events. -/
 theorem permutation_flag [Nonempty ι] (e : Equiv.Perm ι) :
-    meanFlag (e.permMatrix ℂ)=PMArch.NetCost.prob (CarrierCost.changed e)/2 := by
+    meanFlag (e.permMatrix ℂ)=PMSubstrate.NetCost.prob (CarrierCost.changed e)/2 := by
   rw [mean_trace _ (perm_unitary e), CarrierCost.changed_probability]
 
 /-- In each actual eight-state class, the reflection has detection probability one quarter. -/
 theorem reflection_flag (c : Fin 3) : meanFlag ((reflect c).permMatrix ℂ)=1/4 := by
   let : Nonempty (Carrier c) := Fintype.card_pos_iff.mp (by rw [carrier_card]; norm_num)
   rw [permutation_flag]
-  change PMArch.NetCost.prob (active c)/2=1/4
+  change PMSubstrate.NetCost.prob (active c)/2=1/4
   rw [uniform_activation]
   norm_num
 

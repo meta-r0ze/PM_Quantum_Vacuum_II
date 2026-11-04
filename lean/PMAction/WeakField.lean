@@ -1,4 +1,4 @@
-import PMArch.Impedance
+import PMSubstrate.Impedance
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 
 /-!
@@ -32,13 +32,13 @@ causal structure. The capacity deficit alone supplies neither.
 
 noncomputable section
 namespace PMAction.WeakField
-open PMArch
+open PMSubstrate
 
 /-- Paper I's derived channel capacity `ν = 16`. -/
-def channelCapacity : ℝ := (PMArch.baseline.sectorChannels : ℝ)
+def channelCapacity : ℝ := (PMSubstrate.baseline.sectorChannels : ℝ)
 
 theorem channelCapacity_eq : channelCapacity = 16 := by
-  norm_num [channelCapacity, PMArch.baseline]
+  norm_num [channelCapacity, PMSubstrate.baseline]
 
 /-- Available capacity `C(x) = ν − K`. -/
 def available (nu K : ℝ) : ℝ := nu - K

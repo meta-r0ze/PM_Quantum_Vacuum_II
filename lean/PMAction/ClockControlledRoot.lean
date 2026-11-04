@@ -15,7 +15,7 @@ it is not a spatial finite-propagation theorem for the whole E8 lattice.
 -/
 noncomputable section
 namespace PMAction.ClockControlledRoot
-open Matrix PMArch.Lattices SubstrateReflection
+open Matrix PMSubstrate.Lattices SubstrateReflection
 
 abbrev State := Lattice × Fin 43
 
@@ -91,7 +91,7 @@ def displacement {c : Fin 3} (v : CarrierEvents.Carrier c) : Fin 4 → ℤ :=
   fun i => (CarrierEvents.vector (CarrierEvents.reflect c v) i - CarrierEvents.vector v i) / 2
 
 theorem moving_step_is_root (c : Fin 3) : ∀ v ∈ CarrierEvents.active c,
-    PMArch.Channels.norm4 (displacement v) = 2 ∧
+    PMSubstrate.Channels.norm4 (displacement v) = 2 ∧
       (∑ i, displacement v i) = 0 ∧
       (∀ i, CarrierEvents.vector (CarrierEvents.reflect c v) i - CarrierEvents.vector v i =
         2 * displacement v i) := by

@@ -1,6 +1,6 @@
 import PMAction.EventAccounting
 import PMAction.CarrierEvents
-import PMFramework.LawSelection
+import PersistenceMechanics.LawSelection
 
 /-!
 # The sampling law is the selected law
@@ -8,7 +8,7 @@ import PMFramework.LawSelection
 `EventAccounting` and `CarrierEvents` take uniform sampling as an explicit input. The framework's
 Selection Principle supplies it: among candidate event laws, the one that survives selection is
 the uniform law, under either the worst-case or the long-run average return cost
-(`PMFramework.LawSelection.selected_uniform_worst`, `selected_uniform_average`). On each carrier
+(`PersistenceMechanics.LawSelection.selected_uniform_worst`, `selected_uniform_average`). On each carrier
 class it is also forced by symmetry, since the `D₄` Weyl reflections act transitively on the eight
 minimal vectors (Paper I, `ChannelSymmetry`).
 
@@ -20,11 +20,11 @@ minimal vectors (Paper I, `ChannelSymmetry`).
 
 noncomputable section
 namespace PMAction.SelectedSampling
-open Finset PMFramework.LawSelection
+open Finset PersistenceMechanics.LawSelection
 
 theorem selected_recovers_netCost {Ω : Type*} [Fintype Ω] [DecidableEq Ω] [Nonempty Ω]
     (toll : ℝ) {n : ℕ} (E : Fin n → Finset Ω) :
-    EventAccounting.cost toll uniform E = PMArch.NetCost.expectedCost toll E :=
+    EventAccounting.cost toll uniform E = PMSubstrate.NetCost.expectedCost toll E :=
   EventAccounting.uniform_recovers_netCost toll E
 
 instance (c : Fin 3) : Nonempty (CarrierEvents.Carrier c) :=

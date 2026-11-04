@@ -11,7 +11,7 @@ close after 43 ticks. Static one-bit readability does not choose between them.
 -/
 noncomputable section
 namespace PMAction.ScheduledReadout
-open Matrix PMArch.Lattices SubstrateReflection
+open Matrix PMSubstrate.Lattices SubstrateReflection
 
 abbrev Memory := Lattice × (Lattice × Bool)
 abbrev State := Memory × Fin 43
@@ -125,14 +125,14 @@ theorem idle_does_not_read : ¬ ReadsRoot (tick (fun _ => false)) := by
   rw [idle_form]
   rfl
 
-theorem e8_bit_readable : PMArch.SelfReadable.BitReadable gram := by
-  rw [PMArch.SelfReadable.bitReadable_iff_odd]
+theorem e8_bit_readable : PMSubstrate.SelfReadable.BitReadable gram := by
+  rw [PMSubstrate.SelfReadable.bitReadable_iff_odd]
   rcases Int.isUnit_iff.mp gram_unimodular with h | h <;> rw [h] <;> decide
 
 /-- Exact scope: static matched readability, norm preservation and 43-tick
 closure coexist with no operational readout in this scheduled register model. -/
 theorem readable_idle_witness :
-    PMArch.SelfReadable.BitReadable gram ∧
+    PMSubstrate.SelfReadable.BitReadable gram ∧
       (∀ s : State, (tick (fun _ => false))^[43] s = s) ∧
       (∀ s : State, (tick (fun _ => false) s).2 = finRotate 43 s.2) ∧
       ¬ ReadsRoot (tick (fun _ => false)) :=

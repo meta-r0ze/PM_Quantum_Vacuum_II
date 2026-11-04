@@ -44,6 +44,13 @@ def area (p : (Fin 4 → Fin 3) × (Fin 4 → Fin 3)) (μ ν : Fin 4) : ℤ :=
 theorem roots_card : roots.card = 24 := by decide +kernel
 theorem tri_card : tri.card = 192 := by decide +kernel
 
+/-- **Sixfold bookkeeping.** The `192` ordered root pairs of `tri` are `32`
+unoriented nearest-neighbour triangles counted in six orders each. This records
+the factor `6` used in `normalization`; the geometric identification of the `32`
+unoriented triangles is the interpretation, not a separate enumeration. -/
+theorem tri_card_sixfold : tri.card = 6 * 32 := by
+  rw [tri_card]
+
 /-- Isotropy of the triangle area tensor. -/
 theorem area_isotropic : ∀ μ ν ρ σ : Fin 4,
     (∑ p ∈ tri, area p μ ν * area p ρ σ) =

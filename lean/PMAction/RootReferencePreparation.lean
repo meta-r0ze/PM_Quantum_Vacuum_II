@@ -77,8 +77,8 @@ theorem setup_comparison_flag :
 
 /-- Both seed and target are actual minimal-vector states of the same glue class. -/
 theorem carrier_norms :
-    PMArch.Channels.norm4 (CarrierEvents.vector seedLabel) = 4 ∧
-      PMArch.Channels.norm4 (CarrierEvents.vector recordLabel) = 4 :=
+    PMSubstrate.Channels.norm4 (CarrierEvents.vector seedLabel) = 4 ∧
+      PMSubstrate.Channels.norm4 (CarrierEvents.vector recordLabel) = 4 :=
   ⟨(CarrierEvents.vector_properties seedLabel).2, (CarrierEvents.vector_properties recordLabel).2⟩
 
 lemma seed_decode : RootWalkEncoding.frameᴴ *ᵥ WalkReferenceCoupling.seed =

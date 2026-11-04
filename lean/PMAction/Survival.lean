@@ -1,9 +1,9 @@
-import PMFramework.Gibbs
+import PersistenceMechanics.Gibbs
 import Mathlib.Algebra.Polynomial.Derivative
 import Mathlib.Tactic
 
 /-! The finite Gibbs survival model (weights, normalization, ordering, and concentration as the
-tolerance grows) is framework mathematics and lives in `PMFramework.Gibbs`. This module keeps
+tolerance grows) is framework mathematics and lives in `PersistenceMechanics.Gibbs`. This module keeps
 the Paper II limitations stated alongside it. -/
 noncomputable section
 namespace PMAction

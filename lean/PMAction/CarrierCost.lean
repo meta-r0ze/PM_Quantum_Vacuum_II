@@ -22,12 +22,12 @@ theorem packet_vector_injective {a b : Fin 3} (hab : a ≠ b) :
   | inl v => cases w with
     | inl w => exact congrArg Sum.inl (vector_injective a h)
     | inr w =>
-      have hc : classLabel a=classLabel b := v.2.1.symm.trans ((congrArg PMArch.Channels.glueClass h).trans w.2.1)
+      have hc : classLabel a=classLabel b := v.2.1.symm.trans ((congrArg PMSubstrate.Channels.glueClass h).trans w.2.1)
       have he : a=b := Fin.ext (by simpa [classLabel] using hc)
       exact (hab he).elim
   | inr v => cases w with
     | inl w =>
-      have hc : classLabel b=classLabel a := v.2.1.symm.trans ((congrArg PMArch.Channels.glueClass h).trans w.2.1)
+      have hc : classLabel b=classLabel a := v.2.1.symm.trans ((congrArg PMSubstrate.Channels.glueClass h).trans w.2.1)
       have he : b=a := Fin.ext (by simpa [classLabel] using hc)
       exact (hab he.symm).elim
     | inr w => exact congrArg Sum.inr (vector_injective b h)
@@ -76,21 +76,21 @@ lemma trace_fixed (e : Equiv.Perm ι) : (e.permMatrix ℂ).trace = ((fixed e).ca
 
 /-- Under uniform sampling, a changed-state event has normalized trace cost. -/
 theorem changed_probability [Nonempty ι] (e : Equiv.Perm ι) :
-    PMArch.NetCost.prob (changed e) = 1-(e.permMatrix ℂ).trace.re/Fintype.card ι := by
+    PMSubstrate.NetCost.prob (changed e) = 1-(e.permMatrix ℂ).trace.re/Fintype.card ι := by
   have hc : (fixed e).card+(changed e).card=Fintype.card ι := by
     simpa [fixed, changed] using card_filter_add_card_filter_not (s := (univ : Finset ι)) (fun x => e x=x)
   have hr : ((fixed e).card : ℝ)+((changed e).card : ℝ)=Fintype.card ι := by exact_mod_cast hc
   have hn : (Fintype.card ι : ℝ) ≠ 0 := by exact_mod_cast (Fintype.card_ne_zero : Fintype.card ι ≠ 0)
-  rw [PMArch.NetCost.prob, trace_fixed]
+  rw [PMSubstrate.NetCost.prob, trace_fixed]
   simp only [Complex.natCast_re]
   field_simp
   linarith
 
 /-- The common primitive toll prices the derived event, rather than a separately chosen score. -/
 theorem primitive_trace_cost [Nonempty ι] (e : Equiv.Perm ι) (toll : ℝ) :
-    PMArch.NetCost.expectedCost toll (fun _ : Fin 1 => changed e) =
+    PMSubstrate.NetCost.expectedCost toll (fun _ : Fin 1 => changed e) =
       toll*(1-(e.permMatrix ℂ).trace.re/Fintype.card ι) := by
-  rw [PMArch.NetCost.expected_count_linear]
+  rw [PMSubstrate.NetCost.expected_count_linear]
   simp [changed_probability]
 
 end PMAction.CarrierCost

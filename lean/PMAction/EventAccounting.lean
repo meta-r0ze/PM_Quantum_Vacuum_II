@@ -1,4 +1,4 @@
-import PMArch.NetCost
+import PMSubstrate.NetCost
 import Mathlib.Tactic
 
 /-! Weighted finite-event accounting. The event law is supplied; linearity
@@ -36,8 +36,8 @@ theorem weighted_linear (toll : ℝ) (mass : Ω → ℝ) {n : ℕ} (E : Fin n �
 
 /-- The old uniform counting theorem is a special case of the same event accounting. -/
 theorem uniform_recovers_netCost (toll : ℝ) {n : ℕ} (E : Fin n → Finset Ω) :
-    cost toll (fun _ => 1/(Fintype.card Ω : ℝ)) E=PMArch.NetCost.expectedCost toll E := by
-  unfold cost PMArch.NetCost.expectedCost
+    cost toll (fun _ => 1/(Fintype.card Ω : ℝ)) E=PMSubstrate.NetCost.expectedCost toll E := by
+  unfold cost PMSubstrate.NetCost.expectedCost
   rw [sum_div]
   apply sum_congr rfl
   intro ω _

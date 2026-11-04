@@ -1,5 +1,17 @@
 # Yang–Mills: what PM proves, and the open quantum problem
 
+> **Scope decision (2026-11-04).** This branch is a test of persistence mechanics,
+> not a construction of Yang–Mills theory. Its deliverable is the classical
+> continuum limit together with the finite-volume Euclidean setup (Gibbs measure,
+> gauge invariance, site-reflection positivity). The Clay-level items below —
+> infinite volume, the renormalized continuum limit, full O(4) restoration,
+> Osterwalder–Schrader reconstruction, the mass gap and nontriviality — are the
+> general quantum-Yang–Mills problem, not PM-specific consequences, and are out of
+> scope here. No result in this branch should be read as progress on them. The
+> remaining PM-specific work is the two inputs of `NativePacketUpdate` (the control
+> one-forms and the admission of coherent root-generator evolution) and the
+> physical selection of group, representation and β.
+
 ## Proved: the classical continuum limit with canonical normalization
 
 Audited 2026-10-31 against `PM-1-Arch/calculations/lean_review.tex`; the full catalog is
@@ -79,18 +91,22 @@ also lack the required Mathlib infrastructure.
 
 1. **A lattice quantum measure.** A finite-volume, finite-spacing probability measure
    `Z⁻¹ exp(−S(U)) Π_edges dHaar(U)` on link configurations, with `S` PM's D₄ action. Now done for
-   `U(1)` and `U(N)` (see below); `SU(N)` is not constructed. Also missing: why PM's real-time unitary update
+   `U(1)`, `U(N)` and `SU(N)` (see below); the real-time-to-Euclidean
+   identification remains open. Also missing: why PM's real-time unitary update
    gives a Euclidean measure (a transfer-matrix or Wick-rotation identification). PM's survival
    weight `exp(−β·cost)` has the Gibbs form, but identifying it with this measure is not proved.
 2. **Reflection positivity.** `ReciprocalReflection.reflection_positive` proves
    the normalized finite site-reflection form for reciprocal `U(N)` links on a
    reflection-symmetric integer-site region at unit spacing. It uses the same measure
-   as the gauge-invariance theorem below. Link-reflection, a transfer matrix and
-   nonnegative-Hamiltonian reconstruction remain open.
+   as the gauge-invariance theorem below. The abstract finite-dimensional OS core
+   is `Reconstruction` (`quiescent_symmetric`, `two_tick_positive`, `energies`).
+   Link-reflection, the gauge-measure transfer matrix and nonnegative-Hamiltonian
+   reconstruction remain open.
 3. **Gauge invariance.** `GeometricGauge` constructs the local gauge action on
    geometric directed links and proves product Haar/Gibbs invariance.
    `ReciprocalReflection.gauge_preserving` proves invariance of the reciprocal-link
-   measure. Arbitrary edge-identification quotients are not covered. A continuum
+   measure. Measurable edge-identification quotients compatible with the action
+   are covered by `QuotientClosure.gibbs_quotient_invariant`; a continuum
    observable algebra and its quantum moments remain open.
 
 4. **Infinite volume.** Existence (and uniqueness or translation invariance) of the
@@ -111,9 +127,9 @@ also lack the required Mathlib infrastructure.
    coupling, where nothing is known. Unbounded self-adjoint spectral theory in Mathlib is limited (M).
 8. **Nontriviality.** The limit is not a free (Gaussian) theory.
 
-## What PM contributes (proved 2026-10-31)
+## What PM contributes (proved 2026-10-31; SU(N) added 2026-11-04)
 
-- **Item 1, a lattice quantum measure: `LatticeGibbs`, `LatticeGibbsU1`.**
+- **Item 1, a lattice quantum measure: `LatticeGibbs`, `LatticeGibbsU1`, `UnitaryHaar`, `SpecialUnitaryHaar`.**
   - PM's D₄ action on a finite region is bounded on unitary links,
     `0 ≤ S ≤ 2N·|X|·|tri|` (`wilson_bounds`, `action_bounds`).
   - So PM's survival weight `exp(−β S)` normalizes any probability reference measure on link
@@ -124,8 +140,9 @@ also lack the required Mathlib infrastructure.
     assignments need not be closed under local gauge transformations.
   - The measure-theoretic statement is generic: any bounded action normalizes any probability
     measure. That the Wilson action is PM's survival cost is asserted, not derived.
-  - Open: `SU(N)` (`U(N)` is `UnitaryHaar`), and the identification of PM's real-time update with
-    this Euclidean measure.
+  - `U(N)` is `UnitaryHaar`; `SU(N)` is `SpecialUnitaryHaar` (`sun`, `isCompact_sun`,
+    `haarSU`, two-sided invariance, `suN_gibbs`). The identification of PM's real-time
+    update with this Euclidean measure remains open.
 - **Item 6, Euclidean covariance: `D4Isotropy`.**
   - The 24 D₄ roots have isotropic moments through degree four: first and third moments vanish,
     `Σ k_μ k_ν = 12 δ`, `Σ k_μ k_ν k_ρ k_σ = 4(δδ + δδ + δδ)` (kernel-checked).
@@ -154,12 +171,16 @@ also lack the required Mathlib infrastructure.
     law. One member of each reverse pair is used; the other input is ignored. It
     proves probability normalization, gauge invariance and reflection positivity
     for this same physical measure. The original independent-directed API remains
-    valid. A transfer matrix and `H ≥ 0` reconstruction remain open.
-- **Item 1 for `U(N)`: `UnitaryHaar`.** The unitary group is compact (`isCompact_unitary`). Its
-  normalized, left-invariant Haar measure (`haar`) gives a `U(N)` lattice measure with PM's D₄
-  Wilson action on any finite region (`uN_gibbs`). The edge-to-variable assignment is arbitrary in
-  that theorem and need not be closed under local gauge transformations; `SU(N)` is
-  not constructed.
+    valid. A gauge-measure transfer matrix and `H ≥ 0` reconstruction remain open;
+    the abstract finite-dimensional core is `Reconstruction`.
+- **Item 1 for `U(N)` and `SU(N)`: `UnitaryHaar`, `SpecialUnitaryHaar`.** The unitary group is
+  compact (`isCompact_unitary`). Its normalized, left-invariant Haar measure (`haar`) gives a
+  `U(N)` lattice measure with PM's D₄ Wilson action on any finite region (`uN_gibbs`). The
+  edge-to-variable assignment is arbitrary in that theorem and need not be closed under local
+  gauge transformations. `SU(N)` is constructed as the closed determinant-one subgroup:
+  compact (`isCompact_sun`), with normalized Haar (`haarSU`), two-sided invariance and an
+  `SU(N)` Gibbs probability (`suN_gibbs`). The geometric-model gauge-measure invariance is
+  instantiated at `U(N)`; the `SU(N)` instance is the same group-generic argument.
 - **Item 3, gauge invariance: `GaugeInvariance`, `GeometricGauge`, `ReciprocalReflection`.**
   - Gauge transformations conjugate triangle holonomies and preserve the Wilson
     action. `GeometricGauge.edge_realization` connects the finite configuration
@@ -174,24 +195,24 @@ also lack the required Mathlib infrastructure.
   exist (item 1). It does not by itself give the thermodynamic limit.
 
 Items 5, 7 and 8 (the renormalized continuum limit, the mass gap, nontriviality) and item 4 (infinite
-volume) are untouched. They are the hard core of the problem.
+volume) are untouched and out of scope (see the scope decision above). They are the hard core of
+the general problem, not PM-specific obligations.
 
 
 ## Current physical priority
 
-The remaining PM-specific task is to identify a native carrier/record packet
-transport and prove its refinement contracts. `CompositionalTransport` gives a
-precise sufficient route: conservative single-source hops, identity at zero,
-exact straight-edge subdivision and a C² infinitesimal response that is linear
-in the edge direction (a connection one-form). A general
-multi-neighbour vacuum update does not automatically have that hop factorization.
-Exact all-real subdivision is a strong continuum-family contract; it has not been
-proved for finite native events or for an interpolated refinement of them.
+The packet-transport existence and refinement contracts are now proved for the
+native eight-label/packet subsystem (`NativePacketUpdate.packet_contracts`,
+`native_packet_yang_mills`). The remaining PM-specific inputs are exactly two:
+the C² control one-forms `w` and the admission of coherent Hermitian evolution by
+the root-response cost operators as the substrate dynamics. No Lean route from the
+postulates to either input is known; they are physical model inputs, not missing
+lemmas.
 
-`refinement_is_extra` supplies a normalized conserving abstract-hop countermodel
-that fails subdivision; its links are also reciprocal (`jump_reciprocal`). This
-shows the implemented hop premises alone do not choose refinement. It is not a
-countermodel to every PM postulate or to a specified native E8 implementation.
-The action limit also does not identify the native required-work functional with
-the Wilson sum or derive its physical equations of motion. The quantum
-continuum/mass-gap program is outside this current priority.
+The Yang–Mills branch is therefore frozen at its classical/finite-volume
+deliverable. Further work should go to (i) the native control/admission question
+and the substrate selection of group/representation/β, and (ii) the PM-specific
+structural items in PM-4 (`REVIEW-AND-NEXT.md` items 2 and 5: global all-nonzero
+mixing and the per-step maintenance contract). Standard lattice-QFT constructions
+(transfer matrix, OS reconstruction, infinite volume) and the Clay-level continuum
+limit/mass gap are explicitly out of scope for this test.

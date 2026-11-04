@@ -22,7 +22,7 @@ continuity law.
 * `radiation_w` — for a conserved `ρ·a⁴`, `w = 1/3`.
 * `vacuum_w` — for a constant density, `w = −1`.
 
-These match Paper VI's `PMCosmo.Background.equation_of_state`,
+These match Paper VI's `PMCosmologylogy.Background.equation_of_state`,
 `w = −1 − a ρ'/(3ρ)`. What remains a physical input is *which* per-particle
 scaling holds (matter / radiation / vacuum) and the expansion `a` itself; the
 continuity relation is no longer assumed.

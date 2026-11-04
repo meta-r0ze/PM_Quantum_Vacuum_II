@@ -19,8 +19,8 @@ open Matrix NativePacketLinks NativeRootGenerators CarrierParity
 theorem coordinate_total (a : Fin 3) :
     OrderComparison.total (link a (root a 0)) (link a (root a 1)) = (3/2:ℝ) := by
   norm_num [OrderComparison.total_formula, root_link, rootMatrix, rootMatrixZ,
-    Matrix.mul_apply, PMArch.ChannelSymmetry.refl, PMArch.ChannelSymmetry.simple,
-    PMArch.ChannelSymmetry.dot4, Fin.sum_univ_four, Pi.single_apply]
+    Matrix.mul_apply, PMSubstrate.ChannelSymmetry.refl, PMSubstrate.ChannelSymmetry.simple,
+    PMSubstrate.ChannelSymmetry.dot4, Fin.sum_univ_four, Pi.single_apply]
 
 theorem coordinate_mean (a : Fin 3) :
     OrderComparison.total (link a (root a 0)) (link a (root a 1))/4 = (3/8:ℝ) := by

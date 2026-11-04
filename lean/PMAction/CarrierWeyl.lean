@@ -1,5 +1,5 @@
 import PMAction.CarrierParity
-import PMArch.ChannelSymmetry
+import PMSubstrate.ChannelSymmetry
 
 /-!
 # Native D4 root words for the internal real generators
@@ -32,8 +32,8 @@ def simple (c : Fin 3) (j : Fin 4) : Equiv.Perm (Carrier c) where
   right_inv v := Subtype.ext (simple_twice j v.1)
 
 lemma simple_is_root : ∀ (c : Fin 3) (j : Fin 4) (v : Carrier c),
-    vector (simple c j v) = PMArch.ChannelSymmetry.refl
-      (PMArch.ChannelSymmetry.simple j) (vector v) := by decide +kernel
+    vector (simple c j v) = PMSubstrate.ChannelSymmetry.refl
+      (PMSubstrate.ChannelSymmetry.simple j) (vector v) := by decide +kernel
 
 /-- Product order in the standard coordinate representation. -/
 def word : Fin 6 → List (Fin 4) := ![

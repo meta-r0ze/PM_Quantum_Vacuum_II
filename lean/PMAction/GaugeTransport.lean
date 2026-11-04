@@ -485,7 +485,7 @@ theorem event_density_eq (S : Updates N) (hS : ∀ v h, Conserving (S v h)) (x :
 
 /-- **Record update → event-priced gauge action.** The common-readout price of the update's
 own holonomies has the Yang–Mills limit with `β = toll·m·W/(2N)`. Paper III's
-`PMNested.GaugeGroupFactor` turns this into the coupling/group-factor statements. -/
+`PMConstants.GaugeGroupFactor` turns this into the coupling/group-factor statements. -/
 theorem update_event_limit {A : V → V →L[ℝ] Matrix (Fin N) (Fin N) ℂ}
     {DA : V → V →L[ℝ] (V →L[ℝ] Matrix (Fin N) (Fin N) ℂ)} {x : V} {L K : ℝ}
     (hA : ∀ y, HasFDerivAt A (DA y) y) (hL0 : 0 ≤ L)

@@ -1,7 +1,7 @@
 # Paper II: open work (todo)
 
 Checked mathematics and the module map are in [`OVERVIEW.md`](OVERVIEW.md). This
-file is only what remains. Paper II builds clean (3879 jobs, zero warnings, 5580
+file is only what remains. Paper II builds clean (3885 jobs, zero warnings, 5713
 strict-audited declarations). Each item states the frontier: what is proved, and
 the physical or mathematical input still missing. Nothing here is a missing Lean
 *statement* hidden behind an extra hypothesis; each needs a model law or a new
@@ -47,7 +47,13 @@ proves the contracts for the native E8 packet subsystem; `GeometricGauge`,
 (invariance descends to any measurable quotient compatible with the action).
 Open: the microscopic E8 realization of the abstract hop, its physical readout and
 price law, shared group/trace normalization across spacings, and the admission of
-the coherent root-generator evolution as the substrate dynamics.
+the coherent root-generator evolution as the substrate dynamics. For the packet
+subsystem this reduces to two explicit inputs: the C² control one-forms and that
+admission. Further quantum-Yang–Mills constructions (gauge-measure transfer matrix,
+infinite volume, full O(4) restoration, renormalized continuum, mass gap) are out of
+scope for this test; see the scope decision in `YANG-MILLS-STATUS.md`. The redirected
+PM-specific work is the native control/admission question here and the PM-4
+structural items (global all-nonzero mixing, per-step maintenance).
 
 ## 6. Full field and integrated limits
 Proved: `JointSpaceTime` gives the fixed-momentum joint limit (`a→0`, `1/(a²N)→0`),
@@ -69,7 +75,7 @@ Paper III owns packet representations and constants; Paper IV flavour/mass; Pape
 decay/phase-space; Paper VI cosmology. See [`OVERVIEW.md`](OVERVIEW.md).
 
 ## Verification
-**3879** build jobs, **zero** errors, **zero** warnings.
-**5580** strict-audited PMAction declarations.
+**3885** build jobs, **zero** errors, **zero** warnings.
+**5713** strict-audited PMAction declarations.
 No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
 Run `./check.sh` for current numbers.

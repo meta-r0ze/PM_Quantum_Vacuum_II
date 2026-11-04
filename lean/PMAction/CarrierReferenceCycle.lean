@@ -192,13 +192,13 @@ theorem event_matches_update (c : Fin 3) (mask : Fin 43 → Bool) (r : Carrier c
 /-- Uniform sampling is an explicit ensemble input. No independence of the
 outgoing and returning events is needed; they have the same reference label. -/
 theorem carrier_cost_for_mask (c : Fin 3) (mask : Fin 43 → Bool) (toll : ℝ) :
-    PMArch.NetCost.expectedCost toll (carrierEvents c mask) =
+    PMSubstrate.NetCost.expectedCost toll (carrierEvents c mask) =
       toll * ((boundaries mask).card / 2) := by
-  rw [PMArch.NetCost.expected_count_linear]
-  have hp (t : Fin 43) : PMArch.NetCost.prob (carrierEvents c mask t) =
+  rw [PMSubstrate.NetCost.expected_count_linear]
+  have hp (t : Fin 43) : PMSubstrate.NetCost.prob (carrierEvents c mask t) =
       if t ∈ boundaries mask then (1/2 : ℝ) else 0 := by
     by_cases ht : t ∈ boundaries mask <;>
-      norm_num [carrierEvents, ht, PMArch.NetCost.prob, active_card, carrier_card]
+      norm_num [carrierEvents, ht, PMSubstrate.NetCost.prob, active_card, carrier_card]
   simp_rw [hp]
   rw [← Finset.sum_filter]
   have hs : univ.filter (fun t => t ∈ boundaries mask) = boundaries mask := by
@@ -209,12 +209,12 @@ theorem carrier_cost_for_mask (c : Fin 3) (mask : Fin 43 → Bool) (toll : ℝ) 
   ring
 
 theorem carrier_cycle_cost (c : Fin 3) (toll : ℝ) :
-    PMArch.NetCost.expectedCost toll (carrierEvents c excursionMask) = toll := by
+    PMSubstrate.NetCost.expectedCost toll (carrierEvents c excursionMask) = toll := by
   rw [carrier_cost_for_mask, excursion_boundaries]
   norm_num
 
 theorem idle_cycle_cost (c : Fin 3) (toll : ℝ) :
-    PMArch.NetCost.expectedCost toll (carrierEvents c (fun _ => false)) = 0 := by
+    PMSubstrate.NetCost.expectedCost toll (carrierEvents c (fun _ => false)) = 0 := by
   rw [carrier_cost_for_mask]
   have hb : boundaries (fun _ => false) = ∅ := by simp [boundaries]
   rw [hb]
@@ -224,7 +224,7 @@ theorem idle_cycle_cost (c : Fin 3) (toll : ℝ) :
 an excursion is an operational input; idle cycles also persist at zero root cost. -/
 theorem minimum_nonidle_carrier_cost (c : Fin 3) (toll : ℝ) (ht : 0 ≤ toll) :
     IsLeast {cost | ∃ mask : Fin 43 → Bool, (boundaries mask).Nonempty ∧
-      PMArch.NetCost.expectedCost toll (carrierEvents c mask) = cost} toll := by
+      PMSubstrate.NetCost.expectedCost toll (carrierEvents c mask) = cost} toll := by
   constructor
   · refine ⟨excursionMask, ?_, carrier_cycle_cost c toll⟩
     rw [excursion_boundaries]
@@ -237,7 +237,7 @@ theorem minimum_nonidle_carrier_cost (c : Fin 3) (toll : ℝ) (ht : 0 ≤ toll) 
 
 theorem minimum_cost_iff_two_boundaries (c : Fin 3) (mask : Fin 43 → Bool)
     (toll : ℝ) (ht : 0 < toll) :
-    PMArch.NetCost.expectedCost toll (carrierEvents c mask) = toll ↔
+    PMSubstrate.NetCost.expectedCost toll (carrierEvents c mask) = toll ↔
       (boundaries mask).card = 2 := by
   rw [carrier_cost_for_mask]
   constructor
@@ -277,11 +277,11 @@ theorem minimum_closed_root_word (c : Fin 3) :
 /-- Clock advance is not free in this ledger. Its price is supplied separately;
 every phase advances, even when the carrier itself is stationary. -/
 theorem clock_cycle_cost (c : Fin 3) (clockToll : ℝ) :
-    PMArch.NetCost.expectedCost clockToll (fun _ : Fin 43 => (univ : Finset (Carrier c))) =
+    PMSubstrate.NetCost.expectedCost clockToll (fun _ : Fin 43 => (univ : Finset (Carrier c))) =
       43 * clockToll := by
-  rw [PMArch.NetCost.expected_count_linear]
+  rw [PMSubstrate.NetCost.expected_count_linear]
   have hn : Fintype.card (Carrier c) ≠ 0 := by rw [carrier_card]; decide
-  simp [PMArch.NetCost.prob, hn]
+  simp [PMSubstrate.NetCost.prob, hn]
   ring
 
 end PMAction.CarrierReferenceCycle

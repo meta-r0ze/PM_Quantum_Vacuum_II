@@ -5,7 +5,7 @@ E8 root reflection. This does not identify carrier amplitudes with physical spin
 noncomputable section
 namespace PMAction.SubstrateReflection
 open Matrix
-open PMArch.Lattices
+open PMSubstrate.Lattices
 
 abbrev Lattice := Fin 8 → ℤ
 
