@@ -1,4 +1,4 @@
-# PM-2-Action: overview of checked results
+# PMAction — overview of checked results
 
 The single map of what Paper II proves and what later papers can reuse. Open work
 is in [`REVIEW-AND-NEXT.md`](REVIEW-AND-NEXT.md); build instructions are in
@@ -106,14 +106,17 @@ native E8 packet subsystem. `UniformGaugeAction`, `IntegratedGaugeAction`,
 `IntegratedScalarAction`, `LatticeSiteAction`, `ClassicalYangMills` give the
 site-sum-to-integral limits on a box under explicit regularity.
 `QuotientClosure.gibbs_quotient_invariant` proves gauge invariance descends to any
-measurable edge-identification quotient compatible with the action. Details and audit:
-[YANG-MILLS-STATUS.md](YANG-MILLS-STATUS.md), [LEAN-AUDIT-YANG-MILLS.md](LEAN-AUDIT-YANG-MILLS.md).
+measurable edge-identification quotient compatible with the action.
 
-The quantum-Yang–Mills programme (infinite volume, renormalized continuum, full
-O(4) restoration, transfer matrix, mass gap, nontriviality) is deliberately out of
-scope for this test; see the scope decision in `YANG-MILLS-STATUS.md`. The remaining
-PM-specific inputs are the two `NativePacketUpdate` controls/admission premises,
-not additional standard lattice-QFT constructions.
+**Yang–Mills scope.** This branch is a test of persistence mechanics, not a
+construction of Yang–Mills theory. Its deliverable is the classical continuum
+limit plus the finite-volume Euclidean setup (Gibbs measure, gauge invariance,
+site-reflection positivity). The Clay-level items — infinite volume, the
+renormalized continuum, full O(4) restoration, Osterwalder–Schrader
+reconstruction, the mass gap and nontriviality — are the general
+quantum-Yang–Mills problem, not PM-specific consequences, and are out of scope
+here. The remaining PM-specific inputs are the two `NativePacketUpdate`
+controls/admission premises and the selection of group, representation and β.
 
 ## Interpretation boundaries (what is *not* selected)
 
@@ -137,7 +140,4 @@ projector with `P_L`; the flavour generator and mediator remain Paper IV inputs.
 
 ## Verification
 
-**3885** build jobs, **zero** errors, **zero** warnings.
-**5713** strict-audited PMAction declarations.
-No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
-Run `./check.sh` for the current numbers (this line is a snapshot, not a guarantee).
+Run `./check.sh`. No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.

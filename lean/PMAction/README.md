@@ -1,9 +1,9 @@
-# PM-2-Action: Lean formalization
+# PMAction — Paper II action library
 
 Lean 4 proofs for *Persistence Mechanics of the Quantum Vacuum II: Operational
 Action and the Emergent Lagrangian*. This package supplies **shared dynamics,
 event accounting and action-response mathematics** to the later papers. It builds
-on the Paper I substrate (`../PM-1-Arch/lean`) and the framework (`../PM/lean`) and
+on the Paper I substrate (`../../PM-1-Arch/lean`) and the framework (`../../PM/lean`) and
 **rejects imports from Papers III–VI**.
 
 ## Main result
@@ -36,9 +36,6 @@ the actual update stencil and adjacency, not postulated.
   later paper may rely on. **Start here to find a theorem you can use.**
 - **[REVIEW-AND-NEXT.md](REVIEW-AND-NEXT.md)** — the remaining obligations, one
   list, with nothing already done.
-- **[YANG-MILLS-STATUS.md](YANG-MILLS-STATUS.md)** and
-  **[LEAN-AUDIT-YANG-MILLS.md](LEAN-AUDIT-YANG-MILLS.md)** — the finite
-  Yang–Mills/gauge-action results and their audit details.
 
 ## Build and audit
 
@@ -58,7 +55,4 @@ stated hypotheses; it does **not** select the physical inputs.
 
 ## Verification
 
-**3885** build jobs, **zero** errors, **zero** warnings.
-**5713** strict-audited PMAction declarations.
-No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
-Re-run `./check.sh` for the current numbers rather than trusting this line.
+Run `./check.sh`. No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.

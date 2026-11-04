@@ -1,8 +1,7 @@
-# Paper II: open work (todo)
+# PMAction — open work (todo)
 
 Checked mathematics and the module map are in [`OVERVIEW.md`](OVERVIEW.md). This
-file is only what remains. Paper II builds clean (3885 jobs, zero warnings, 5713
-strict-audited declarations). Each item states the frontier: what is proved, and
+file is only what remains. Paper II builds clean; run `./check.sh` for current counts. Each item states the frontier: what is proved, and
 the physical or mathematical input still missing. Nothing here is a missing Lean
 *statement* hidden behind an extra hypothesis; each needs a model law or a new
 construction.
@@ -51,7 +50,7 @@ the coherent root-generator evolution as the substrate dynamics. For the packet
 subsystem this reduces to two explicit inputs: the C² control one-forms and that
 admission. Further quantum-Yang–Mills constructions (gauge-measure transfer matrix,
 infinite volume, full O(4) restoration, renormalized continuum, mass gap) are out of
-scope for this test; see the scope decision in `YANG-MILLS-STATUS.md`. The redirected
+scope for this test; see the Yang–Mills scope note in [`OVERVIEW.md`](OVERVIEW.md). The redirected
 PM-specific work is the native control/admission question here and the PM-4
 structural items (global all-nonzero mixing, per-step maintenance).
 
@@ -75,7 +74,5 @@ Paper III owns packet representations and constants; Paper IV flavour/mass; Pape
 decay/phase-space; Paper VI cosmology. See [`OVERVIEW.md`](OVERVIEW.md).
 
 ## Verification
-**3885** build jobs, **zero** errors, **zero** warnings.
-**5713** strict-audited PMAction declarations.
-No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
-Run `./check.sh` for current numbers.
+
+Run `./check.sh`. No Paper III–VI imports; permitted axioms `propext`, `Classical.choice`, `Quot.sound`.
